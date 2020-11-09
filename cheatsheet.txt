@@ -1,0 +1,47 @@
+spark-submit --class "CanTreeMain" --master local --driver-memory 4g --executor-memory 4g --conf 'spark.executor.extraJavaOptions=-verbose:gc -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -Xloggc:/home/lev/Documents/teza/cantree/log.gc.driver' --conf 'spark.driver.extraJavaOptions=-XX:+PrintFlagsFinal -XX:+PrintReferenceGC -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+PrintAdaptiveSizePolicy -XX:+UnlockDiagnosticVMOptions -XX:+G1SummarizeConcMark -Xloggc:/home/lev/Documents/teza/cantree/log.gc' --conf "" target/scala-2.11/cantree_2.11-0.1.jar
+
+
+
+export log4j_setting="-Dlog4j.configuration=file:log4j.properties"
+
+spark-submit --class "CanTreeMain" --master local --driver-memory 4g --executor-memory 4g --conf "spark.executor.extraJavaOptions=-Dlog4j.configuration=file:src/main/resources/log4j_file_executor.properties -Dsun.io.serialization.extendedDebugInfo=true -Xss:10m" --conf "spark.driver.extraJavaOptions=-Dlog4j.configuration=file:src/main/resources/log4j_file.properties -Dsun.io.serialization.extendedDebugInfo=true -Xss:10m" --files /home/lev/Documents/teza/cantree/src/main/resources/log4j_file_executor.properties,/home/lev/Documents/teza/cantree/src/main/resources/log4j_file.properties target/scala-2.11/cantree_2.11-0.1.jar
+
+
+
+
+spark-submit --class "CanTreeMain" --master local --driver-memory 100g --executor-memory 100g --conf "spark.executor.extraJavaOptions=-Dlog4j.configuration=file:src/main/resources/log4j_file_executor.properties -Dsun.io.serialization.extendedDebugInfo=true -XX:+PrintFlagsFinal -XX:+PrintReferenceGC -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+PrintAdaptiveSizePolicy -XX:+UnlockDiagnosticVMOptions -XX:+G1SummarizeConcMark -Xloggc:/home/lev/Documents/teza/cantree/log_executor.gc" --conf "spark.driver.extraJavaOptions=-Dlog4j.configuration=file:src/main/resources/log4j_file.properties -Dsun.io.serialization.extendedDebugInfo=true -XX:+PrintFlagsFinal -XX:+PrintReferenceGC -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+PrintAdaptiveSizePolicy -XX:+UnlockDiagnosticVMOptions -XX:+G1SummarizeConcMark -Xloggc:/home/lev/Documents/teza/cantree/log_driver.gc" --files /home/lev/Documents/teza/cantree/src/main/resources/log4j_file_executor.properties,/home/lev/Documents/teza/cantree/src/main/resources/log4j_file.properties target/scala-2.11/cantree_2.11-0.1.jar
+
+
+-Xloggc:/home/lev/Documents/teza/cantree/log_executor.gc
+-Xloggc:/home/lev/Documents/teza/cantree/log_driver.gc
+
+-XX:+PrintFlagsFinal -XX:+PrintReferenceGC -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+PrintAdaptiveSizePolicy -XX:+UnlockDiagnosticVMOptions -XX:+G1SummarizeConcMark
+
+
+
+spark-submit --class "CanTreeMain" --master local --driver-memory 4g --executor-memory 4g --conf "spark.executor.extraJavaOptions=-Dlog4j.configuration=file:src/main/resources/log4j_file_executor.properties -Xss10m" --conf "spark.driver.extraJavaOptions=-Dlog4j.configuration=file:src/main/resources/log4j_file.properties -Xss10m" --files /home/lev/Documents/teza/cantree/src/main/resources/log4j_file_executor.properties,/home/lev/Documents/teza/cantree/src/main/resources/log4j_file.properties target/scala-2.11/cantree_2.11-0.1.jar --num-partitions 2 --min-support 0.1 --in-file-path OnlineRetail.csv
+
+
+val df1 = df.map(t=> ((patter findAllIn t.toString).toArray.slice(1,3)))
+
+
+import org.apache.spark.Partitioner
+import org.apache.spark.sql.{Row, SparkSession}
+import java.{util => ju}
+
+import org.apache.spark.rdd.RDD
+import org.apache.spark.rdd.RDD._
+
+val spark = SparkSession.builder.appName("CAN_TREE").config("spark.master", "local").getOrCreate()
+val df = spark.read.text("hdfs://localhost:9000/T20I10D100000K.data")
+val df1 = df.map(t=> ((patter findAllIn t.toString).toArray.slice(1,3)))
+val df2 = df1.withColumn("InvoiceNo",$"value"(0)).withColumn("StockCode",$"value"(1))
+val df3 = df2.drop("value")
+
+
+sudo -s sysctl -w vm.oom-kill = 0
+
+
+tmux a
+^-b 
+
