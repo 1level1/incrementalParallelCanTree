@@ -28,20 +28,41 @@ val df1 = df.map(t=> ((patter findAllIn t.toString).toArray.slice(1,3)))
 import org.apache.spark.Partitioner
 import org.apache.spark.sql.{Row, SparkSession}
 import java.{util => ju}
+import scala.util.matching.Regex
 
 import org.apache.spark.rdd.RDD
 import org.apache.spark.rdd.RDD._
 
-val spark = SparkSession.builder.appName("CAN_TREE").config("spark.master", "local").getOrCreate()
-val df = spark.read.text("hdfs://localhost:9000/T20I10D100000K.data")
+val p = "/home/lev/Documents/teza/dataset"
+//val fName = "T15I5D1000N10"
+val fName = "T15I5D10000N100"
+val suffix = ".data"
+//val spark = SparkSession.builder.appName("CAN_TREE").config("spark.master", "local").getOrCreate()
+val df = spark.read.text(p+"/"+fName+suffix)
+val patter = new Regex("(\\d)+")
 val df1 = df.map(t=> ((patter findAllIn t.toString).toArray.slice(1,3)))
 val df2 = df1.withColumn("InvoiceNo",$"value"(0)).withColumn("StockCode",$"value"(1))
 val df3 = df2.drop("value")
-
+//df3.write.csv("/home/lev/Documents/teza/dataset/T1I5D10.csv")
+df3.write.csv("hdfs://localhost:9000/"+fName+".csv")
 
 sudo -s sysctl -w vm.oom-kill = 0
 
 
 tmux a
 ^-b 
+x2goclient
+
+
+
+spark-submit --class "CanTreeMain" --master spark://cn41-ib:7077 --driver-memory 60g --executor-memory 60g --total-executor-cores 240 --conf "spark.executor.extraJavaOptions=-Dlog4j.configuration=file:src/main/resources/log4j_file_executor.properties" --conf "spark.driver.extraJavaOptions=-Dlog4j.configuration=file:src/main/resources/log4j_file.properties" --files /RG/rg-gudes/kulev/cantree/src/main/resources/log4j_file_executor.properties,/RG/rg-gudes/kulev/cantree/src/main/resources/log4j_file.properties target/scala-2.11/cantree_2.11-0.1.jar --num-partitions 1 --min-support 0.1 --in-file-path `realpath ../dataset/T20I10D100000K.csv` 
+
+./gen lit -ntrans 10 -tlen 15 -nitems 1 -patlen 5 -fname ../T1I5D10.data
+D: number of sequences in the dataset 
+C: average number of itemsets per sequence 
+T: average number of items per itemset 
+S: average number of itemsets in potentially frequent sequences. 
+I: average size of itemsets in potentially frequent sequences 
+N: number of different items in the dataset
+
 

@@ -42,105 +42,7 @@ import org.apache.spark.sql.catalyst.ScalaReflection
 import org.apache.spark.sql.types._
 import org.apache.spark.storage.StorageLevel
 
-///**
-// * Model trained by [[FPGrowth]], which holds frequent itemsets.
-// * @param freqItemsets frequent itemset, which is an RDD of `FreqItemset`
-// * @tparam Item item type
-// */
-//class FPGrowthModel[Item: ClassTag]  (
-//    val freqItemsets: RDD[FreqItemset[Item]],
-//    val itemSupport: Map[Item, Double])
-//  extends  Serializable {
-//
-//  def this(freqItemsets: RDD[FreqItemset[Item]]) = this(freqItemsets, Map.empty.asInstanceOf[Map[Item, Double]])
-//
-//  /**
-//   * Generates association rules for the `Item`s in [[freqItemsets]].
-//   * @param confidence minimal confidence of the rules produced
-//   */
-//  def generateAssociationRules(confidence: Double): RDD[AssociationRules.Rule[Item]] = {
-//    val associationRules = new AssociationRules(confidence)
-//    associationRules.run(freqItemsets, itemSupport)
-//  }
-//
-//  /**
-//   * Save this model to the given path.
-//   * It only works for Item datatypes supported by DataFrames.
-//   *
-//   * This saves:
-//   *  - human-readable (JSON) model metadata to path/metadata/
-//   *  - Parquet formatted data to path/data/
-//   *
-//   * The model may be loaded using `FPGrowthModel.load`.
-//   *
-//   * @param sc  Spark context used to save model data.
-//   * @param path  Path specifying the directory in which to save this model.
-//   *              If the directory already exists, this method throws an exception.
-//   */
-//  def save(sc: SparkContext, path: String): Unit = {
-//    FPGrowthModel.SaveLoadV1_0.save(this, path)
-//  }
-//}
-//
-//object FPGrowthModel extends Loader[FPGrowthModel[_]] {
-//
-//  override def load(sc: SparkContext, path: String): FPGrowthModel[_] = {
-//    FPGrowthModel.SaveLoadV1_0.load(sc, path)
-//  }
-//
-//  private[fpm] object SaveLoadV1_0 {
-//
-//    private val thisFormatVersion = "1.0"
-//
-//    private val thisClassName = "org.apache.spark.mllib.fpm.FPGrowthModel"
-//
-//    def save(model: FPGrowthModel[_], path: String): Unit = {
-//      val sc = model.freqItemsets.sparkContext
-////      val spark = SparkSession.builder().sparkContext(sc).getOrCreate()
-////
-////      val metadata = compact(render(
-////        ("class" -> thisClassName) ~ ("version" -> thisFormatVersion)))
-////      sc.parallelize(Seq(metadata), 1).saveAsTextFile(Loader.metadataPath(path))
-////
-////      // Get the type of item class
-////      val sample = model.freqItemsets.first().items(0)
-////      val className = sample.getClass.getCanonicalName
-////      val classSymbol = runtimeMirror(getClass.getClassLoader).staticClass(className)
-////      val tpe = classSymbol.selfType
-////
-////      val itemType = ScalaReflection.schemaFor(tpe).dataType
-////      val fields = Array(StructField("items", ArrayType(itemType)),
-////        StructField("freq", LongType))
-////      val schema = StructType(fields)
-////      val rowDataRDD = model.freqItemsets.map { x =>
-////        Row(x.items.toSeq, x.freq)
-////      }
-////      spark.createDataFrame(rowDataRDD, schema).write.parquet(Loader.dataPath(path))
-//    }
-//
-////    def load(sc: SparkContext, path: String): FPGrowthModel[_] = {
-////      implicit val formats = DefaultFormats
-////      val spark = SparkSession.builder().sparkContext(sc).getOrCreate()
-////
-////      val (className, formatVersion, metadata) = Loader.loadMetadata(sc, path)
-////      assert(className == thisClassName)
-////      assert(formatVersion == thisFormatVersion)
-////
-////      val freqItemsets = spark.read.parquet(Loader.dataPath(path))
-////      val sample = freqItemsets.select("items").head().get(0)
-////      loadImpl(freqItemsets, sample)
-////    }
-//
-//    def loadImpl[Item: ClassTag](freqItemsets: DataFrame, sample: Item): FPGrowthModel[Item] = {
-//      val freqItemsetsRDD = freqItemsets.select("items", "freq").rdd.map { x =>
-//        val items = x.getAs[Seq[Item]](0).toArray
-//        val freq = x.getLong(1)
-//        new FreqItemset(items, freq)
-//      }
-//      new FPGrowthModel(freqItemsetsRDD)
-//    }
-//  }
-//}
+
 
 /**
  * A parallel FP-growth algorithm to mine frequent itemsets. The algorithm is described in
@@ -160,7 +62,8 @@ import org.apache.spark.storage.StorageLevel
  */
 class CanTreeFPGrowth(
     private var minSupport: Double,
-    private var numPartitions: Int) extends Logging with Serializable {
+    private var numPartitions: Int,
+    private var totalItems : Long = 0L ) extends Logging with Serializable {
 
   /**
    * Constructs a default instance with default parameters {minSupport: `0.3`, numPartitions: same
@@ -191,6 +94,12 @@ class CanTreeFPGrowth(
     this
   }
 
+  def addDelta[Item: ClassTag](data: RDD[Array[Item]],
+                               sorterFunction: (Item,Item) => Boolean) {
+    if (data.getStorageLevel == StorageLevel.NONE) {
+      logWarning ("Input data is not cached.")
+    }
+    }
   /**
    * Computes an FP-Growth model that contains frequent itemsets.
    * @param data input data set, each element contains a transaction
@@ -203,7 +112,8 @@ class CanTreeFPGrowth(
       logWarning("Input data is not cached.")
     }
     val count = data.count()
-    val minCount = math.ceil(minSupport * count).toLong
+    totalItems+=count
+    val minCount = math.ceil(minSupport * totalItems).toLong
     val numParts = if (numPartitions > 0) numPartitions else data.partitions.length
     val partitioner = new HashPartitioner(numParts)
 //    val freqItemsCount = genFreqItems(data, minCount, partitioner)

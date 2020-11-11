@@ -157,9 +157,9 @@ object CanTreeMain {
 //    val m : mutable.Map[String, ListBuffer[String]] = mutable.Map.empty;
     val partitioner : CanTreePartitioner = new CanTreePartitioner(numPartitions)
     println("-0-")
-    val freqMap = getItemsCount(df2.rdd.map(r=>r(1).asInstanceOf[mutable.WrappedArray[Int]].toArray),partitioner)
-    println("-1- "+freqMap.size)
-    val customSorterInst = customSorter(freqMap)
+//    val freqMap = getItemsCount(df2.rdd.map(r=>r(1).asInstanceOf[mutable.WrappedArray[Int]].toArray),partitioner)
+//    println("-1- "+freqMap.size)
+//    val customSorterInst = customSorter(freqMap)
 //    val df3 = df2.rdd.map(x => genCondTransactions(x(1).asInstanceOf[mutable.WrappedArray[Int]],intSorter,partitioner))
     val transactions = df2.rdd.map(t=>t(1).asInstanceOf[mutable.WrappedArray[Int]].toArray)
 //    val fpModel = new FPGrowth()
@@ -174,9 +174,9 @@ object CanTreeMain {
     val model = new CanTreeFPGrowth()
       .setMinSupport(minSupport)
       .setNumPartitions(partitioner.numPartitions)
-      .run(transactions,customSorterInst)
+      .run(transactions,intSorter)
 //    model.checkpoint()
-    println(s"-1- Number of frequent itemsets: ${model.count()}")
+//    println(s"-1- Number of frequent itemsets: ${model.count()}")
     model.collect.foreach { itemset =>
       println(s"${itemset.items.mkString("[", ",", "]")}, ${itemset.freq}")
     }
