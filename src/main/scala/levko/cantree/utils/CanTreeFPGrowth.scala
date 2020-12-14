@@ -1,68 +1,19 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package levko.cantree.utils
 
-import java.{util => ju}
-import java.lang.{Iterable => JavaIterable}
 
 import scala.collection.JavaConverters._
 import scala.collection.mutable
 import scala.reflect.ClassTag
-import scala.reflect.runtime.universe._
-
-import org.json4s.DefaultFormats
-import org.json4s.JsonDSL._
-import org.json4s.jackson.JsonMethods.{compact, render}
-
-import org.apache.spark.{HashPartitioner, Partitioner, SparkContext, SparkException}
-import org.apache.spark.annotation.Since
-import org.apache.spark.api.java.JavaRDD
-import org.apache.spark.api.java.JavaSparkContext.fakeClassTag
+import org.apache.spark.{HashPartitioner, Partitioner}
 import org.apache.spark.internal.Logging
 import levko.cantree.utils.CanTreeFPGrowth._
-import org.apache.spark.mllib.util.{Loader, Saveable}
 import org.apache.spark.rdd.RDD
-import org.apache.spark.sql.{DataFrame, Row, SparkSession}
-import org.apache.spark.sql.catalyst.ScalaReflection
-import org.apache.spark.sql.types._
 import org.apache.spark.storage.StorageLevel
 
 
-
-/**
- * A parallel FP-growth algorithm to mine frequent itemsets. The algorithm is described in
- * <a href="https://doi.org/10.1145/1454008.1454027">Li et al., PFP: Parallel FP-Growth for Query
- * Recommendation</a>. PFP distributes computation in such a way that each worker executes an
- * independent group of mining tasks. The FP-Growth algorithm is described in
- * <a href="https://doi.org/10.1145/335191.335372">Han et al., Mining frequent patterns without
- * candidate generation</a>.
- *
- * @param minSupport the minimal support level of the frequent pattern, any pattern that appears
- *                   more than (minSupport * size-of-the-dataset) times will be output
- * @param numPartitions number of partitions used by parallel FP-growth
- *
- * @see <a href="http://en.wikipedia.org/wiki/Association_rule_learning">
- * Association rule learning (Wikipedia)</a>
- *
- */
 class CanTreeFPGrowth(
     private var minSupport: Double,
-    private var numPartitions: Int,
+    private var partitioner : HashPartitioner,
     private var totalItems : Long = 0L ) extends Logging with Serializable {
 
   /**
@@ -70,7 +21,7 @@ class CanTreeFPGrowth(
    * as the input data}.
    *
    */
-  def this() = this(0.3, -1)
+  def this() = this(0.3, new HashPartitioner(1))
 
   /**
    * Sets the minimal support level (default: `0.3`).
@@ -87,10 +38,10 @@ class CanTreeFPGrowth(
    * Sets the number of partitions used by parallel FP-growth (default: same as input data).
    *
    */
-  def setNumPartitions(numPartitions: Int): this.type = {
-    require(numPartitions > 0,
-      s"Number of partitions must be positive but got ${numPartitions}")
-    this.numPartitions = numPartitions
+  def setPartitioner(partitioner: HashPartitioner): this.type = {
+    require(partitioner != None,
+      s"Partitioner must be initiated but got ${partitioner}")
+    this.partitioner = partitioner
     this
   }
 
@@ -99,28 +50,21 @@ class CanTreeFPGrowth(
     if (data.getStorageLevel == StorageLevel.NONE) {
       logWarning ("Input data is not cached.")
     }
-    }
+  }
+
   /**
    * Computes an FP-Growth model that contains frequent itemsets.
-   * @param data input data set, each element contains a transaction
+   * @param canTrees generated CanTrees
    * @return an [[FPGrowthModel]]
    *
    */
-  def run[Item: ClassTag](data: RDD[Array[Item]],
-                          sorterFunction: (Item,Item) => Boolean): RDD[FreqItemset[Item]] = {
-    if (data.getStorageLevel == StorageLevel.NONE) {
+
+  def run[Item: ClassTag](canTrees:RDD[(Int,CanTreeV1[Item])], minCount : Long): RDD[FreqItemset[Item]] =
+  {
+    if (canTrees.getStorageLevel == StorageLevel.NONE) {
       logWarning("Input data is not cached.")
     }
-    val count = data.count()
-    totalItems+=count
-    val minCount = math.ceil(minSupport * totalItems).toLong
-    val numParts = if (numPartitions > 0) numPartitions else data.partitions.length
-    val partitioner = new HashPartitioner(numParts)
-//    val freqItemsCount = genFreqItems(data, minCount, partitioner)
-    val freqItemsets = genFreqItemsets(data, minCount, sorterFunction, partitioner)
-//    val itemSupport = freqItemsCount.map {
-//      case (item, cnt) => item -> cnt.toDouble / count
-//    }.toMap
+    val freqItemsets = genFreqItemsets(canTrees, minCount,partitioner)
     freqItemsets
   }
 
@@ -132,33 +76,32 @@ class CanTreeFPGrowth(
 //    run(data.rdd.map(_.asScala.toArray))
 //  }
 
-  /**
-   * Generate frequent itemsets by building FP-Trees, the extraction is done on each partition.
-   * @param data transactions
-   * @param minCount minimum count for frequent itemsets
-   * @param sorterFunction frequent items
-   * @param partitioner partitioner used to distribute transactions
-   * @return an RDD of (frequent itemset, count)
-   */
-  private def genFreqItemsets[Item: ClassTag](
-      data: RDD[Array[Item]],
-      minCount: Long,
-//      freqItems: Array[Item],
-      sorterFunction: (Item,Item) => Boolean,
-      partitioner: Partitioner): RDD[FreqItemset[Item]] = {
-//    val itemToRank = freqItems.zipWithIndex.toMap
+  def genCanTrees[Item: ClassTag](data: RDD[Array[Item]],
+                                          sorterFunction: (Item,Item) => Boolean): RDD[(Int,CanTreeV1[Item])] = {
     data.flatMap { transaction =>
       genCondTransactions(transaction, sorterFunction, partitioner)
     }.aggregateByKey(new CanTreeV1[Item], partitioner.numPartitions)(
       (tree, transaction) => {
-        tree.add(transaction, 1L)
-      },
+      tree.add(transaction, 1L)
+    },
       (tree1, tree2) => {
-        tree1.merge(tree2)
-      }).flatMap { case (part, tree) =>
+      tree1.merge(tree2)
+    })
+  }
+  /**
+   * Generate frequent itemsets by building FP-Trees, the extraction is done on each partition.
+   * @param trees RDD of already prepared trees
+   * @param minCount minimum count for frequent itemsets
+   * @param partitioner partitioner used to distribute transactions
+   * @return an RDD of (frequent itemset, count)
+   */
+  private def genFreqItemsets[Item: ClassTag](trees : RDD[(Int,CanTreeV1[Item])],
+                                              minCount : Long,
+                                              partitioner: Partitioner): RDD[FreqItemset[Item]] =
+  {
+    trees.flatMap { case (part, tree) =>
       tree.extract(minCount, x => partitioner.getPartition(x) == part)
     }.map { case (ranks, count) =>
-//      new FreqItemset(ranks.map(i => freqItems(i)).toArray, count)
       new FreqItemset(ranks.toArray, count)
     }
   }

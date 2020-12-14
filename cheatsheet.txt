@@ -65,4 +65,103 @@ S: average number of itemsets in potentially frequent sequences.
 I: average size of itemsets in potentially frequent sequences 
 N: number of different items in the dataset
 
+val pairs = sc.parallelize(Array(("a", 3), ("a", 1), ("b", 7), ("a", 5)))
+import scala.collection.mutable.ListBuffer
+var l = new ListBuffer[Int]()
+pairs.aggregateByKey(l)(l+=_)((l1,i1)=> {l1+=i1},(l1,l2)=>{l1++l2})
 
+
+
+
+  import org.apache.spark.{Partitioner, SparkException}
+  import org.apache.spark.sql.types.{IntegerType, StructField, StructType}
+import scala.collection.mutable
+import scala.collection.mutable.ListBuffer
+
+   type Sorter[T] = (T, T) => Boolean
+    type StringSorter = Sorter[String]
+type IntSorter = Sorter[Int]
+def intSorter : IntSorter = (i1,i2) => i1<i2
+
+  val customSchema = StructType(Array(
+  StructField("InvoiceNo", IntegerType, true),
+  StructField("StockCode", IntegerType, true))
+  )
+  val fileName = "/RG/rg-gudes/kulev/T15I5D1000N10.csv"
+val df = spark.read.format("csv").option("header", "true").schema(customSchema).load(fileName.asInstanceOf[String])
+val dfGrouped = df.groupBy("InvoiceNo").agg(collect_list(col("StockCode")))
+import org.apache.spark.{HashPartitioner, Partitioner, SparkContext, SparkException}
+val partitioner = new HashPartitioner(1)
+val transactions = dfGrouped.rdd.map(t=>t(1).asInstanceOf[mutable.WrappedArray[Int]].toArray)
+import levko.cantree.utils.{CanTree, CanTreeFPGrowth}
+val model = new CanTreeFPGrowth().setMinSupport(0.01).setPartitioner(partitioner)
+
+
+val fileName1 = "/home/lev/Documents/teza/cantree/smallTest1.csv"
+val fileName2 = "/home/lev/Documents/teza/cantree/smallTest2.csv"
+import org.apache.spark.{Partitioner, SparkException}
+import org.apache.spark.sql.types.{IntegerType, StructField, StructType}
+import scala.collection.mutable
+import scala.collection.mutable.ListBuffer
+type Sorter[T] = (T, T) => Boolean
+type StringSorter = Sorter[String]
+type IntSorter = Sorter[Int]
+def intSorter : IntSorter = (i1,i2) => i1<i2
+val customSchema = StructType(Array(
+	StructField("InvoiceNo", IntegerType, true),
+	StructField("StockCode", IntegerType, true))
+)
+
+val df1 = spark.read.format("csv").option("header", "true").schema(customSchema).load(fileName1)
+val dfGrouped1 = df1.groupBy("InvoiceNo").agg(collect_list(col("StockCode")))
+val transactions1 = dfGrouped1.rdd.map(t=>t(1).asInstanceOf[mutable.WrappedArray[Int]].toArray)
+val df2 = spark.read.format("csv").option("header", "true").schema(customSchema).load(fileName2)
+val dfGrouped2 = df2.groupBy("InvoiceNo").agg(collect_list(col("StockCode")))
+val transactions2 = dfGrouped2.rdd.map(t=>t(1).asInstanceOf[mutable.WrappedArray[Int]].toArray)
+
+val partitioner = new HashPartitioner(1)
+
+val model = new CanTreeFPGrowth().setMinSupport(minSupport).setPartitioner(partitioner)
+val canTrees1 = model.genCanTrees(transactions1,intSorter)
+val canTrees2 = model.genCanTrees(transactions2,intSorter)
+val r = canTrees1.fullOuterJoin(canTrees2).map{ case (part,(Some(tree1),Some(tree2))) => (part,tree1.merge(tree2))
+						case (part,(Some(tree1),_)) => (part,tree1)
+						case (part,(_,Some(tree2))) => (part,tree2)}
+
+
+def createIterationFiles(fileName : String,iterNum : Int) : Unit = {
+	import org.apache.spark.{Partitioner, SparkException}
+	import org.apache.spark.sql.types.{IntegerType, StructField, StructType}
+	import scala.collection.mutable
+	import scala.collection.mutable.ListBuffer
+
+	type Sorter[T] = (T, T) => Boolean
+	type StringSorter = Sorter[String]
+	type IntSorter = Sorter[Int]
+	def intSorter : IntSorter = (i1,i2) => i1<i2
+
+	val customSchema = StructType(Array(
+		StructField("InvoiceNo", IntegerType, true),
+		StructField("StockCode", IntegerType, true))
+	)
+	val df = spark.read.format("csv").option("header", "true").schema(customSchema).load(fileName.asInstanceOf[String])
+	val boundaries = df.agg(min("InvoiceNo"),max("InvoiceNo"))
+	val maxRow = df.agg(max("InvoiceNo")).take(1)(0).getInt(0)
+	val mid = math.floor(0.5*maxRow)
+	df.filter(df("InvoiceNo") < mid).write.csv("hdfs://localhost:9000/baseDF.csv")
+	val iterSize = math.ceil(mid/iterNum).toInt
+	for (i <- 0 to iterNum-1) {
+		val currStart = mid+i*iterSize
+		val currEnd = mid+(i+1)*iterSize
+		df.filter(df("InvoiceNo")>=currStart && df("InvoiceNo") < currEnd).write.csv("hdfs://localhost:9000/"+i+".csv")
+	}
+}
+
+for ((i=0; i<20; i++)) 
+do 
+for ((j=0;j<5;j++))
+do
+echo "$i $j"
+cat /RG/rg-gudes/kulev/T15I5D10000N100/$((5*${i}+${j})).csv >> /RG/rg-gudes/kulev/T15I5D10000N100_20SPLITS/${i}.csv
+done
+done
