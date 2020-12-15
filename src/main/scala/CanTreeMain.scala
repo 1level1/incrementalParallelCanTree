@@ -40,12 +40,15 @@ object CanTreeMain {
                                              ) : Unit = {
     import java.time.LocalDateTime
     var df : DataFrame = prepareTransactions(fileList(0), spark, schema)
+    var transactions = df.rdd.map(t => t(1).asInstanceOf[mutable.WrappedArray[Item]].toArray)
+    var fisCount = model.run(transactions).freqItemsets.count()
+    log.info(LocalDateTime.now + "-iterateAndReportFPGrowth- Found " + fisCount + " at iteration number " + 0)
     for (i <- fileList.indices) {
       if (i!=0) {
         val f = fileList(i)
         df = df.union(prepareTransactions(f, spark, schema))
-        val transactions = df.rdd.map(t => t(1).asInstanceOf[mutable.WrappedArray[Item]].toArray)
-        val fisCount = model.run(transactions).freqItemsets.count()
+        transactions = df.rdd.map(t => t(1).asInstanceOf[mutable.WrappedArray[Item]].toArray)
+        fisCount = model.run(transactions).freqItemsets.count()
         log.info(LocalDateTime.now + "-iterateAndReportFPGrowth- Found " + fisCount + " at iteration number " + i)
       }
     }
