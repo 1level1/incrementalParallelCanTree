@@ -6,7 +6,7 @@ import org.apache.spark.rdd.RDD._
 
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
-import org.apache.spark.sql.functions.{col, collect_list}
+import org.apache.spark.sql.functions.{col, collect_list, min}
 
 import scala.reflect.ClassTag
 import org.apache.spark.sql.types.{IntegerType, StructField, StructType}
@@ -91,12 +91,12 @@ object CanTreeMain {
   }
 
   def prepareTransactions[Item](filePath: String, spark: SparkSession, customSchema : StructType):  DataFrame = {
-    val df = spark.read.format("csv").option("header", "true").schema(customSchema).load(filePath)
+    val df = spark.read.format("csv").option("header", "false").schema(customSchema).load(filePath)
     df.groupBy("InvoiceNo").agg(collect_list(col("StockCode")))
   }
 
   val usage = """
-    Usage: CanTreeMain [--num-partitions int] [--min-support double] [--in-file-list-path str] [--pfp 1] [--freq-sort 1]
+    Usage: CanTreeMain [--num-partitions int] [--min-support double] [--in-file-list-path str] [--pfp 1] [--freq-sort 1] [--min-min-support 0.001]
   """
   def main(args: Array[String]): Unit = {
 
@@ -120,6 +120,8 @@ object CanTreeMain {
           nextOption(map ++ Map('local -> value.toInt), tail)
         case "--freq-sort" :: value :: tail =>
           nextOption(map ++ Map('freqsort -> value.toInt), tail)
+        case "--min-min-support" :: value :: tail =>
+          nextOption(map ++ Map('minminSupport -> value.toDouble), tail)
         case option :: tail => println("Unknown option "+option)
           exit(1)
       }
@@ -145,6 +147,7 @@ object CanTreeMain {
     val pfp = options.getOrElse('pfp,0).asInstanceOf[Int]
     val local = options.getOrElse('local,0).asInstanceOf[Int]
     val freqsort = options.getOrElse('freqsort,0).asInstanceOf[Int]
+    val minminSupport = options.getOrElse('minminSupport,0.001).asInstanceOf[Double]
 
     val spark = if (local==1)
       SparkSession.builder.master("local").appName("CAN_TREE").getOrCreate()
@@ -173,9 +176,10 @@ object CanTreeMain {
         .setNumPartitions(partitioner.numPartitions)
       iterateAndReportFPGrowth(fpModel,fileList.toList,spark,customSchema)
     } else {
-      val model = new CanTreeFPGrowth().setMinSupport(minSupport).setPartitioner(partitioner)
       val dfGrouped = prepareTransactions(fileList(0),spark,customSchema)
       val transactions = dfGrouped.rdd.map(t=>t(1).asInstanceOf[mutable.WrappedArray[Int]].toArray)
+      val minMinSupport = math.floor(transactions.count()*minSupport*minminSupport).toLong
+      val model = new CanTreeFPGrowth().setMinSupport(minSupport).setPartitioner(partitioner).setMinMinSupport(minMinSupport)
       if (freqsort==1) {
         val countMap = transactions.flatMap { t =>
           val uniq = t.toSet
