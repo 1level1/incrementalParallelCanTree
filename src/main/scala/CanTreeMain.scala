@@ -78,8 +78,8 @@ object CanTreeMain {
         case (part,(Some(tree1),_)) => (part,tree1)
         case (part,(_,Some(tree2))) => (part,tree2)
       }
-      nextCanTreeRDD.cache()
-      baseCanTreeRDD.unpersist()
+      nextCanTreeRDD.persist()
+//      baseCanTreeRDD.unpersist()
 //      baseCanTreeRDD.map{case (group,tree) => (group,tree.nodesNum)}.foreach{case (group,treeNodesCount) => log.info(LocalDateTime.now + " -iterateAndReport- iteration:"+iter+" - group "+ group+" tree size "+treeNodesCount)}
       val fisCount =   model.run(nextCanTreeRDD,minSuppLong).map(fis => {
         fis.items.size
@@ -96,7 +96,7 @@ object CanTreeMain {
   }
 
   val usage = """
-    Usage: CanTreeMain [--num-partitions int] [--min-support double] [--in-file-list-path str] [--pfp 1] [--freq-sort 1]
+    Usage: CanTreeMain [--num-partitions int] [--min-support double] [--in-file-list-path str] [--pfp 1] [--freq-sort 1] [--app-name str]
   """
   def main(args: Array[String]): Unit = {
 
@@ -120,6 +120,8 @@ object CanTreeMain {
           nextOption(map ++ Map('local -> value.toInt), tail)
         case "--freq-sort" :: value :: tail =>
           nextOption(map ++ Map('freqsort -> value.toInt), tail)
+        case "--app-name" ::  value :: tail =>
+          nextOption(map ++ Map('appname -> value), tail)
         case option :: tail => println("Unknown option "+option)
           exit(1)
       }
@@ -145,11 +147,11 @@ object CanTreeMain {
     val pfp = options.getOrElse('pfp,0).asInstanceOf[Int]
     val local = options.getOrElse('local,0).asInstanceOf[Int]
     val freqsort = options.getOrElse('freqsort,0).asInstanceOf[Int]
-
+    val appName = options.getOrElse('appname,"CAN_TREE_DEFAULT_APP").asInstanceOf[String]
     val spark = if (local==1)
-      SparkSession.builder.master("local").appName("CAN_TREE").getOrCreate()
+      SparkSession.builder.master("local").appName(appName).getOrCreate()
     else
-      SparkSession.builder.appName("CAN_TREE").getOrCreate()
+      SparkSession.builder.appName(appName).getOrCreate()
 
     val customSchema = StructType(Array(
       StructField("InvoiceNo", IntegerType, true),

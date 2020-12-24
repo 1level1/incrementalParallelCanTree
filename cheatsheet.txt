@@ -165,3 +165,27 @@ echo "$i $j"
 cat /RG/rg-gudes/kulev/T15I5D10000N100/$((5*${i}+${j})).csv >> /RG/rg-gudes/kulev/T15I5D10000N100_20SPLITS/${i}.csv
 done
 done
+
+
+
+
+cnt=1
+tot=len(res)
+ffty = int(tot/2)
+leap=int(ffty/20)
+with open("/home/lev/Documents/teza/dataset/kosarak_20splits/base.csv","w") as fout:
+ for r in res[0:ffty]:
+  for l in set(r.rstrip().split(' ')):
+   fout.write(str(cnt)+","+l+"\n")
+  cnt+=1
+
+for i in range(0,20):
+ with open("/home/lev/Documents/teza/dataset/kosarak_20splits/"+str(i)+".csv","w") as fout:
+  for r in res[ffty+(i*leap):ffty+((i+1)*leap)]:
+   for l in set(r.rstrip().split(' ')):
+    fout.write(str(cnt)+","+l+"\n")
+   cnt+=1
+ 
+
+
+spark-submit --class CanTreeMain --master local --driver-memory 8g --executor-memory 8g --num-executors 2 --executor-cores 3 --conf spark.driver.extraJavaOptions=-Dlog4j.configuration=file:src/main/resources/log4j_file.properties target/scala-2.11/cantree_2.11-0.1.jar --num-partitions 1 --min-support 0.1 --in-file-list-path /RG/rg-gudes/kulev/kosarak_20splits/filesList.txt --app-name kosarak_1_40_4_20g_0_1

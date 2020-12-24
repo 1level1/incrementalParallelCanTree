@@ -1,0 +1,189 @@
+%%% -*-BibTeX-*-
+%%% Do NOT edit. File created by BibTeX with style
+%%% ACM-Reference-Format-Journals [18-Jan-2012].
+
+\begin{thebibliography}{13}
+
+%%% ====================================================================
+%%% NOTE TO THE USER: you can override these defaults by providing
+%%% customized versions of any of these macros before the \bibliography
+%%% command.  Each of them MUST provide its own final punctuation,
+%%% except for \shownote{}, \showDOI{}, and \showURL{}.  The latter two
+%%% do not use final punctuation, in order to avoid confusing it with
+%%% the Web address.
+%%%
+%%% To suppress output of a particular field, define its macro to expand
+%%% to an empty string, or better, \unskip, like this:
+%%%
+%%% \newcommand{\showDOI}[1]{\unskip}   % LaTeX syntax
+%%%
+%%% \def \showDOI #1{\unskip}           % plain TeX syntax
+%%%
+%%% ====================================================================
+
+\ifx \showCODEN    \undefined \def \showCODEN     #1{\unskip}     \fi
+\ifx \showDOI      \undefined \def \showDOI       #1{#1}\fi
+\ifx \showISBNx    \undefined \def \showISBNx     #1{\unskip}     \fi
+\ifx \showISBNxiii \undefined \def \showISBNxiii  #1{\unskip}     \fi
+\ifx \showISSN     \undefined \def \showISSN      #1{\unskip}     \fi
+\ifx \showLCCN     \undefined \def \showLCCN      #1{\unskip}     \fi
+\ifx \shownote     \undefined \def \shownote      #1{#1}          \fi
+\ifx \showarticletitle \undefined \def \showarticletitle #1{#1}   \fi
+\ifx \showURL      \undefined \def \showURL       {\relax}        \fi
+% The following commands are used for tagged output and should be
+% invisible to TeX
+\providecommand\bibfield[2]{#2}
+\providecommand\bibinfo[2]{#2}
+\providecommand\natexlab[1]{#1}
+\providecommand\showeprint[2][]{arXiv:#2}
+
+\bibitem[\protect\citeauthoryear{Agrawal and Srikant}{Agrawal and
+  Srikant}{1994}]%
+        {agrawal1994quest}
+\bibfield{author}{\bibinfo{person}{Rakesh Agrawal} {and}
+  \bibinfo{person}{Ramakrishnan Srikant}.} \bibinfo{year}{1994}\natexlab{}.
+\newblock \showarticletitle{Quest synthetic data generator}.
+\newblock \bibinfo{journal}{\emph{IBM Almaden Research Center}}
+  (\bibinfo{year}{1994}).
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Agrawal, Srikant, et~al\mbox{.}}{Agrawal
+  et~al\mbox{.}}{1994}]%
+        {agrawal1994fast}
+\bibfield{author}{\bibinfo{person}{Rakesh Agrawal},
+  \bibinfo{person}{Ramakrishnan Srikant}, {et~al\mbox{.}}}
+  \bibinfo{year}{1994}\natexlab{}.
+\newblock \showarticletitle{Fast algorithms for mining association rules}. In
+  \bibinfo{booktitle}{\emph{Proc. 20th int. conf. very large data bases,
+  VLDB}}, Vol.~\bibinfo{volume}{1215}. \bibinfo{pages}{487--499}.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Apache}{Apache}{2020}]%
+        {spark}
+\bibfield{author}{\bibinfo{person}{Apache}.} \bibinfo{year}{2020}\natexlab{}.
+\newblock \bibinfo{booktitle}{\emph{Apache Spark™ is a unified analytics
+  engine for large-scale data processing}}.
+\newblock
+\urldef\tempurl%
+\url{https://spark.apache.org/}
+\showURL{%
+\tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Hong, Lin, and Wu}{Hong et~al\mbox{.}}{2008}]%
+        {hong2008incrementally}
+\bibfield{author}{\bibinfo{person}{Tzung-Pei Hong}, \bibinfo{person}{Chun-Wei
+  Lin}, {and} \bibinfo{person}{Yu-Lung Wu}.} \bibinfo{year}{2008}\natexlab{}.
+\newblock \showarticletitle{Incrementally fast updated frequent pattern trees}.
+\newblock \bibinfo{journal}{\emph{Expert Systems with Applications}}
+  \bibinfo{volume}{34}, \bibinfo{number}{4} (\bibinfo{year}{2008}),
+  \bibinfo{pages}{2424--2435}.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Hunyadi}{Hunyadi}{2011}]%
+        {hunyadi2011performance}
+\bibfield{author}{\bibinfo{person}{Daniel Hunyadi}.}
+  \bibinfo{year}{2011}\natexlab{}.
+\newblock \showarticletitle{Performance comparison of Apriori and FP-Growth
+  algorithms in generating association rules}. In
+  \bibinfo{booktitle}{\emph{Proceedings of the European computing conference}}.
+  \bibinfo{pages}{376--381}.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Koh and Shieh}{Koh and Shieh}{[n.d.]}]%
+        {kohefficient}
+\bibfield{author}{\bibinfo{person}{Jia-Ling Koh} {and}
+  \bibinfo{person}{Shui-Feng Shieh}.} \bibinfo{year}{[n.d.]}\natexlab{}.
+\newblock \showarticletitle{An Efficient Approach for Maintaining Association
+  Rules}.
+\newblock  (\bibinfo{year}{[n.\,d.]}).
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Koh and Shieh}{Koh and Shieh}{2004}]%
+        {koh2004efficient}
+\bibfield{author}{\bibinfo{person}{Jia-Ling Koh} {and}
+  \bibinfo{person}{Shui-Feng Shieh}.} \bibinfo{year}{2004}\natexlab{}.
+\newblock \showarticletitle{An efficient approach for maintaining association
+  rules based on adjusting FP-tree structures}. In
+  \bibinfo{booktitle}{\emph{International Conference on Database Systems for
+  Advanced Applications}}. Springer, \bibinfo{pages}{417--424}.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Leung, Khan, and Hoque}{Leung
+  et~al\mbox{.}}{2005}]%
+        {leung2005cantree}
+\bibfield{author}{\bibinfo{person}{CK-S Leung}, \bibinfo{person}{Quamrul~I
+  Khan}, {and} \bibinfo{person}{Tariqul Hoque}.}
+  \bibinfo{year}{2005}\natexlab{}.
+\newblock \showarticletitle{CanTree: a tree structure for efficient incremental
+  mining of frequent patterns}. In \bibinfo{booktitle}{\emph{Fifth IEEE
+  International Conference on Data Mining (ICDM'05)}}. IEEE,
+  \bibinfo{pages}{8--pp}.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Li, Wang, Zhang, Zhang, and Chang}{Li
+  et~al\mbox{.}}{2008}]%
+        {li2008pfp}
+\bibfield{author}{\bibinfo{person}{Haoyuan Li}, \bibinfo{person}{Yi Wang},
+  \bibinfo{person}{Dong Zhang}, \bibinfo{person}{Ming Zhang}, {and}
+  \bibinfo{person}{Edward~Y Chang}.} \bibinfo{year}{2008}\natexlab{}.
+\newblock \showarticletitle{Pfp: parallel fp-growth for query recommendation}.
+  In \bibinfo{booktitle}{\emph{Proceedings of the 2008 ACM conference on
+  Recommender systems}}. \bibinfo{pages}{107--114}.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Li, Deng, and Tang}{Li et~al\mbox{.}}{2006}]%
+        {li2006fast}
+\bibfield{author}{\bibinfo{person}{Xin Li}, \bibinfo{person}{Zhi-Hong Deng},
+  {and} \bibinfo{person}{Shiwei Tang}.} \bibinfo{year}{2006}\natexlab{}.
+\newblock \showarticletitle{A fast algorithm for maintenance of association
+  rules in incremental databases}. In \bibinfo{booktitle}{\emph{International
+  Conference on Advanced Data Mining and Applications}}. Springer,
+  \bibinfo{pages}{56--63}.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Mellanox}{Mellanox}{2020}]%
+        {SparkRDMA}
+\bibfield{author}{\bibinfo{person}{Mellanox}.} \bibinfo{year}{2020}\natexlab{}.
+\newblock \bibinfo{booktitle}{\emph{SparkRDMA plugin is a high-performance,
+  scalable and efficient ShuffleManager open-source plugin for Apache Spark.}}
+\newblock
+\urldef\tempurl%
+\url{https://www.mellanox.com/products/SparkRDMA}
+\showURL{%
+\tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Tanbeer, Ahmed, Jeong, and Lee}{Tanbeer
+  et~al\mbox{.}}{2009}]%
+        {tanbeer2009efficient}
+\bibfield{author}{\bibinfo{person}{Syed~Khairuzzaman Tanbeer},
+  \bibinfo{person}{Chowdhury~Farhan Ahmed}, \bibinfo{person}{Byeong-Soo Jeong},
+  {and} \bibinfo{person}{Young-Koo Lee}.} \bibinfo{year}{2009}\natexlab{}.
+\newblock \showarticletitle{Efficient single-pass frequent pattern mining using
+  a prefix-tree}.
+\newblock \bibinfo{journal}{\emph{Information Sciences}} \bibinfo{volume}{179},
+  \bibinfo{number}{5} (\bibinfo{year}{2009}), \bibinfo{pages}{559--583}.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Tsay, Hsu, and Yu}{Tsay et~al\mbox{.}}{2009}]%
+        {tsay2009fiut}
+\bibfield{author}{\bibinfo{person}{Yuh-Jiuan Tsay}, \bibinfo{person}{Tain-Jung
+  Hsu}, {and} \bibinfo{person}{Jing-Rung Yu}.} \bibinfo{year}{2009}\natexlab{}.
+\newblock \showarticletitle{FIUT: A new method for mining frequent itemsets}.
+\newblock \bibinfo{journal}{\emph{Information Sciences}} \bibinfo{volume}{179},
+  \bibinfo{number}{11} (\bibinfo{year}{2009}), \bibinfo{pages}{1724--1737}.
+\newblock
+
+
+\end{thebibliography}

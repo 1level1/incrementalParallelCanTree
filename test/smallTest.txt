@@ -1,0 +1,5 @@
+/home/lev/Documents/teza/cantree/test/base.csv
+/home/lev/Documents/teza/cantree/test/0.csv
+/home/lev/Documents/teza/cantree/test/1.csv
+/home/lev/Documents/teza/cantree/test/2.csv
+/home/lev/Documents/teza/cantree/test/3.csv
