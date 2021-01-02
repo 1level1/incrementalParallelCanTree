@@ -1,0 +1,13 @@
+\section{Improvements}
+While developing and testing the algorithm, 2 main obstacles prevented from using larger datasets and smaller minSupport:
+\begin{enumerate}
+	\item Memory - Tree size.
+	\item Computation Time - Tree order.
+\end{enumerate}
+
+To handle these obstacles, 2 techniques were implemented.
+To handle the computation time, an approach similar to~\cite{tanbeer2009efficient} was tested. Although the size of the tree was not effected by more than 10\%, computation time was improved by XXX.
+
+To handle the memory limitation, which is caused by the construction of a large tree, a partial approach of AFPIM~\cite{koh2004efficient} was implemented. We added a pre-min support to identify pre-frequent items, and tested performance while re reading the full dataset for missed items when those are found. 
+Using this approach we were able to run synthetic datasets of 100M transactions and 1M unique item sets. The results can be seen in XXX compared to PFP.
+

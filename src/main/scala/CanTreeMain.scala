@@ -36,8 +36,7 @@ object CanTreeMain {
   def iterateAndReportFPGrowth[Item:ClassTag](model : FPGrowth,
                                               fileList : List[String],
                                               spark : SparkSession,
-                                              schema: StructType
-                                             ) : Unit = {
+                                              schema: StructType) : Unit = {
     import java.time.LocalDateTime
     var df : DataFrame = prepareTransactions(fileList(0), spark, schema)
     var transactions = df.rdd.map(t => t(1).asInstanceOf[mutable.WrappedArray[Item]].toArray)
@@ -60,7 +59,8 @@ object CanTreeMain {
                              spark : SparkSession,
                              schema: StructType,
                              minSupPercentage : Double,
-                             sorter: Sorter[Item]): Unit = {
+                             sorter: Sorter[Item],
+                             usecache :Boolean): Unit = {
     import java.time.LocalDateTime
     var totTransactions = 0L
     var baseCanTreeRDD : RDD[(Int,CanTreeV1[Item])] = spark.sparkContext.emptyRDD
@@ -78,8 +78,10 @@ object CanTreeMain {
         case (part,(Some(tree1),_)) => (part,tree1)
         case (part,(_,Some(tree2))) => (part,tree2)
       }
-      nextCanTreeRDD.persist()
-//      baseCanTreeRDD.unpersist()
+      if (usecache) {
+        nextCanTreeRDD.persist()
+        baseCanTreeRDD.unpersist()
+      }
 //      baseCanTreeRDD.map{case (group,tree) => (group,tree.nodesNum)}.foreach{case (group,treeNodesCount) => log.info(LocalDateTime.now + " -iterateAndReport- iteration:"+iter+" - group "+ group+" tree size "+treeNodesCount)}
       val fisCount =   model.run(nextCanTreeRDD,minSuppLong).map(fis => {
         fis.items.size
@@ -122,6 +124,8 @@ object CanTreeMain {
           nextOption(map ++ Map('freqsort -> value.toInt), tail)
         case "--app-name" ::  value :: tail =>
           nextOption(map ++ Map('appname -> value), tail)
+        case "--use-cache" ::  value :: tail =>
+          nextOption(map ++ Map('usecache -> value.toBoolean), tail)
         case option :: tail => println("Unknown option "+option)
           exit(1)
       }
@@ -148,6 +152,7 @@ object CanTreeMain {
     val local = options.getOrElse('local,0).asInstanceOf[Int]
     val freqsort = options.getOrElse('freqsort,0).asInstanceOf[Int]
     val appName = options.getOrElse('appname,"CAN_TREE_DEFAULT_APP").asInstanceOf[String]
+    val usecache = options.getOrElse('usecache,true).asInstanceOf[Boolean]
     val spark = if (local==1)
       SparkSession.builder.master("local").appName(appName).getOrCreate()
     else
@@ -189,9 +194,9 @@ object CanTreeMain {
           .reduceByKey(_ + _)
           .collect().toMap
         val customSort = customSorter(countMap)
-        iterateAndReport[Int](model, fileList.toList, spark, customSchema, minSupport, customSort)
+        iterateAndReport[Int](model, fileList.toList, spark, customSchema, minSupport, customSort,usecache)
       } else {
-        iterateAndReport[Int](model, fileList.toList, spark, customSchema, minSupport, intSorter)
+        iterateAndReport[Int](model, fileList.toList, spark, customSchema, minSupport, intSorter,usecache)
       }
     }
   }

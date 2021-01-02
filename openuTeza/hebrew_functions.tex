@@ -1,0 +1,72 @@
+  
+\def\contentsline#1#2#3#4{%
+      \csname l@#1\endcsname{#2}{#3}%
+}
+
+\newif\ifRP
+\newbox\RPbox
+\setbox\RPbox\vbox{\vskip1pt}
+
+\makeatletter
+\AtBeginShipout{%
+  \ifRP
+    \AtBeginShipoutDiscard%
+    \global\setbox\RPbox\vbox{\unvbox\RPbox
+      \box\AtBeginShipoutBox\kern\c@page sp}%
+  \fi
+}%
+\renewcommand{\RPtrue}{%
+  \clearpage
+  \ifRP\RPfalse\fi
+  \global\let\ifRP\iftrue
+}%
+\renewcommand{\RPfalse}{%
+  \clearpage
+  \global\let\ifRP\iffalse
+  \setbox\RPbox\vbox{\unvbox\RPbox
+    \def\protect{\noexpand\protect\noexpand}%
+    \@whilesw\ifdim0pt=\lastskip\fi
+      {\c@page\lastkern\unkern\shipout\lastbox}%
+  }%
+}
+\newcommand\hebrewtableofcontents{%
+  \if@twocolumn
+    \@restonecoltrue\onecolumn
+  \else
+    \@restonecolfalse
+  \fi
+  \begin{otherlanguage}{hebrew}
+  \chapter*{%
+    \contentsname
+    \@mkboth{\MakeUppercase\contentsname}
+            {\MakeUppercase\mycontentsname}%
+  }%
+  \@starttoc{tec}%
+  \end{otherlanguage}
+  \if@restonecol\twocolumn\fi
+}
+\newcommand{\addhtoc}[2]{%
+  \addcontentsline{tec}{#1}{\protect\numberline{\csname the#1\endcsname}#2}%
+}
+\newcommand\mybackmatter{%
+    \cleardoublepage
+    \@mainmatterfalse
+    \pagenumbering{roman}}
+\newcommand\myfrontmatter{%
+    \cleardoublepage
+    \@mainmatterfalse
+    \pagenumbering{roman}}
+\newcommand\listofillustrations{%
+    \chapter*{List of Illustrations}%
+    \phantomsection
+    \section*{Figures}%
+    \phantomsection
+    \@starttoc{lof}%
+    \bigskip
+    \section*{Tables}%
+    \phantomsection
+    \@starttoc{lot}}
+\makeatother
+\newcommand*{\QEDA}{\hfill\ensuremath{\blacksquare}}
+\newcommand{\mycontentsname}{\hebfinalmem\hebyod\hebnun\hebyod\hebyod\hebnun\hebayin\ \hebfinalnun\hebkaf\hebvav\hebtav}
+\PreloadUnicodePage{5}

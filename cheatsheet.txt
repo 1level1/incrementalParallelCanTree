@@ -129,7 +129,7 @@ val r = canTrees1.fullOuterJoin(canTrees2).map{ case (part,(Some(tree1),Some(tre
 						case (part,(_,Some(tree2))) => (part,tree2)}
 
 
-def createIterationFiles(fileName : String,iterNum : Int) : Unit = {
+def createIterationFiles(fileName : String,iterNum : Int,outputdir : String) : Unit = {
 	import org.apache.spark.{Partitioner, SparkException}
 	import org.apache.spark.sql.types.{IntegerType, StructField, StructType}
 	import scala.collection.mutable
@@ -148,12 +148,12 @@ def createIterationFiles(fileName : String,iterNum : Int) : Unit = {
 	val boundaries = df.agg(min("InvoiceNo"),max("InvoiceNo"))
 	val maxRow = df.agg(max("InvoiceNo")).take(1)(0).getInt(0)
 	val mid = math.floor(0.5*maxRow)
-	df.filter(df("InvoiceNo") < mid).write.csv("hdfs://localhost:9000/baseDF.csv")
+	df.filter(df("InvoiceNo") < mid).write.csv(outputdir+"baseDF.csv")
 	val iterSize = math.ceil(mid/iterNum).toInt
 	for (i <- 0 to iterNum-1) {
 		val currStart = mid+i*iterSize
 		val currEnd = mid+(i+1)*iterSize
-		df.filter(df("InvoiceNo")>=currStart && df("InvoiceNo") < currEnd).write.csv("hdfs://localhost:9000/"+i+".csv")
+		df.filter(df("InvoiceNo")>=currStart && df("InvoiceNo") < currEnd).write.csv(outputdir+i+".csv")
 	}
 }
 

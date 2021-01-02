@@ -1,0 +1,22 @@
+\select@language {english}
+\contentsline {chapter}{\numberline {\@@number {1}}Introduction}{\@@number {1}}{chapter.1}%
+\contentsline {section}{\numberline {\@@number {\@@number {1}.\@@number {1}}}Introduction}{\@@number {1}}{section.1.1}%
+\contentsline {chapter}{\numberline {\@@number {2}}Background}{\@@number {2}}{chapter.2}%
+\contentsline {chapter}{\numberline {\@@number {3}}Previous Work}{\@@number {3}}{chapter.3}%
+\contentsline {section}{\numberline {\@@number {\@@number {3}.\@@number {1}}}PRELIMINARY AND RELATED WORK}{\@@number {3}}{section.3.1}%
+\contentsline {subsection}{\numberline {\@@number {\@@number {\@@number {3}.\@@number {1}}.\@@number {1}}}Related Work}{\@@number {3}}{subsection.3.1.1}%
+\contentsline {subsection}{\numberline {\@@number {\@@number {\@@number {3}.\@@number {1}}.\@@number {2}}}Incremental Frequent Itemsets Mining}{\@@number {3}}{subsection.3.1.2}%
+\contentsline {subsection}{\numberline {\@@number {\@@number {\@@number {3}.\@@number {1}}.\@@number {3}}}Parallel Frequent Itemsets mining}{\@@number {5}}{subsection.3.1.3}%
+\contentsline {subsection}{\numberline {\@@number {\@@number {\@@number {3}.\@@number {1}}.\@@number {4}}}Incremental and Parallel Frequent itemsets mining}{\@@number {6}}{subsection.3.1.4}%
+\contentsline {chapter}{\numberline {\@@number {4}}IPFIM Algorithm}{\@@number {7}}{chapter.4}%
+\contentsline {section}{\numberline {\@@number {\@@number {4}.\@@number {1}}}IPFIM - Incremental Parallel Frequent Itemsets Mining}{\@@number {7}}{section.4.1}%
+\contentsline {subsection}{\numberline {\@@number {\@@number {\@@number {4}.\@@number {1}}.\@@number {1}}}IPFIM structure}{\@@number {7}}{subsection.4.1.1}%
+\contentsline {subsection}{\numberline {\@@number {\@@number {\@@number {4}.\@@number {1}}.\@@number {2}}}Correctness}{\@@number {8}}{subsection.4.1.2}%
+\contentsline {section}{\numberline {\@@number {\@@number {4}.\@@number {2}}}section1}{\@@number {8}}{section.4.2}%
+\contentsline {section}{\numberline {\@@number {\@@number {4}.\@@number {3}}}Experiments and Results}{\@@number {8}}{section.4.3}%
+\contentsline {subsection}{\numberline {\@@number {\@@number {\@@number {4}.\@@number {3}}.\@@number {1}}}PFP VS IPFIM}{\@@number {8}}{subsection.4.3.1}%
+\contentsline {subsection}{\numberline {\@@number {\@@number {\@@number {4}.\@@number {3}}.\@@number {2}}}IPFIM vs Interactive CanTree}{\@@number {9}}{subsection.4.3.2}%
+\contentsline {section}{\numberline {\@@number {\@@number {4}.\@@number {4}}}Improvements}{\@@number {9}}{section.4.4}%
+\contentsline {subsection}{\numberline {\@@number {\@@number {\@@number {4}.\@@number {4}}.\@@number {1}}}subsection1}{\@@number {11}}{subsection.4.4.1}%
+\contentsline {chapter}{\numberline {\@@number {5}}Conclusion}{\@@number {12}}{chapter.5}%
+\contentsline {section}{\numberline {\@@number {\@@number {5}.\@@number {1}}}Conclusions}{\@@number {12}}{section.5.1}%

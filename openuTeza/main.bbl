@@ -1,0 +1,77 @@
+\begin{thebibliography}{10}
+
+\bibitem{agrawal1994quest}
+{\sc Agrawal, R., and Srikant, R.}
+\newblock Quest synthetic data generator.
+\newblock {\em IBM Almaden Research Center\/} (1994).
+
+\bibitem{agrawal1994fast}
+{\sc Agrawal, R., Srikant, R., et~al.}
+\newblock Fast algorithms for mining association rules.
+\newblock In {\em Proc. 20th int. conf. very large data bases, VLDB\/} (1994),
+  vol.~1215, pp.~487--499.
+
+\bibitem{spark}
+{\sc Apache}.
+\newblock Apache spark™ is a unified analytics engine for large-scale data
+  processing, 2020.
+
+\bibitem{hong2008incrementally}
+{\sc Hong, T.-P., Lin, C.-W., and Wu, Y.-L.}
+\newblock Incrementally fast updated frequent pattern trees.
+\newblock {\em Expert Systems with Applications 34}, 4 (2008), 2424--2435.
+
+\bibitem{hunyadi2011performance}
+{\sc Hunyadi, D.}
+\newblock Performance comparison of apriori and fp-growth algorithms in
+  generating association rules.
+\newblock In {\em Proceedings of the European computing conference\/} (2011),
+  pp.~376--381.
+
+\bibitem{kohefficient}
+{\sc Koh, J.-L., and Shieh, S.-F.}
+\newblock An efficient approach for maintaining association rules.
+
+\bibitem{koh2004efficient}
+{\sc Koh, J.-L., and Shieh, S.-F.}
+\newblock An efficient approach for maintaining association rules based on
+  adjusting fp-tree structures.
+\newblock In {\em International Conference on Database Systems for Advanced
+  Applications\/} (2004), Springer, pp.~417--424.
+
+\bibitem{leung2005cantree}
+{\sc Leung, C.-S., Khan, Q.~I., and Hoque, T.}
+\newblock Cantree: a tree structure for efficient incremental mining of
+  frequent patterns.
+\newblock In {\em Fifth IEEE International Conference on Data Mining
+  (ICDM'05)\/} (2005), IEEE, pp.~8--pp.
+
+\bibitem{li2008pfp}
+{\sc Li, H., Wang, Y., Zhang, D., Zhang, M., and Chang, E.~Y.}
+\newblock Pfp: parallel fp-growth for query recommendation.
+\newblock In {\em Proceedings of the 2008 ACM conference on Recommender
+  systems\/} (2008), pp.~107--114.
+
+\bibitem{li2006fast}
+{\sc Li, X., Deng, Z.-H., and Tang, S.}
+\newblock A fast algorithm for maintenance of association rules in incremental
+  databases.
+\newblock In {\em International Conference on Advanced Data Mining and
+  Applications\/} (2006), Springer, pp.~56--63.
+
+\bibitem{SparkRDMA}
+{\sc Mellanox}.
+\newblock Sparkrdma plugin is a high-performance, scalable and efficient
+  shufflemanager open-source plugin for apache spark., 2020.
+
+\bibitem{tanbeer2009efficient}
+{\sc Tanbeer, S.~K., Ahmed, C.~F., Jeong, B.-S., and Lee, Y.-K.}
+\newblock Efficient single-pass frequent pattern mining using a prefix-tree.
+\newblock {\em Information Sciences 179}, 5 (2009), 559--583.
+
+\bibitem{tsay2009fiut}
+{\sc Tsay, Y.-J., Hsu, T.-J., and Yu, J.-R.}
+\newblock Fiut: A new method for mining frequent itemsets.
+\newblock {\em Information Sciences 179}, 11 (2009), 1724--1737.
+
+\end{thebibliography}

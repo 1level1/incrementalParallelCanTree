@@ -1,0 +1,30 @@
+\section{IPFIM - Incremental Parallel Frequent Itemsets Mining}
+The implementation of this algorithm strongly depends on PFP~\cite{li2008pfp}. To support incremental tree updates, we are using a predefined comparison function to arrange the items insertion order, as used in CanTree~\cite{leung2005cantree}.
+
+\subsection{IPFIM structure}
+\begin{steps}
+	\item Define a comparison function for items: 
+	
+	compare(item1,item2)->bool
+	\item For each set of transactions in iteration:
+		\begin{enumerate}
+			\item For each Ti in current set of transaction, order by pre defined compare function.
+			\item For each aj in Ti, replace aj with gi that aj belongs to its group
+			\item For each gi, if it appears in Ti, find its right-most location in Ti, say L and output:
+ <key'=gi; value'={Ti[0]…Ti[L]}>
+ 			\item Group by key' = gi
+ 			\item For each group gi, merge to existing tree if exists ELSE build new tree
+ 			\item For each group gi, mine the generated tree (filter items not in gi of length 1).
+		\end{enumerate}
+\end{steps}
+
+\subsection{Correctness}
+The correctness of the tree structure is driven from the correctness of mining CanTree, which preserves 2 properties:
+\begin{properties}
+\item \textit{The ordering of items is unaffected by the
+changes in frequency caused by incremental updates.}
+\item \textit{The frequency of a node in the CanTree is at
+least as high as the sum of frequencies of its children.}
+\end{properties}
+
+

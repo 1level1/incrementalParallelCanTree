@@ -1,0 +1,58 @@
+This is BibTeX, Version 0.99d (TeX Live 2019/Debian)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: main.aux
+A level-1 auxiliary file: cover.aux
+A level-1 auxiliary file: abstract.aux
+A level-1 auxiliary file: acknowledgements.aux
+The style file: acm.bst
+A level-1 auxiliary file: cover_heb.aux
+A level-1 auxiliary file: abstract_heb.aux
+Database file #1: sample.bib
+Warning--entry type for "spark" isn't style-file defined
+--line 302 of file sample.bib
+Warning--entry type for "SparkRDMA" isn't style-file defined
+--line 310 of file sample.bib
+Warning--I didn't find a database entry for "demoref"
+Warning--empty journal in kohefficient
+You've used 13 entries,
+            2253 wiz_defined-function locations,
+            870 strings with 11525 characters,
+and the built_in function-call counts, 4746 in all, are:
+= -- 465
+> -- 191
+< -- 0
++ -- 82
+- -- 66
+* -- 334
+:= -- 721
+add.period$ -- 36
+call.type$ -- 13
+change.case$ -- 71
+chr.to.int$ -- 0
+cite$ -- 14
+duplicate$ -- 197
+empty$ -- 408
+format.name$ -- 66
+if$ -- 1027
+int.to.chr$ -- 0
+int.to.str$ -- 13
+missing$ -- 11
+newline$ -- 65
+num.names$ -- 26
+pop$ -- 95
+preamble$ -- 1
+purify$ -- 58
+quote$ -- 0
+skip$ -- 147
+stack$ -- 0
+substring$ -- 326
+swap$ -- 67
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 52
+warning$ -- 1
+while$ -- 50
+width$ -- 15
+write$ -- 128
+(There were 4 warnings)
