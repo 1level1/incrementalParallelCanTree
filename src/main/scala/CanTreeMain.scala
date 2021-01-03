@@ -97,6 +97,26 @@ object CanTreeMain {
     df.groupBy("InvoiceNo").agg(collect_list(col("StockCode")))
   }
 
+  def getItemsCount[Item: ClassTag](data: RDD[Array[Item]]): RDD[(Item, Long)] = {
+    data.flatMap { t =>
+      val uniq = t.toSet
+      if (t.length != uniq.size) {
+        throw new SparkException(s"Items in a transaction must be unique but got ${t.toSeq}.")
+      }
+      t
+    }.map(v => (v, 1L))
+      .reduceByKey(_ + _)
+  }
+
+  def calcAllItemSets(filePath: List[String],spark: SparkSession, customSchema : StructType) : Map[Int,Long] = {
+    var res : RDD[(Int, Long)] = spark.sparkContext.emptyRDD
+    for (f<-filePath) {
+      val curr = prepareTransactions[Int](f,spark,customSchema)
+      res = res.union(getItemsCount[Int](curr.rdd.map(_.toSeq.toList))).reduceByKey(_ + _)
+    }
+    res.collect().toMap
+  }
+
   val usage = """
     Usage: CanTreeMain [--num-partitions int] [--min-support double] [--in-file-list-path str] [--pfp 1] [--freq-sort 1]
   """
@@ -131,19 +151,6 @@ object CanTreeMain {
         case option :: tail => println("Unknown option "+option)
           exit(1)
       }
-    }
-    def getItemsCount[Item: ClassTag](
-     data: RDD[Array[Item]],
-     partitioner: Partitioner): Map[Item, Long] = {
-      val itemsMap = data.flatMap { t =>
-        val uniq = t.toSet
-        if (t.length != uniq.size) {
-          throw new SparkException(s"Items in a transaction must be unique but got ${t.toSeq}.")
-        }
-        t
-      }.map(v => (v, 1L))
-        .reduceByKey(partitioner, _ + _).collect().toMap
-      itemsMap
     }
 
     val options = nextOption(Map(),arglist)
@@ -184,7 +191,6 @@ object CanTreeMain {
         .setNumPartitions(partitioner.numPartitions)
       iterateAndReportFPGrowth(fpModel,fileList.toList,spark,customSchema)
     } else {
-      val model = new CanTreeFPGrowth().setMinSupport(minSupport).setPartitioner(partitioner)
       val dfGrouped = prepareTransactions(fileList(0),spark,customSchema)
       val transactions = dfGrouped.rdd.map(t=>t(1).asInstanceOf[mutable.WrappedArray[Int]].toArray)
       val minMinSupport = math.floor(transactions.count()*minSupport*minminSupport).toLong

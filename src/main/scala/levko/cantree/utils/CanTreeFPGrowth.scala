@@ -15,6 +15,7 @@ class CanTreeFPGrowth(
     private var minSupport: Double,
     private var minMinSupport: Long,
     private var partitioner : HashPartitioner,
+    private var itemsCounter : Map[Int,Long] ,
     private var totalItems : Long = 0L ) extends Logging with Serializable {
 
   /**

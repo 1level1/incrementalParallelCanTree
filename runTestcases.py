@@ -25,28 +25,34 @@ def prepareLogFile(logFilePath,errorFilePath,outputFilePath):
         of.write(solved)
     return
 
-def runJob(fileListPath,master,driverMemory,executorMemory,numExecutors,minSupport,numPartitions,cores,log4jFilePath,isPFP=False):
+def runJob(fileListPath,master,driverMemory,executorMemory,numExecutors,minSupport,numPartitions,cores,log4jFilePath,log4jExecPath,appname,isMinMin=0,isPFP=False,isFreq=False):
     prefixcmd = 'spark-submit --class \"CanTreeMain\" ' \
           '--master {master} '\
           '--driver-memory {driverMemory} ' \
           '--executor-memory {executorMemory} ' \
           '--num-executors {numExecutors} ' \
           '--executor-cores {cores} ' \
-          '--conf \"spark.driver.extraJavaOptions=-Dlog4j.configuration=file:{log4jFilePath} -Xss1G\" ' \
-          '--conf \"spark.executor.extraJavaOptions=-Dlog4j.configuration=file:{log4jFilePath} -Xss1G\" '.format(master=master,
+          '--files {log4jExecPath} ' \
+          '--conf \"spark.driver.extraJavaOptions=-Dlog4j.configuration=file:{log4jFilePath} -Xss1g\" ' \
+          '--conf \"spark.executor.extraJavaOptions=-Dlog4j.configuration=file:{log4jExecPath} -Xss1g\" '.format(master=master,
                                                                                                         driverMemory=driverMemory,
                                                                                                         executorMemory=executorMemory,
                                                                                                         numExecutors=numExecutors,
                                                                                                         cores=cores,
-                                                                                                        log4jFilePath=log4jFilePath)
+                                                                                                        log4jFilePath=log4jFilePath,
+                                                                                                        log4jExecPath=log4jExecPath)
     jarFile =  'target/scala-2.11/cantree_2.11-0.1.jar'
     postcmd =' --num-partitions {numPartitions} ' \
              '--min-support {minSupport} ' \
-             '--in-file-list-path {fileListPath}'.format(numPartitions=numPartitions,
+             '--in-file-list-path {fileListPath} --app-name {appname}'.format(numPartitions=numPartitions,
                                                          minSupport=minSupport,
-                                                         fileListPath=fileListPath)
+                                                         fileListPath=fileListPath,appname=appname)
     if isPFP:
         postcmd += ' --pfp 1'
+    if isFreq:
+        postcmd += ' --freq-sort 1'
+    if isMinMin>0:
+        postcmd += ' --min-min-support '+isMinMin
     cmdList = shlex.split(prefixcmd)
     cmdList.append(jarFile)
     cmdList+=(shlex.split(postcmd))
@@ -58,11 +64,12 @@ def runJob(fileListPath,master,driverMemory,executorMemory,numExecutors,minSuppo
         print(e.output)
 
 
-def runTests(outputDir,log4jBaseDir,master,testFilePath,testCaseName):
-    minSupport = [0.1,0.01,0.001]
-    coresExecutorMemNums = [(40,4,'20g')]
-    partitions = [1,100,1000,10000]
+def runTests(outputDir,log4jBaseDir,master,testFilePath,testCaseName,isFreq=False,minMinSup=0,pfp=False):
+    minSupport = [0.0001]
+    coresExecutorMemNums = [(20,7,'80g')]
+    partitions = [1000]
     log4jPath = 'src/main/resources/log4j_file.properties'
+    log4jExecPath = 'src/main/resources/log4j_file_executor.properties'
     testCaseFiles = [(testFilePath,testCaseName)]
     for supp in minSupport:
         for cem in coresExecutorMemNums:
@@ -71,14 +78,22 @@ def runTests(outputDir,log4jBaseDir,master,testFilePath,testCaseName):
                 for testCase in testCaseFiles:
                     testFile,testName = testCase
                     testname = '_'.join([testName,str(partition),str(cores),str(execNums),mem,str(supp).replace('.','_')])
+                    if isFreq:
+                        testname = "FREQ_"+testname
+                    if minMinSup>0:
+                        testname = "MINMIN_"+testname
+                    if pfp:
+                        testname = "PFP_"+testname
                     log4jErrorFileName = os.path.join(outputDir,testname+'_error.txt')
+                    execLog4jErrorFileName = os.path.join(outputDir,testname+'_error_exec.txt')
                     log4jFileName = os.path.join(outputDir,testname+'.txt')
+                    execLog4jFileName = os.path.join(outputDir,testname+'_exec.txt')
                     prepareLogFile(log4jFileName,log4jErrorFileName,os.path.join(log4jBaseDir,log4jPath))
-                    runJob(testFile,master,mem,mem,execNums,supp,partition,cores,log4jPath)
-                    log4jErrorFileName = os.path.join(outputDir,'PFP_'+testname+'_error.txt')
-                    log4jFileName = os.path.join(outputDir,'PFP_'+testname+'.txt')
-                    prepareLogFile(log4jFileName,log4jErrorFileName,os.path.join(log4jBaseDir,log4jPath))
-                    runJob(testFile,master,mem,mem,execNums,supp,partition,cores,log4jPath,True)
+                    prepareLogFile(execLog4jFileName,execLog4jErrorFileName,os.path.join(log4jBaseDir,log4jExecPath))
+                    if pfp:
+                        runJob(testFile,master,mem,mem,execNums,supp,partition,cores,log4jPath,log4jExecPath,testname,minMinSup,True,isFreq)
+                    else:
+                        runJob(testFile,master,mem,mem,execNums,supp,partition,cores,log4jPath,log4jExecPath,testname,minMinSup,False,isFreq)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Run FIS test cases.')
@@ -87,9 +102,12 @@ if __name__ == "__main__":
     parser.add_argument('--master', dest='master', help='master host')
     parser.add_argument('--testpath', dest='testpath', help='master host')
     parser.add_argument('--testname', dest='testname', help='master host')
+    parser.add_argument('--freq', dest='freq', help='master host')
+    parser.add_argument('--minmin', dest='minmin', help='Use frequency order')
+    parser.add_argument('--pfp', dest='pfp', help='Use frequency order')
     # outputDir,log4jBaseDir,master
     args = parser.parse_args()
-    runTests(args.outputdir,args.log4jBaseDir,args.master)
+    runTests(args.outputdir,args.log4jBaseDir,args.master,args.testpath,args.testname,args.freq,args.minmin,args.pfp)
 
 
 
