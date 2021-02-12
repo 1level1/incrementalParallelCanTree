@@ -170,12 +170,14 @@
     <orderEntry type="library" name="sbt: org.objenesis:objenesis:2.5.1:jar" level="project" />
     <orderEntry type="library" name="sbt: org.roaringbitmap:RoaringBitmap:0.7.45:jar" level="project" />
     <orderEntry type="library" name="sbt: org.roaringbitmap:shims:0.7.45:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.scala-lang.modules:scala-java8-compat_2.11:0.8.0:jar" level="project" />
     <orderEntry type="library" name="sbt: org.scala-lang.modules:scala-parser-combinators_2.11:1.1.0:jar" level="project" />
     <orderEntry type="library" name="sbt: org.scala-lang.modules:scala-xml_2.11:1.0.6:jar" level="project" />
     <orderEntry type="library" name="sbt: org.scala-lang:scala-library:2.11.12:jar" level="project" />
     <orderEntry type="library" name="sbt: org.scala-lang:scala-reflect:2.11.12:jar" level="project" />
     <orderEntry type="library" name="sbt: org.scalanlp:breeze-macros_2.11:0.13.2:jar" level="project" />
     <orderEntry type="library" name="sbt: org.scalanlp:breeze_2.11:0.13.2:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.scalaz:scalaz-core_2.11:7.3.0:jar" level="project" />
     <orderEntry type="library" name="sbt: org.slf4j:jcl-over-slf4j:1.7.16:jar" level="project" />
     <orderEntry type="library" name="sbt: org.slf4j:jul-to-slf4j:1.7.16:jar" level="project" />
     <orderEntry type="library" name="sbt: org.slf4j:slf4j-api:1.7.25:jar" level="project" />

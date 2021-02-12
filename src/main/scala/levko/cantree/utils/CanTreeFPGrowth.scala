@@ -14,9 +14,7 @@ import org.apache.spark.storage.StorageLevel
 class CanTreeFPGrowth(
     private var minSupport: Double,
     private var minMinSupport: Long,
-    private var partitioner : HashPartitioner,
-    private var itemsCounter : Map[Int,Long] ,
-    private var totalItems : Long = 0L ) extends Logging with Serializable {
+    private var partitioner : HashPartitioner) extends Logging with Serializable {
 
   /**
    * Constructs a default instance with default parameters {minSupport: `0.3`, numPartitions: same
@@ -84,11 +82,10 @@ class CanTreeFPGrowth(
 //  }
 
   def genCanTrees[Item: ClassTag](data: RDD[Array[Item]],
-                                          sorterFunction: (Item,Item) => Boolean): RDD[(Int,CanTreeV1[Item])] = {
+                                          sorterFunction: (Item,Item) => Boolean, itemToRank : Map[Item,Long]  ): RDD[(Int,CanTreeV1[Item])] = {
 
 //    val freqItemsCount = genFreqItems(data, minCount, partitioner)
-    val freqItems = genFreqItems(data, partitioner).map(_._1)
-    val itemToRank = freqItems.zipWithIndex.toMap
+//    val itemToRank = freqItems.zipWithIndex.toMap
     data.flatMap { transaction =>
       genCondTransactions(transaction, itemToRank,sorterFunction, partitioner)
     }.aggregateByKey(new CanTreeV1[Item], partitioner.numPartitions)(
@@ -141,7 +138,7 @@ class CanTreeFPGrowth(
    */
   private def genCondTransactions[Item: ClassTag](
       transaction: Array[Item],
-      itemToRank: Map[Item, Int],
+      itemToRank: Map[Item, Long],
       sorterFunction: (Item,Item) => Boolean,
       partitioner: Partitioner): mutable.Map[Int, Array[Item]] = {
     val output = mutable.Map.empty[Int, Array[Item]]
@@ -156,7 +153,7 @@ class CanTreeFPGrowth(
       val item = sorted(i)
       val part = partitioner.getPartition(item)
       if (!output.contains(part)) {
-        output(part) = sorted.slice(0, i + 1).reverse
+        output(part) = sorted.slice(0, i + 1)
       }
       i -= 1
     }

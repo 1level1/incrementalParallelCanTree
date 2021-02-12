@@ -1,14 +1,12 @@
-import levko.cantree.utils.{CanTreeFPGrowth, CanTreeV1}
-import org.apache.spark.{HashPartitioner, Partitioner, SparkException}
-import org.apache.spark.sql.{DataFrame, SparkSession}
-import org.apache.spark.rdd.RDD
+import levko.cantree.utils.{CanTreeFPGrowth}
+import levko.cantree.utils.cantreeutils._
+import org.apache.spark.{HashPartitioner,SparkException}
+import org.apache.spark.sql.SparkSession
 import org.apache.spark.rdd.RDD._
 
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
-import org.apache.spark.sql.functions.{col, collect_list, min}
 
-import scala.reflect.ClassTag
 import org.apache.spark.sql.types.{IntegerType, StructField, StructType}
 import org.apache.log4j.Logger
 import org.apache.spark.mllib.fpm.FPGrowth
@@ -18,107 +16,9 @@ import scala.sys.exit
 
 object CanTreeMain {
   @transient lazy val log = Logger.getLogger(getClass.getName)
-  type Sorter[T] = (T, T) => Boolean
-  type StringSorter = Sorter[String]
-  type IntSorter = Sorter[Int]
-  def stringSorter : StringSorter = (s1,s2) => s1<s2
-  def intSorter : IntSorter = (i1,i2) => i1<i2
-
-  def customSorter(map: Map[Int, Long]): Sorter[Int] = { (i1, i2) =>
-    (map.get(i1), map.get(i2)) match {
-      case (Some(ic1), Some(ic2)) => ic1 < ic2
-      case(Some(ic1),_)           => false
-      case(_,Some(ic2))           => true
-      case _                      => i1 < i2
-    }
-  }
-
-  def iterateAndReportFPGrowth[Item:ClassTag](model : FPGrowth,
-                                              fileList : List[String],
-                                              spark : SparkSession,
-                                              schema: StructType) : Unit = {
-    import java.time.LocalDateTime
-    var df : DataFrame = prepareTransactions(fileList(0), spark, schema)
-    var transactions = df.rdd.map(t => t(1).asInstanceOf[mutable.WrappedArray[Item]].toArray)
-    var fisCount = model.run(transactions).freqItemsets.count()
-    log.info(LocalDateTime.now + "-iterateAndReportFPGrowth- Found " + fisCount + " at iteration number " + 0)
-    for (i <- fileList.indices) {
-      if (i!=0) {
-        val f = fileList(i)
-        df = df.union(prepareTransactions(f, spark, schema))
-        transactions = df.rdd.map(t => t(1).asInstanceOf[mutable.WrappedArray[Item]].toArray)
-        fisCount = model.run(transactions).freqItemsets.count()
-        log.info(LocalDateTime.now + "-iterateAndReportFPGrowth- Found " + fisCount + " at iteration number " + i)
-      }
-    }
-
-  }
-
-  def iterateAndReport[Item:ClassTag](model: CanTreeFPGrowth,
-                             fileList : List[String],
-                             spark : SparkSession,
-                             schema: StructType,
-                             minSupPercentage : Double,
-                             sorter: Sorter[Item],
-                             usecache :Boolean): Unit = {
-    import java.time.LocalDateTime
-    var totTransactions = 0L
-    var baseCanTreeRDD : RDD[(Int,CanTreeV1[Item])] = spark.sparkContext.emptyRDD
-    var iter = 0
-    for (f <- fileList) {
-      val dfGrouped = prepareTransactions(f,spark,schema)
-      val transactions = dfGrouped.rdd.map(t=>t(1).asInstanceOf[mutable.WrappedArray[Item]].toArray)
-      transactions.cache()
-      totTransactions += transactions.count()
-      val minSuppLong = math.ceil(totTransactions*minSupPercentage).toLong
-//      log.info(LocalDateTime.now + "-iterateAndReport- Finished reading transactions from: "+f+" ; new support count is: "+minSuppLong)
-      val canTrees = model.genCanTrees(transactions,sorter)
-      val nextCanTreeRDD = baseCanTreeRDD.fullOuterJoin(canTrees).map{
-        case (part,(Some(tree1),Some(tree2))) => (part,tree1.merge(tree2))
-        case (part,(Some(tree1),_)) => (part,tree1)
-        case (part,(_,Some(tree2))) => (part,tree2)
-      }
-      if (usecache) {
-        nextCanTreeRDD.persist()
-        baseCanTreeRDD.unpersist()
-      }
-//      baseCanTreeRDD.map{case (group,tree) => (group,tree.nodesNum)}.foreach{case (group,treeNodesCount) => log.info(LocalDateTime.now + " -iterateAndReport- iteration:"+iter+" - group "+ group+" tree size "+treeNodesCount)}
-      val fisCount =   model.run(nextCanTreeRDD,minSuppLong).map(fis => {
-        fis.items.size
-      }).count()
-      log.info(LocalDateTime.now + "-iterateAndReport- Found "+ fisCount+" at iteration number "+iter)
-      baseCanTreeRDD = nextCanTreeRDD
-      iter+=1
-    }
-  }
-
-  def prepareTransactions[Item](filePath: String, spark: SparkSession, customSchema : StructType):  DataFrame = {
-    val df = spark.read.format("csv").option("header", "false").schema(customSchema).load(filePath)
-    df.groupBy("InvoiceNo").agg(collect_list(col("StockCode")))
-  }
-
-  def getItemsCount[Item: ClassTag](data: RDD[Array[Item]]): RDD[(Item, Long)] = {
-    data.flatMap { t =>
-      val uniq = t.toSet
-      if (t.length != uniq.size) {
-        throw new SparkException(s"Items in a transaction must be unique but got ${t.toSeq}.")
-      }
-      t
-    }.map(v => (v, 1L))
-      .reduceByKey(_ + _)
-  }
-
-  def calcAllItemSets(filePath: List[String],spark: SparkSession, customSchema : StructType) : Map[Int,Long] = {
-    var res : RDD[(Int, Long)] = spark.sparkContext.emptyRDD
-    for (f<-filePath) {
-      val curr = prepareTransactions[Int](f,spark,customSchema)
-      res = res.union(getItemsCount[Int](curr.rdd.map(_.toSeq.toList))).reduceByKey(_ + _)
-    }
-    res.collect().toMap
-  }
 
   val usage = """
-    Usage: CanTreeMain [--num-partitions int] [--min-support double] [--in-file-list-path str] [--pfp 1] [--freq-sort 1]
+    Usage: CanTreeMain [--num-partitions int] [--min-support double] [--in-file-list-path str] [--pfp 1] [--freq-sort 1] [--song 1]
   """
   def main(args: Array[String]): Unit = {
 
@@ -138,6 +38,8 @@ object CanTreeMain {
           nextOption(map ++ Map('infilelistpath -> value), tail)
         case "--pfp" :: value :: tail =>
           nextOption(map ++ Map('pfp -> value.toInt), tail)
+        case "--song" :: value :: tail =>
+          nextOption(map ++ Map('song -> value.toInt), tail)
         case "--local" :: value :: tail =>
           nextOption(map ++ Map('local -> value.toInt), tail)
         case "--freq-sort" :: value :: tail =>
@@ -158,6 +60,7 @@ object CanTreeMain {
     val numPartitions = options.getOrElse('numpartitions,1).asInstanceOf[Int]
     val minSupport = options.getOrElse('minsupport,0.1).asInstanceOf[Double]
     val pfp = options.getOrElse('pfp,0).asInstanceOf[Int]
+    val song = options.getOrElse('song,0).asInstanceOf[Int]
     val local = options.getOrElse('local,0).asInstanceOf[Int]
     val freqsort = options.getOrElse('freqsort,0).asInstanceOf[Int]
     val appName = options.getOrElse('appname,"CAN_TREE_DEFAULT_APP").asInstanceOf[String]
@@ -206,9 +109,13 @@ object CanTreeMain {
           .reduceByKey(_ + _)
           .collect().toMap
         val customSort = customSorter(countMap)
-        iterateAndReport[Int](model, fileList.toList, spark, customSchema, minSupport, customSort,usecache)
+        if (song !=0) {
+          iterateAndReportSong[Int](model, fileList.toList, spark, customSchema, minSupport, customSort, partitioner)
+        } else {
+          iterateAndReport[Int](model, fileList.toList, spark, customSchema, minSupport, customSort, usecache, minminSupport)
+        }
       } else {
-        iterateAndReport[Int](model, fileList.toList, spark, customSchema, minSupport, intSorter,usecache)
+        iterateAndReport[Int](model, fileList.toList, spark, customSchema, minSupport, intSorter, usecache, minminSupport)
       }
     }
   }

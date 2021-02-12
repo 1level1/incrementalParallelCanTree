@@ -20,6 +20,7 @@ import org.apache.log4j.Logger
 
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
+import scala.collection.parallel.immutable
 
 /**
  * FP-Tree data structure used in FP-Growth.
@@ -57,7 +58,7 @@ class CanTreeV1[T] extends Serializable {
 
   /** Merges another FP-Tree. */
   def merge(other: CanTreeV1[T]): CanTreeV1[T] = {
-    other.transactions.foreach { case (t, c) =>
+    other.transactions(List.empty).foreach { case (t, c) =>
       add(t, c)
     }
     this
@@ -82,15 +83,22 @@ class CanTreeV1[T] extends Serializable {
   }
 
   /** Returns all transactions in an iterator. */
-  def transactions: Iterator[(List[T], Long)] = getTransactions(root)
+  def transactions(items : List[T] = List.empty): Iterator[(List[T], Long)] = getTransactions(root,items)
 
   /** Returns all transactions under this node. */
-  private def getTransactions(node: Node[T]): Iterator[(List[T], Long)] = {
+  private def getTransactions(node: Node[T],items : List[T]): Iterator[(List[T], Long)] = {
     var count = node.count
     node.children.iterator.flatMap { case (item, child) =>
-      getTransactions(child).map { case (t, c) =>
+      getTransactions(child,items).map { case (t, c) =>
         count -= c
-        (item :: t, c)
+        if (items.isEmpty)
+          (item :: t, c)
+        else {
+          if (items.contains(item))
+            (item :: t, c)
+          else
+            (t, c)
+        }
       }
     } ++ {
       if (count > 0) {
