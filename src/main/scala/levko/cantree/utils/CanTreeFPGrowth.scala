@@ -172,7 +172,7 @@ object CanTreeFPGrowth {
    */
   class FreqItemset[Item]  (
       val items: Array[Item],
-      val freq: Long) extends Serializable {
+      val freq: Long) extends Serializable  {
 
     /**
      * Returns items in a Java List.

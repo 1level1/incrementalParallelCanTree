@@ -48,18 +48,31 @@ class IncMiningPFP[T:ClassTag](var canTree : CanTreeV1[T]) extends Serializable 
     isMined=mine
   }
 
-  def calcFreqItems(freqItems: List[T],minCount : Long,validateSuffix: T => Boolean = _ => true) : Set[FreqItemset[T]] = {
+  def checkItemArrExists(fis : Set[FreqItemset[T]], item :List[T] , sorterFunction : Sorter[T]) : Boolean = {
+    fis.foreach { fi =>
+      if (fi.items.sortWith(sorterFunction).deep == item.sortWith(sorterFunction).toArray.deep)
+        return true
+    }
+    false
+  }
+  def calcFreqItems(freqItems: List[T],minCount : Long,validateSuffix: T => Boolean = _ => true, sorterFunction : Sorter[T]) : IncMiningPFP[T] = {
     if (isMined)
-      return freqItemsetSet
+      return this
     val incTree = getIncTree(freqItems)
     val freqItemsets = incTree.extract(minCount,validateSuffix)
     freqItemsets.foreach { case (ranks, count) =>
-      freqItemsetSet.add(new FreqItemset[T](ranks.toArray, count))
+      if (!checkItemArrExists(freqItemsetSet,ranks,sorterFunction))
+        freqItemsetSet.add(new FreqItemset[T](ranks.toArray, count))
     }
     isMined = true
+    this
+  }
+
+  def getFreqItems() : Set[FreqItemset[T]] = {
     freqItemsetSet
   }
-//  def getFrequentItems (minSupport:Long,  incCanTree:CanTreeV1[T],transactions: mutable.Map[Int, Array[T]]) :
+
+  //  def getFrequentItems (minSupport:Long,  incCanTree:CanTreeV1[T],transactions: mutable.Map[Int, Array[T]]) :
   def getIncTree (freqItems: List[T])  : CanTreeV1[T] = {
     val tree = new CanTreeV1[T]
     val transactions : Iterator[(List[T], Long)] = canTree.transactions(freqItems)

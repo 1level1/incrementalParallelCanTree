@@ -118,8 +118,10 @@ package object cantreeutils {
     val freqItemsList = itemFreq.filter(_._2 >= baseMinSuppLong).keys.toList
     /*.groupBy(partitioner.getPartition(_))*/
     var currIncMiningRDD = baseCanTrees.map { item => (item._1, new IncMiningPFP[Item](item._2)) }
-    val currIncData = currIncMiningRDD.map{item => (item._1,item._2.calcFreqItems(freqItemsList,baseMinSuppLong,x => partitioner.getPartition(x) == item._1))}
-    var fisCount = currIncData.map(_._2.size).sum().toLong
+    var currCalculatedIncTrees = currIncMiningRDD.map{item => (item._1,item._2.calcFreqItems(freqItemsList,baseMinSuppLong,x => partitioner.getPartition(x) == item._1,sorter))}
+    currCalculatedIncTrees.cache()
+    val currIncFreqItemsets = currCalculatedIncTrees.map{item => (item._1,item._2.getFreqItems())}
+    var fisCount = currIncFreqItemsets.map(_._2.size).sum().toLong
     log.info(LocalDateTime.now + "-iterateAndReport- Found "+ fisCount +" at iteration number 0")
     currIncMiningRDD.cache()
     for (i <- fileList.indices) {
@@ -140,15 +142,17 @@ package object cantreeutils {
 
 //        val incGroups = incItemFreq.keys.toList.groupBy(partitioner.getPartition(_))
         val incCanTrees = model.genCanTrees(transactions,sorter,itemFreq.toMap)
-        val nextIncTreeRDD = currIncMiningRDD.fullOuterJoin(incCanTrees).map{
+        val nextIncTreeRDD = currCalculatedIncTrees.fullOuterJoin(incCanTrees).map{
           case (part,(Some(incData1),Some(nextCanTree))) => (part,incData1.merge(nextCanTree))
           case (part,(Some(incData1),_)) => (part,incData1)
           case (part,(_,Some(nextCanTree))) => (part,new IncMiningPFP[Item](nextCanTree))
         }
         val nextFreqList = itemFreq.filter(_._2 >= nextMinSuppLong).keys.toList
-        val nextFreqItemSets = nextIncTreeRDD.map{item => (item._1,item._2.calcFreqItems(nextFreqList,baseMinSuppLong,x => partitioner.getPartition(x) == item._1))}
-        currIncMiningRDD = nextIncTreeRDD
-        currIncMiningRDD.cache()
+        currCalculatedIncTrees = nextIncTreeRDD.map{item => (item._1,item._2.calcFreqItems(nextFreqList,baseMinSuppLong,x => partitioner.getPartition(x) == item._1,sorter))}
+        currCalculatedIncTrees.cache()
+        val nextFreqItemSets = currCalculatedIncTrees.map{item => (item._1,item._2.getFreqItems())}
+//        currIncMiningRDD = nextIncTreeRDD
+//        currIncMiningRDD.cache()
         fisCount = nextFreqItemSets.map(_._2.size).sum().toLong
         log.info(LocalDateTime.now + "-iterateAndReport- Found "+ fisCount +" at iteration number "+i)
 
