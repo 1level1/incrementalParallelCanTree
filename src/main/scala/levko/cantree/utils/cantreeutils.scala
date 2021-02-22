@@ -148,7 +148,7 @@ package object cantreeutils {
           case (part,(_,Some(nextCanTree))) => (part,new IncMiningPFP[Item](nextCanTree))
         }
         val nextFreqList = itemFreq.filter(_._2 >= nextMinSuppLong).keys.toList
-        currCalculatedIncTrees = nextIncTreeRDD.map{item => (item._1,item._2.calcFreqItems(nextFreqList,baseMinSuppLong,x => partitioner.getPartition(x) == item._1,sorter))}
+        currCalculatedIncTrees = nextIncTreeRDD.map{item => (item._1,item._2.calcFreqItems(nextFreqList,nextMinSuppLong,x => partitioner.getPartition(x) == item._1,sorter))}
         currCalculatedIncTrees.cache()
         val nextFreqItemSets = currCalculatedIncTrees.map{item => (item._1,item._2.getFreqItems())}
 //        currIncMiningRDD = nextIncTreeRDD

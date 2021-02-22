@@ -25,7 +25,7 @@ class IncMiningPFP[T:ClassTag](var canTree : CanTreeV1[T]) extends Serializable 
 //  The new item, and the transaction where it appears, added to the tree where the new item is the 1st item in the tree (right under the root).
 
 
-  var freqItemsetSet : Set[FreqItemset[T]] = Set.empty
+  var freqItemsetSet : List[FreqItemset[T]] = List.empty
   var isMined : Boolean = false
   def addTransaction(t: Iterable[T], count: Long = 1L): Unit = {
     canTree.add(t,count)
@@ -48,27 +48,17 @@ class IncMiningPFP[T:ClassTag](var canTree : CanTreeV1[T]) extends Serializable 
     isMined=mine
   }
 
-  def checkItemArrExists(fis : Set[FreqItemset[T]], item :List[T] , sorterFunction : Sorter[T]) : Boolean = {
-    fis.foreach { fi =>
-      if (fi.items.sortWith(sorterFunction).deep == item.sortWith(sorterFunction).toArray.deep)
-        return true
-    }
-    false
-  }
   def calcFreqItems(freqItems: List[T],minCount : Long,validateSuffix: T => Boolean = _ => true, sorterFunction : Sorter[T]) : IncMiningPFP[T] = {
     if (isMined)
       return this
     val incTree = getIncTree(freqItems)
     val freqItemsets = incTree.extract(minCount,validateSuffix)
-    freqItemsets.foreach { case (ranks, count) =>
-      if (!checkItemArrExists(freqItemsetSet,ranks,sorterFunction))
-        freqItemsetSet.add(new FreqItemset[T](ranks.toArray, count))
-    }
+    freqItemsetSet = freqItemsets.map { case (ranks, count) => new FreqItemset[T](ranks.toArray, count)}.toList
     isMined = true
     this
   }
 
-  def getFreqItems() : Set[FreqItemset[T]] = {
+  def getFreqItems() : List[FreqItemset[T]] = {
     freqItemsetSet
   }
 

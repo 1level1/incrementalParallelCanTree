@@ -189,3 +189,8 @@ for i in range(0,20):
 
 
 spark-submit --class CanTreeMain --master local --driver-memory 8g --executor-memory 8g --num-executors 2 --executor-cores 3 --conf spark.driver.extraJavaOptions=-Dlog4j.configuration=file:src/main/resources/log4j_file.properties target/scala-2.11/cantree_2.11-0.1.jar --num-partitions 1 --min-support 0.1 --in-file-list-path /RG/rg-gudes/kulev/kosarak_20splits/filesList.txt --app-name kosarak_1_40_4_20g_0_1
+
+
+rsync -av -e 'ssh -o "Proxycommand ssh kulev@sheshet.cslab.openu.ac.il -W %h:%p"' target/scala-2.11/cantree_2.11-0.1.jar kulev@login.hpc.pub.lan:~/work/cantree/target/scala-2.11/cantree_2.11-0.1.jar
+
+ssh -L 18081:localhost:18080 kulev@sheshet.cslab.openu.ac.il
