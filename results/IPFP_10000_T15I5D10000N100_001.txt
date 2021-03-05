@@ -1,0 +1,35 @@
+2020-12-04T19:38:45.530-iterateAndReport- Finished reading transactions from: /RG/rg-gudes/kulev/T15I5D10000N100/baseDF.csv ; new support count is: 498430
+2020-12-04T19:57:12.768-iterateAndReport- Found 0 at iteration number 0
+2020-12-04T19:57:14.045-iterateAndReport- Finished reading transactions from: /RG/rg-gudes/kulev/T15I5D10000N100/0.csv ; new support count is: 503415
+2020-12-04T20:10:56.841-iterateAndReport- Found 0 at iteration number 1
+2020-12-04T20:10:58.431-iterateAndReport- Finished reading transactions from: /RG/rg-gudes/kulev/T15I5D10000N100/1.csv ; new support count is: 508399
+2020-12-04T20:20:36.083-iterateAndReport- Found 0 at iteration number 2
+2020-12-04T20:20:37.874-iterateAndReport- Finished reading transactions from: /RG/rg-gudes/kulev/T15I5D10000N100/2.csv ; new support count is: 513383
+2020-12-04T20:30:08.974-iterateAndReport- Found 0 at iteration number 3
+2020-12-04T20:30:10.404-iterateAndReport- Finished reading transactions from: /RG/rg-gudes/kulev/T15I5D10000N100/3.csv ; new support count is: 518368
+2020-12-04T20:39:35.122-iterateAndReport- Found 0 at iteration number 4
+2020-12-04T20:39:36.410-iterateAndReport- Finished reading transactions from: /RG/rg-gudes/kulev/T15I5D10000N100/4.csv ; new support count is: 523352
+2020-12-04T20:48:56.705-iterateAndReport- Found 0 at iteration number 5
+2020-12-04T20:48:57.829-iterateAndReport- Finished reading transactions from: /RG/rg-gudes/kulev/T15I5D10000N100/5.csv ; new support count is: 528336
+2020-12-04T20:58:31.507-iterateAndReport- Found 0 at iteration number 6
+2020-12-04T20:58:33.032-iterateAndReport- Finished reading transactions from: /RG/rg-gudes/kulev/T15I5D10000N100/6.csv ; new support count is: 533320
+2020-12-04T21:08:12.051-iterateAndReport- Found 0 at iteration number 7
+2020-12-04T21:08:13.289-iterateAndReport- Finished reading transactions from: /RG/rg-gudes/kulev/T15I5D10000N100/7.csv ; new support count is: 538305
+2020-12-04T21:17:51.387-iterateAndReport- Found 0 at iteration number 8
+2020-12-04T21:17:52.533-iterateAndReport- Finished reading transactions from: /RG/rg-gudes/kulev/T15I5D10000N100/8.csv ; new support count is: 543289
+2020-12-04T21:27:37.724-iterateAndReport- Found 0 at iteration number 9
+2020-12-04T21:27:39.098-iterateAndReport- Finished reading transactions from: /RG/rg-gudes/kulev/T15I5D10000N100/9.csv ; new support count is: 548273
+2020-12-04T21:37:17.242-iterateAndReport- Found 0 at iteration number 10
+2020-12-04T21:37:18.670-iterateAndReport- Finished reading transactions from: /RG/rg-gudes/kulev/T15I5D10000N100/10.csv ; new support count is: 553258
+2020-12-04T21:47:07.741-iterateAndReport- Found 0 at iteration number 11
+2020-12-04T21:47:09.071-iterateAndReport- Finished reading transactions from: /RG/rg-gudes/kulev/T15I5D10000N100/11.csv ; new support count is: 558242
+2020-12-04T21:57:06.612-iterateAndReport- Found 0 at iteration number 12
+2020-12-04T21:57:07.939-iterateAndReport- Finished reading transactions from: /RG/rg-gudes/kulev/T15I5D10000N100/12.csv ; new support count is: 563226
+2020-12-04T22:07:02.104-iterateAndReport- Found 0 at iteration number 13
+2020-12-04T22:07:03.494-iterateAndReport- Finished reading transactions from: /RG/rg-gudes/kulev/T15I5D10000N100/13.csv ; new support count is: 568211
+2020-12-04T22:16:58.985-iterateAndReport- Found 0 at iteration number 14
+2020-12-04T22:17:00.588-iterateAndReport- Finished reading transactions from: /RG/rg-gudes/kulev/T15I5D10000N100/14.csv ; new support count is: 573195
+2020-12-04T22:26:58.647-iterateAndReport- Found 0 at iteration number 15
+2020-12-04T22:27:00.116-iterateAndReport- Finished reading transactions from: /RG/rg-gudes/kulev/T15I5D10000N100/15.csv ; new support count is: 578179
+2020-12-04T22:37:11.461-iterateAndReport- Found 0 at iteration number 16
+2020-12-04T22:37:12.991-iterateAndReport- Finished reading transactions from: /RG/rg-gudes/kulev/T15I5D10000N100/16.csv ; new support count is: 583163
