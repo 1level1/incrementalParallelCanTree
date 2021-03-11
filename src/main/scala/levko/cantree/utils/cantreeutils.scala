@@ -5,11 +5,14 @@ import org.apache.spark.{Partitioner, SparkException}
 import org.apache.spark.mllib.fpm.FPGrowth
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.{DataFrame, SparkSession}
-import org.apache.spark.sql.functions.{col, collect_list}
+import org.apache.spark.sql.functions.{col, collect_list, max}
 import org.apache.spark.sql.types.StructType
+import levko.cantree.utils.CanTreeFPGrowth.FreqItemset
 
 import scala.collection.mutable
 import scala.reflect.ClassTag
+import util.control.Breaks._
+
 
 package object cantreeutils {
   type Sorter[T] = (T, T) => Boolean
@@ -22,9 +25,9 @@ package object cantreeutils {
 
   def customSorter(map: Map[Int, Long]): Sorter[Int] = { (i1, i2) =>
     (map.get(i1), map.get(i2)) match {
-      case (Some(ic1), Some(ic2)) => ic1 < ic2
-      case(Some(ic1),_)           => false
-      case(_,Some(ic2))           => true
+      case (Some(ic1), Some(ic2)) => ic1 > ic2
+      case(Some(ic1),_)           => true
+      case(_,Some(ic2))           => false
       case _                      => i1 < i2
     }
   }
@@ -89,8 +92,115 @@ package object cantreeutils {
       }
       //      baseCanTreeRDD.map{case (group,tree) => (group,tree.nodesNum)}.foreach{case (group,treeNodesCount) => log.info(LocalDateTime.now + " -iterateAndReport- iteration:"+iter+" - group "+ group+" tree size "+treeNodesCount)}
       val fisCount =   model.run(nextCanTreeRDD,minSuppLong).count()
-      log.info(LocalDateTime.now + "-iterateAndReport- Found "+ fisCount+" at iteration number "+iter)
+      val treeSize = nextCanTreeRDD.map(part => part._2.nodesNum)
+      treeSize.cache()
+      val maxTreeSize = treeSize.max()
+      val minTreeSize = treeSize.min()
+      val meanTreeSize = treeSize.mean()
+      val partitionsNum = model.getPartition().numPartitions
+      log.info(LocalDateTime.now + "-iterateAndReport- Found "+ fisCount+" at iteration number "+iter + " ("+minTreeSize+","+meanTreeSize+","+maxTreeSize+") Partitions: "+partitionsNum)
+//      log.info(LocalDateTime.now + "-iterateAndReport- Found "+ fisCount+" at iteration number "+iter)
       baseCanTreeRDD = nextCanTreeRDD
+      iter+=1
+    }
+  }
+
+
+  def getAllTransactions[Item:ClassTag](fileList : List[String], lastFile : String,spark : SparkSession,schema: StructType) : RDD[Array[Item]] = {
+    var transactions : RDD[Array[Item]] = spark.sparkContext.emptyRDD
+    var res : RDD[Array[Item]] = transactions
+    if (!fileList.contains(lastFile)) {
+      res = transactions
+    } else {
+      breakable {
+        for (f <- fileList) {
+          val dfGrouped = prepareTransactions(f, spark, schema)
+          val nextTransactions = dfGrouped.rdd.map(t => t(1).asInstanceOf[mutable.WrappedArray[Item]].toArray)
+          transactions = transactions.union(nextTransactions)
+          transactions.cache()
+          if (f == lastFile) {
+            res = transactions
+            break
+          }
+        }
+      }
+    }
+    res
+  }
+
+  def repartitionTransactions[Item:ClassTag](fileList : List[String],
+                                             lastFile : String,
+                                             spark : SparkSession,
+                                             schema: StructType,
+                                             model: CanTreeFPGrowth,
+                                             fis:RDD[FreqItemset[Item]],
+                                             freqItems : mutable.HashMap[Item,Long],
+                                             sorterFunction : Sorter[Item]) :  RDD[(Int, CanTreeV1[Item])] = {
+    val freqItemset = fis.collect().map(fi => fi.items.toSet)
+    val minCoverGroups = greedySetCoverAlgo(freqItems.keySet.toList,freqItemset.toList)
+    val newPartition : CanTreePartitioner[Item] = new CanTreePartitioner[Item](minCoverGroups.size,minCoverGroups)
+    model.setPartitioner(newPartition)
+    val transactions = getAllTransactions(fileList,lastFile,spark,schema)
+    val canTrees = model.genCanTrees(transactions,sorterFunction,freqItems.toMap)
+    canTrees
+  }
+
+  def iterateAndReportSetCover[Item:ClassTag](model: CanTreeFPGrowth,
+                                      fileList : List[String],
+                                      spark : SparkSession,
+                                      schema: StructType,
+                                      minSupPercentage : Double,
+                                      sorter: Sorter[Item],
+                                      usecache :Boolean,
+                                      minMinSup : Double,
+                                      repartitionIdx:Int = 5): Unit = {
+    import java.time.LocalDateTime
+    var totTransactions = 0L
+    var baseCanTreeRDD : RDD[(Int,CanTreeV1[Item])] = spark.sparkContext.emptyRDD
+    var iter = 0
+    var freqItems : mutable.HashMap[Item,Long] = mutable.HashMap.empty
+    for (f <- fileList) {
+      val dfGrouped = prepareTransactions(f,spark,schema)
+      val transactions = dfGrouped.rdd.map(t=>t(1).asInstanceOf[mutable.WrappedArray[Item]].toArray)
+      transactions.cache()
+      totTransactions += transactions.count()
+      val minSuppLong = math.ceil(totTransactions*minSupPercentage).toLong
+      val minMinSupLong = (minSuppLong*minMinSup).toLong
+      //      log.info(LocalDateTime.now + "-iterateAndReport- Finished reading transactions from: "+f+" ; new support count is: "+minSuppLong)
+      val currFreq = getItemsCount(transactions).filter(_._2 >= minMinSupLong).collect().toMap
+      for ((k,v)<-currFreq) {
+        if (freqItems.contains(k))
+          freqItems(k)+=v
+        else
+          freqItems.put(k,v)
+      }
+      val canTrees = model.genCanTrees(transactions,sorter,freqItems.toMap)
+      val nextCanTreeRDD = baseCanTreeRDD.fullOuterJoin(canTrees).map{
+        case (part,(Some(tree1),Some(tree2))) => (part,tree1.merge(tree2))
+        case (part,(Some(tree1),_)) => (part,tree1)
+        case (part,(_,Some(tree2))) => (part,tree2)
+      }
+      if (usecache) {
+        nextCanTreeRDD.persist()
+        baseCanTreeRDD.unpersist()
+      }
+      //      baseCanTreeRDD.map{case (group,tree) => (group,tree.nodesNum)}.foreach{case (group,treeNodesCount) => log.info(LocalDateTime.now + " -iterateAndReport- iteration:"+iter+" - group "+ group+" tree size "+treeNodesCount)}
+      val fis =   model.run(nextCanTreeRDD,minSuppLong)
+      fis.cache()
+      val fisCount = fis.count()
+      val treeSize = nextCanTreeRDD.map(part => part._2.nodesNum)
+      treeSize.cache()
+      val maxTreeSize = treeSize.max()
+      val minTreeSize = treeSize.min()
+      val meanTreeSize = treeSize.mean()
+      val partitionsNum = model.getPartition().numPartitions
+      log.info(LocalDateTime.now + "-iterateAndReport- Found "+ fisCount+" at iteration number "+iter + " ("+minTreeSize+","+meanTreeSize+","+maxTreeSize+") Partitions: "+partitionsNum)
+      if (iter!=0 && iter%repartitionIdx == 0) {
+        baseCanTreeRDD = repartitionTransactions(fileList,f,spark,schema,model,fis,freqItems,sorter)
+        log.info(LocalDateTime.now + "-iterateSetCover- Finished repartition")
+      } else {
+        baseCanTreeRDD = nextCanTreeRDD
+      }
       iter+=1
     }
   }
@@ -154,9 +264,14 @@ package object cantreeutils {
 //        currIncMiningRDD = nextIncTreeRDD
 //        currIncMiningRDD.cache()
         fisCount = nextFreqItemSets.map(_._2.size).sum().toLong
-        log.info(LocalDateTime.now + "-iterateAndReport- Found "+ fisCount +" at iteration number "+i)
-
-        //      log.info(LocalDateTime.now + "-iterateAndReport- Finished reading transactions from: "+f+" ; new support count is: "+minSuppLong)
+        val treeSize = currCalculatedIncTrees.map(part => part._2.canTree.nodesNum)
+        treeSize.cache()
+        val maxTreeSize = treeSize.max()
+        val minTreeSize = treeSize.min()
+        val meanTreeSize = treeSize.mean()
+        val partitionsNum = model.getPartition().numPartitions
+        log.info(LocalDateTime.now + "-iterateAndReport- Found "+ fisCount+" at iteration number "+i + " ("+minTreeSize+","+meanTreeSize+","+maxTreeSize+") Partitions: "+partitionsNum)
+//        log.info(LocalDateTime.now + "-iterateAndReport- Found "+ fisCount +" at iteration number "+i)
       }
     }
   }
@@ -172,5 +287,36 @@ package object cantreeutils {
       .reduceByKey(_ + _)
   }
 
+  private def calcMaxSubSet[Item: ClassTag](items : Set[Item], subsets: List[Set[Item]]): Set[Item] = {
+    var ret : Set[Item] = Set.empty
+    var maxItemsCnt = 0
+    subsets.foreach{subset =>
+      var cnt = subset.intersect(items).size
+//      subset.foreach{i =>
+//        if (items.contains(i))
+//          cnt+=1
+//      }
+      if (cnt>maxItemsCnt) {
+        ret = subset
+        maxItemsCnt = cnt
+      }
+    }
+    ret
+  }
+
+  def greedySetCoverAlgo[Item: ClassTag](items : List[Item], subsets: List[Set[Item]]): List[Set[Item]] = {
+    var retList : List[Set[Item]] = List.empty
+    var coveredItems : List[Item] = List.empty
+    var remainingSubsets = subsets
+    while (coveredItems.size != items.size) {
+      val maxSubSet = calcMaxSubSet((items diff coveredItems).toSet,subsets)
+      if (maxSubSet.size==0)
+        return retList
+      retList =  maxSubSet :: retList
+      remainingSubsets = remainingSubsets diff List(maxSubSet)
+      coveredItems = (coveredItems ++ maxSubSet).distinct
+    }
+    retList
+  }
 
 }

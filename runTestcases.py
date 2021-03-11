@@ -25,7 +25,7 @@ def prepareLogFile(logFilePath,errorFilePath,outputFilePath):
         of.write(solved)
     return
 
-def runJob(fileListPath,master,driverMemory,executorMemory,numExecutors,minSupport,numPartitions,cores,log4jFilePath,log4jExecPath,appname,isMinMin=0,isPFP=False,isFreq=False):
+def runJob(fileListPath,master,driverMemory,executorMemory,numExecutors,minSupport,numPartitions,cores,log4jFilePath,log4jExecPath,appname,isMinMin=0,isPFP=False,isFreq=False,isSong=False,setcover=0):
     prefixcmd = 'spark-submit --class \"CanTreeMain\" ' \
           '--master {master} '\
           '--driver-memory {driverMemory} ' \
@@ -51,8 +51,12 @@ def runJob(fileListPath,master,driverMemory,executorMemory,numExecutors,minSuppo
         postcmd += ' --pfp 1'
     if isFreq:
         postcmd += ' --freq-sort 1'
+    if isSong:
+        postcmd += ' --song 1'
     if isMinMin>0:
-        postcmd += ' --min-min-support '+isMinMin
+        postcmd += ' --min-min-support '+str(isMinMin)
+    if setcover>0:
+        postcmd += ' --set-cover '+str(setcover)
     cmdList = shlex.split(prefixcmd)
     cmdList.append(jarFile)
     cmdList+=(shlex.split(postcmd))
@@ -64,10 +68,21 @@ def runJob(fileListPath,master,driverMemory,executorMemory,numExecutors,minSuppo
         print(e.output)
 
 
-def runTests(outputDir,log4jBaseDir,master,testFilePath,testCaseName,isFreq=False,minMinSup=0,pfp=False):
-    minSupport = [0.0001]
-    coresExecutorMemNums = [(20,7,'80g')]
-    partitions = [1000]
+def runTests(outputDir,
+             log4jBaseDir,
+             master,
+             testFilePath,
+             testCaseName,
+             isFreq=False,
+             minMinSup=0,
+             pfp=False,
+             song=False,
+             setcover=0,
+             minSupport = [0.001]
+             ,coresExecutorMemNums = [(40,4,'20g')],
+             partitions = [1000]
+             ):
+    # minSupport = [0.001]
     log4jPath = 'src/main/resources/log4j_file.properties'
     log4jExecPath = 'src/main/resources/log4j_file_executor.properties'
     testCaseFiles = [(testFilePath,testCaseName)]
@@ -84,6 +99,10 @@ def runTests(outputDir,log4jBaseDir,master,testFilePath,testCaseName,isFreq=Fals
                         testname = "MINMIN_"+testname
                     if pfp:
                         testname = "PFP_"+testname
+                    if song:
+                        testname = "SONG_"+testname
+                    if setcover>0:
+                        testname = "SETCOVER_"+testname
                     log4jErrorFileName = os.path.join(outputDir,testname+'_error.txt')
                     execLog4jErrorFileName = os.path.join(outputDir,testname+'_error_exec.txt')
                     log4jFileName = os.path.join(outputDir,testname+'.txt')
@@ -92,6 +111,10 @@ def runTests(outputDir,log4jBaseDir,master,testFilePath,testCaseName,isFreq=Fals
                     prepareLogFile(execLog4jFileName,execLog4jErrorFileName,os.path.join(log4jBaseDir,log4jExecPath))
                     if pfp:
                         runJob(testFile,master,mem,mem,execNums,supp,partition,cores,log4jPath,log4jExecPath,testname,minMinSup,True,isFreq)
+                    elif song:
+                        runJob(testFile,master,mem,mem,execNums,supp,partition,cores,log4jPath,log4jExecPath,testname,minMinSup,False,False,song)
+                    elif setcover>0:
+                        runJob(testFile,master,mem,mem,execNums,supp,partition,cores,log4jPath,log4jExecPath,testname,minMinSup,False,isFreq,False,setcover)
                     else:
                         runJob(testFile,master,mem,mem,execNums,supp,partition,cores,log4jPath,log4jExecPath,testname,minMinSup,False,isFreq)
 
@@ -104,10 +127,12 @@ if __name__ == "__main__":
     parser.add_argument('--testname', dest='testname', help='master host')
     parser.add_argument('--freq', dest='freq', help='master host')
     parser.add_argument('--minmin', dest='minmin', help='Use frequency order')
-    parser.add_argument('--pfp', dest='pfp', help='Use frequency order')
+    parser.add_argument('--pfp', dest='pfp', help='run regular pfp')
+    parser.add_argument('--set-cover', dest='setcover', help='run using set cover technique')
+    parser.add_argument('--song', dest='song', help='run song test case')
     # outputDir,log4jBaseDir,master
     args = parser.parse_args()
-    runTests(args.outputdir,args.log4jBaseDir,args.master,args.testpath,args.testname,args.freq,args.minmin,args.pfp)
+    runTests(args.outputdir,args.log4jBaseDir,args.master,args.testpath,args.testname,args.freq,args.minmin,args.pfp,args.song,args.setcover)
 
 
 

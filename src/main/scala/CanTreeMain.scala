@@ -50,6 +50,8 @@ object CanTreeMain {
           nextOption(map ++ Map('usecache -> value.toBoolean), tail)
         case "--min-min-support" :: value :: tail =>
           nextOption(map ++ Map('minminSupport -> value.toDouble), tail)
+        case "--set-cover" :: value :: tail =>
+          nextOption(map ++ Map('setCover -> value.toInt), tail)
         case option :: tail => println("Unknown option "+option)
           exit(1)
       }
@@ -66,6 +68,7 @@ object CanTreeMain {
     val appName = options.getOrElse('appname,"CAN_TREE_DEFAULT_APP").asInstanceOf[String]
     val usecache = options.getOrElse('usecache,true).asInstanceOf[Boolean]
     val minminSupport = options.getOrElse('minminSupport,0.001).asInstanceOf[Double]
+    val setCover = options.getOrElse('setCover,0).asInstanceOf[Int]
 
     val spark = if (local==1)
       SparkSession.builder.master("local").appName(appName).getOrCreate()
@@ -111,6 +114,8 @@ object CanTreeMain {
         val customSort = customSorter(countMap)
         if (song !=0) {
           iterateAndReportSong[Int](model, fileList.toList, spark, customSchema, minSupport, customSort, partitioner)
+        } else if (setCover>0) {
+          iterateAndReportSetCover(model, fileList.toList, spark, customSchema, minSupport, customSort, usecache, minminSupport,setCover)
         } else {
           iterateAndReport[Int](model, fileList.toList, spark, customSchema, minSupport, customSort, usecache, minminSupport)
         }

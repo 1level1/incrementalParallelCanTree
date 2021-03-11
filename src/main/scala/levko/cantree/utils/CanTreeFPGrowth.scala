@@ -49,14 +49,9 @@ class CanTreeFPGrowth(
     this.partitioner = partitioner
     this
   }
-
-  def addDelta[Item: ClassTag](data: RDD[Array[Item]],
-                               sorterFunction: (Item,Item) => Boolean) {
-    if (data.getStorageLevel == StorageLevel.NONE) {
-      logWarning ("Input data is not cached.")
-    }
+  def getPartition(): HashPartitioner = {
+    this.partitioner
   }
-
   /**
    * Computes an FP-Growth model that contains frequent itemsets.
    * @param canTrees generated CanTrees
