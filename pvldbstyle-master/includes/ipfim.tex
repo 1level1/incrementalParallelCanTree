@@ -1,11 +1,14 @@
 \section{IPFIM - Incremental Parallel Frequent Itemsets Mining}
 The implementation of this algorithm strongly depends on PFP~\cite{li2008pfp}. To support incremental tree updates, we are using a predefined comparison function to arrange the items insertion order, as used in CanTree~\cite{leung2005cantree}.
-
+[TODO]
+Do same as in PFP
+\subsection{IPFIM Outline}
+\begin{steps}
+	\item Sharding:
+	\end{steps}
 \subsection{IPFIM structure}
 \begin{steps}
-	\item Define a comparison function for items: 
-	
-	compare(item1,item2)->bool
+	\item Define a comparison function for items: compare(item1,item2)->bool
 	\item For each set of transactions in iteration:
 		\begin{enumerate}
 			\item For each Ti in current set of transaction, order by pre defined compare function.

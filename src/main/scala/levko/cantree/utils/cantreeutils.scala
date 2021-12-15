@@ -135,10 +135,11 @@ package object cantreeutils {
                                              model: CanTreeFPGrowth,
                                              fis:RDD[FreqItemset[Item]],
                                              freqItems : mutable.HashMap[Item,Long],
-                                             sorterFunction : Sorter[Item]) :  RDD[(Int, CanTreeV1[Item])] = {
+                                             sorterFunction : Sorter[Item],
+                                             partitions: Int) :  RDD[(Int, CanTreeV1[Item])] = {
     val freqItemset = fis.collect().map(fi => fi.items.toSet)
     val minCoverGroups = greedySetCoverAlgo(freqItems.keySet.toList,freqItemset.toList)
-    val newPartition : CanTreePartitioner[Item] = new CanTreePartitioner[Item](minCoverGroups.size,minCoverGroups)
+    val newPartition : CanTreePartitioner[Item] = new CanTreePartitioner[Item](partitions,minCoverGroups)
     model.setPartitioner(newPartition)
     val transactions = getAllTransactions(fileList,lastFile,spark,schema)
     val canTrees = model.genCanTrees(transactions,sorterFunction,freqItems.toMap)
@@ -153,6 +154,7 @@ package object cantreeutils {
                                       sorter: Sorter[Item],
                                       usecache :Boolean,
                                       minMinSup : Double,
+                                      numberOfPartitioner: Int,
                                       repartitionIdx:Int = 5): Unit = {
     import java.time.LocalDateTime
     var totTransactions = 0L
@@ -196,7 +198,8 @@ package object cantreeutils {
       val partitionsNum = model.getPartition().numPartitions
       log.info(LocalDateTime.now + "-iterateAndReport- Found "+ fisCount+" at iteration number "+iter + " ("+minTreeSize+","+meanTreeSize+","+maxTreeSize+") Partitions: "+partitionsNum)
       if (iter!=0 && iter%repartitionIdx == 0) {
-        baseCanTreeRDD = repartitionTransactions(fileList,f,spark,schema,model,fis,freqItems,sorter)
+        baseCanTreeRDD = repartitionTransactions(fileList,f,spark,schema,model,fis,freqItems,sorter,numberOfPartitioner)
+        baseCanTreeRDD.cache()
         log.info(LocalDateTime.now + "-iterateSetCover- Finished repartition")
       } else {
         baseCanTreeRDD = nextCanTreeRDD

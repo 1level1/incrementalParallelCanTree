@@ -194,3 +194,26 @@ spark-submit --class CanTreeMain --master local --driver-memory 8g --executor-me
 rsync -av -e 'ssh -o "Proxycommand ssh kulev@sheshet.cslab.openu.ac.il -W %h:%p"' target/scala-2.11/cantree_2.11-0.1.jar kulev@login.hpc.pub.lan:~/work/cantree/target/scala-2.11/cantree_2.11-0.1.jar
 
 ssh -L 18081:localhost:18080 kulev@sheshet.cslab.openu.ac.il
+
+
+var itemsHash : mutable.HashMap[Item,Int] = mutable.HashMap.empty
+for (i in 0 to 1000)
+    itemHash(i)=i
+
+def runRand(itemsHash : mutable.HashMap[Int,Int]) : Unit = {
+    val r = scala.util.Random
+    1 to 100000 foreach( i => {
+        val item : Int = i.asInstanceOf[Int]
+        itemsHash(item)
+        }
+    )
+}
+
+def runRandIm[Item:ClassTag](itemsHash : immutable.Map[Item,Int]) : Unit = {
+    val r = scala.util.Random
+    0 to 100000 foreach( i => itemsHash(r.nextInt(100000)))
+}
+
+
+var subs : List[Set[Int]] = List.empty
+itemsHash.map( i => Set(i._1) ::subs )

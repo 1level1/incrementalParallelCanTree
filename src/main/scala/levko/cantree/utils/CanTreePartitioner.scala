@@ -3,6 +3,7 @@ package levko.cantree.utils
 import org.apache.spark.{HashPartitioner, Partitioner}
 
 import scala.collection.mutable
+import scala.collection.immutable
 import scala.reflect.ClassTag
 
 class CanTreePartitioner[Item : ClassTag](numberOfPartitioner: Int) extends HashPartitioner(numberOfPartitioner) {
@@ -10,7 +11,7 @@ class CanTreePartitioner[Item : ClassTag](numberOfPartitioner: Int) extends Hash
   override def numPartitions: Int = numberOfPartitioner
   private val r = scala.util.Random
   var numOfPartitions : Int = 0
-  var itemsHash : mutable.HashMap[Item,Int] = mutable.HashMap.empty
+  var itemsHash : mutable.HashMap[Int,Int] = mutable.HashMap.empty
 
   r.setSeed(1000L)
 
@@ -20,22 +21,15 @@ class CanTreePartitioner[Item : ClassTag](numberOfPartitioner: Int) extends Hash
     var i = 0
     itemsMap.foreach( itemsGroup => {
       itemsGroup.foreach(item => {
-          if (!this.itemsHash.contains(item))
-            this.itemsHash(item) = i
+          if (!itemsHash.contains(item.hashCode()))
+            itemsHash(item.hashCode()) = i
         }
       )
-      i+=1
+      i = (i+1)%numOfPartitions
     })
   }
   override def getPartition(key: Any): Int = {
-    val item : Item = key.asInstanceOf[Item]
-    if (this.itemsHash.contains(item)) {
-      return this.itemsHash(item)
-    }
-    else {
-      // Return next group
-      return (this.numOfPartitions)
-    }
+    this.itemsHash.getOrElse(key.hashCode(),this.numOfPartitions)
   }
 
   // Java equals method to let Spark compare our Partitioner objects

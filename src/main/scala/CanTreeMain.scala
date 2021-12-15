@@ -115,7 +115,7 @@ object CanTreeMain {
         if (song !=0) {
           iterateAndReportSong[Int](model, fileList.toList, spark, customSchema, minSupport, customSort, partitioner)
         } else if (setCover>0) {
-          iterateAndReportSetCover(model, fileList.toList, spark, customSchema, minSupport, customSort, usecache, minminSupport,setCover)
+          iterateAndReportSetCover(model, fileList.toList, spark, customSchema, minSupport, customSort, usecache, minminSupport,numPartitions,setCover)
         } else {
           iterateAndReport[Int](model, fileList.toList, spark, customSchema, minSupport, customSort, usecache, minminSupport)
         }
