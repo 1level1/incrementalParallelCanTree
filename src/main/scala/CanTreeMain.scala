@@ -1,12 +1,11 @@
-import levko.cantree.utils.{CanTreeFPGrowth}
+import levko.cantree.utils.{CanTreeFPGrowth, PFPGrowth}
 import levko.cantree.utils.cantreeutils._
-import org.apache.spark.{HashPartitioner,SparkException}
+import org.apache.spark.{HashPartitioner, SparkException}
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.rdd.RDD._
 
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
-
 import org.apache.spark.sql.types.{IntegerType, StructField, StructType}
 import org.apache.log4j.Logger
 import org.apache.spark.mllib.fpm.FPGrowth
@@ -52,6 +51,8 @@ object CanTreeMain {
           nextOption(map ++ Map('minminSupport -> value.toDouble), tail)
         case "--set-cover" :: value :: tail =>
           nextOption(map ++ Map('setCover -> value.toInt), tail)
+        case "--collect-statistics" ::  value :: tail =>
+          nextOption(map ++ Map('collectStatistics -> value.toBoolean), tail)
         case option :: tail => println("Unknown option "+option)
           exit(1)
       }
@@ -69,6 +70,7 @@ object CanTreeMain {
     val usecache = options.getOrElse('usecache,true).asInstanceOf[Boolean]
     val minminSupport = options.getOrElse('minminSupport,0.001).asInstanceOf[Double]
     val setCover = options.getOrElse('setCover,0).asInstanceOf[Int]
+    val collectStatistics = options.getOrElse('collectStatistics,true).asInstanceOf[Boolean]
 
     val spark = if (local==1)
       SparkSession.builder.master("local").appName(appName).getOrCreate()
@@ -92,9 +94,10 @@ object CanTreeMain {
     }
     val partitioner : HashPartitioner = new HashPartitioner(numPartitions)
     if (pfp!=0) {
-      val fpModel = new FPGrowth()
+      val fpModel = new PFPGrowth()
         .setMinSupport(minSupport)
         .setNumPartitions(partitioner.numPartitions)
+      fpModel.setCollectStatistics(collectStatistics)
       iterateAndReportFPGrowth(fpModel,fileList.toList,spark,customSchema)
     } else {
       val dfGrouped = prepareTransactions(fileList(0),spark,customSchema)
@@ -113,14 +116,14 @@ object CanTreeMain {
           .collect().toMap
         val customSort = customSorter(countMap)
         if (song !=0) {
-          iterateAndReportSong[Int](model, fileList.toList, spark, customSchema, minSupport, customSort, partitioner)
+          iterateAndReportSong[Int](model, fileList.toList, spark, customSchema, minSupport, customSort, partitioner,collectStatistics)
         } else if (setCover>0) {
-          iterateAndReportSetCover(model, fileList.toList, spark, customSchema, minSupport, customSort, usecache, minminSupport,numPartitions,setCover)
+          iterateAndReportSetCover(model, fileList.toList, spark, customSchema, minSupport, customSort, usecache, minminSupport,numPartitions,setCover,collectStatistics)
         } else {
-          iterateAndReport[Int](model, fileList.toList, spark, customSchema, minSupport, customSort, usecache, minminSupport)
+          iterateAndReport[Int](model, fileList.toList, spark, customSchema, minSupport, customSort, usecache, minminSupport,collectStatistics)
         }
       } else {
-        iterateAndReport[Int](model, fileList.toList, spark, customSchema, minSupport, intSorter, usecache, minminSupport)
+        iterateAndReport[Int](model, fileList.toList, spark, customSchema, minSupport, intSorter, usecache, minminSupport,collectStatistics)
       }
     }
   }

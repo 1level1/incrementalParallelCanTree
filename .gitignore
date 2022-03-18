@@ -30,4 +30,5 @@ target*
 log.spark
 error.log
 
+*.pyc
 *.DS_Store

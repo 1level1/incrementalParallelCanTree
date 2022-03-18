@@ -148,12 +148,12 @@ def createIterationFiles(fileName : String,iterNum : Int,outputdir : String) : U
 	val boundaries = df.agg(min("InvoiceNo"),max("InvoiceNo"))
 	val maxRow = df.agg(max("InvoiceNo")).take(1)(0).getInt(0)
 	val mid = math.floor(0.5*maxRow)
-	df.filter(df("InvoiceNo") < mid).write.csv(outputdir+"baseDF.csv")
+	df.filter(df("InvoiceNo") < mid).coalesce(1).write.csv(outputdir+"baseDF.csv")
 	val iterSize = math.ceil(mid/iterNum).toInt
 	for (i <- 0 to iterNum-1) {
 		val currStart = mid+i*iterSize
 		val currEnd = mid+(i+1)*iterSize
-		df.filter(df("InvoiceNo")>=currStart && df("InvoiceNo") < currEnd).write.csv(outputdir+i+".csv")
+		df.filter(df("InvoiceNo")>=currStart && df("InvoiceNo") < currEnd).coalesce(1).write.csv(outputdir+i+".csv")
 	}
 }
 
@@ -217,3 +217,8 @@ def runRandIm[Item:ClassTag](itemsHash : immutable.Map[Item,Int]) : Unit = {
 
 var subs : List[Set[Int]] = List.empty
 itemsHash.map( i => Set(i._1) ::subs )
+
+
+
+
+ssh -L 5901:localhost:5901 -J kulev@sheshet.cslab.openu.ac.il kulev@login

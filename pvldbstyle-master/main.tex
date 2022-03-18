@@ -3,6 +3,8 @@
 % The ACM Latex guide provides further information about the ACM template
 
 \documentclass[sigconf, nonacm]{acmart}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
 %% The following content must be adapted for the final version
 % paper-specific
 \newcommand\vldbdoi{XX.XX/XXX.XX}
@@ -17,7 +19,15 @@
 % leave empty if no availability url should be set
 \newcommand\vldbavailabilityurl{http://vldb.org/pvldb/format_vol14.html}
 % whether page numbers should be shown or not, use 'plain' for review versions, 'empty' for camera ready
+\usepackage{amsmath}
 \newcommand\vldbpagestyle{plain} 
+\algnewcommand\algorithmicforeach{\textbf{for each}}
+\algdef{S}[FOR]{ForEach}[1]{\algorithmicforeach\ #1\ \algorithmicdo}
+\usepackage{hyperref}
+\newcommand{\algorithmautorefname}{Algorithm}
+\let\origref\autoref
+\def\autoref#1{\textbf{\origref{#1}}}
+
 
 \input{includes/stepstemplates}
 \begin{document}
@@ -36,7 +46,7 @@
 }
 \email{lev.kuznets@gmail.com}
 
-\author{Ehud Gudes}
+\author{Prof. Ehud Gudes}
 \orcid{0000-0002-1825-0097}
 \affiliation{%
   \institution{The Open University of Israel}

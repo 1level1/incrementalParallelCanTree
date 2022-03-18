@@ -25,28 +25,28 @@ def prepareLogFile(logFilePath,errorFilePath,outputFilePath):
         of.write(solved)
     return
 
-def runJob(fileListPath,master,driverMemory,executorMemory,numExecutors,minSupport,numPartitions,cores,log4jFilePath,log4jExecPath,appname,isMinMin=0,isPFP=False,isFreq=False,isSong=False,setcover=0):
+def runJob(fileListPath,master,driverMemory,executorMemory,numExecutors,minSupport,numPartitions,cores,log4jFilePath,log4jExecPath,appname,isMinMin=0,isPFP=False,isFreq=False,isSong=False,setcover=0,collectStatistics=True):
     prefixcmd = 'spark-submit --class \"CanTreeMain\" ' \
           '--master {master} '\
           '--driver-memory {driverMemory} ' \
           '--executor-memory {executorMemory} ' \
-          '--num-executors {numExecutors} ' \
+          '--total-executor-cores {totalExecutorCores} ' \
           '--executor-cores {cores} ' \
           '--files {log4jExecPath} ' \
           '--conf \"spark.driver.extraJavaOptions=-Dlog4j.configuration=file:{log4jFilePath} -Xss1g\" ' \
           '--conf \"spark.executor.extraJavaOptions=-Dlog4j.configuration=file:{log4jExecPath} -Xss1g\" '.format(master=master,
                                                                                                         driverMemory=driverMemory,
                                                                                                         executorMemory=executorMemory,
-                                                                                                        numExecutors=numExecutors,
+                                                                                                        totalExecutorCores=numExecutors*cores,
                                                                                                         cores=cores,
                                                                                                         log4jFilePath=log4jFilePath,
                                                                                                         log4jExecPath=log4jExecPath)
     jarFile =  'target/scala-2.11/cantree_2.11-0.1.jar'
     postcmd =' --num-partitions {numPartitions} ' \
              '--min-support {minSupport} ' \
-             '--in-file-list-path {fileListPath} --app-name {appname}'.format(numPartitions=numPartitions,
+             '--in-file-list-path {fileListPath} --app-name {appname} --collect-statistics {collectStatistics}'.format(numPartitions=numPartitions,
                                                          minSupport=minSupport,
-                                                         fileListPath=fileListPath,appname=appname)
+                                                         fileListPath=fileListPath,appname=appname,collectStatistics=collectStatistics)
     if isPFP:
         postcmd += ' --pfp 1'
     if isFreq:
@@ -78,9 +78,10 @@ def runTests(outputDir,
              pfp=False,
              song=False,
              setcover=0,
-             minSupport = [0.001]
-             ,coresExecutorMemNums = [(40,4,'20g')],
-             partitions = [1000]
+             minSupport = [0.001],
+             coresExecutorMemNums = [(40,4,'20g','40g')],
+             partitions = [1000],
+             collectStatistics = True
              ):
     # minSupport = [0.001]
     log4jPath = 'src/main/resources/log4j_file.properties'
@@ -88,15 +89,17 @@ def runTests(outputDir,
     testCaseFiles = [(testFilePath,testCaseName)]
     for supp in minSupport:
         for cem in coresExecutorMemNums:
-            cores,execNums,mem = cem
+            cores,execNums,mem,driverMem = cem
             for partition in partitions:
                 for testCase in testCaseFiles:
                     testFile,testName = testCase
                     testname = '_'.join([testName,str(partition),str(cores),str(execNums),mem,str(supp).replace('.','_')])
+                    if collectStatistics:
+                        testname = "STATIST_" + testname
                     if isFreq:
-                        testname = "FREQ_"+testname
+                        testname = "FREQ_" + testname
                     if minMinSup>0:
-                        testname = "MINMIN_"+testname
+                        testname = "MINMIN_" + testname
                     if pfp:
                         testname = "PFP_"+testname
                     if song:
@@ -110,13 +113,13 @@ def runTests(outputDir,
                     prepareLogFile(log4jFileName,log4jErrorFileName,os.path.join(log4jBaseDir,log4jPath))
                     prepareLogFile(execLog4jFileName,execLog4jErrorFileName,os.path.join(log4jBaseDir,log4jExecPath))
                     if pfp:
-                        runJob(testFile,master,mem,mem,execNums,supp,partition,cores,log4jPath,log4jExecPath,testname,minMinSup,True,isFreq)
+                        runJob(testFile,master,driverMem,mem,execNums,supp,partition,cores,log4jPath,log4jExecPath,testname,minMinSup,True,isFreq,False,0,collectStatistics)
                     elif song:
-                        runJob(testFile,master,mem,mem,execNums,supp,partition,cores,log4jPath,log4jExecPath,testname,minMinSup,False,False,song)
+                        runJob(testFile,master,driverMem,mem,execNums,supp,partition,cores,log4jPath,log4jExecPath,testname,minMinSup,False,False,song,0,collectStatistics)
                     elif setcover>0:
-                        runJob(testFile,master,mem,mem,execNums,supp,partition,cores,log4jPath,log4jExecPath,testname,minMinSup,False,isFreq,False,setcover)
+                        runJob(testFile,master,driverMem,mem,execNums,supp,partition,cores,log4jPath,log4jExecPath,testname,minMinSup,False,isFreq,False,setcover,collectStatistics)
                     else:
-                        runJob(testFile,master,mem,mem,execNums,supp,partition,cores,log4jPath,log4jExecPath,testname,minMinSup,False,isFreq)
+                        runJob(testFile,master,driverMem,mem,execNums,supp,partition,cores,log4jPath,log4jExecPath,testname,minMinSup,False,isFreq,False,0,collectStatistics)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Run FIS test cases.')

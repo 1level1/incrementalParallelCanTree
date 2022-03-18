@@ -31,22 +31,23 @@ package object cantreeutils {
       case _                      => i1 < i2
     }
   }
-  def iterateAndReportFPGrowth[Item:ClassTag](model : FPGrowth,
+  def iterateAndReportFPGrowth[Item:ClassTag](model : PFPGrowth,
                                               fileList : List[String],
                                               spark : SparkSession,
                                               schema: StructType) : Unit = {
     import java.time.LocalDateTime
+    log.info(LocalDateTime.now + "-iterateAndReportPFPGrowth- Found 0 at iteration number -1 ")
     var df : DataFrame = prepareTransactions(fileList(0), spark, schema)
     var transactions = df.rdd.map(t => t(1).asInstanceOf[mutable.WrappedArray[Item]].toArray)
-    var fisCount = model.run(transactions).freqItemsets.count()
-    log.info(LocalDateTime.now + "-iterateAndReportFPGrowth- Found " + fisCount + " at iteration number " + 0)
+    var fisCount = model.run(transactions,0)
+//    log.info(LocalDateTime.now + "-iterateAndReportFPGrowth- Found " + fisCount + " at iteration number " + 0)
     for (i <- fileList.indices) {
       if (i!=0) {
         val f = fileList(i)
         df = df.union(prepareTransactions(f, spark, schema))
         transactions = df.rdd.map(t => t(1).asInstanceOf[mutable.WrappedArray[Item]].toArray)
-        fisCount = model.run(transactions).freqItemsets.count()
-        log.info(LocalDateTime.now + "-iterateAndReportFPGrowth- Found " + fisCount + " at iteration number " + i)
+        fisCount = model.run(transactions,i)
+//        log.info(LocalDateTime.now + "-iterateAndReportFPGrowth- Found " + fisCount + " at iteration number " + i)
       }
     }
 
@@ -59,10 +60,12 @@ package object cantreeutils {
                                       minSupPercentage : Double,
                                       sorter: Sorter[Item],
                                       usecache :Boolean,
-                                      minMinSup : Double): Unit = {
+                                      minMinSup : Double,
+                                      collectStatistics: Boolean = true): Unit = {
     import java.time.LocalDateTime
     var totTransactions = 0L
     var baseCanTreeRDD : RDD[(Int,CanTreeV1[Item])] = spark.sparkContext.emptyRDD
+    log.info(LocalDateTime.now + "-iterateAndReport- Found 0 at iteration number -1")
     var iter = 0
     var freqItems : mutable.HashMap[Item,Long] = mutable.HashMap.empty
     for (f <- fileList) {
@@ -92,14 +95,17 @@ package object cantreeutils {
       }
       //      baseCanTreeRDD.map{case (group,tree) => (group,tree.nodesNum)}.foreach{case (group,treeNodesCount) => log.info(LocalDateTime.now + " -iterateAndReport- iteration:"+iter+" - group "+ group+" tree size "+treeNodesCount)}
       val fisCount =   model.run(nextCanTreeRDD,minSuppLong).count()
-      val treeSize = nextCanTreeRDD.map(part => part._2.nodesNum)
-      treeSize.cache()
-      val maxTreeSize = treeSize.max()
-      val minTreeSize = treeSize.min()
-      val meanTreeSize = treeSize.mean()
-      val partitionsNum = model.getPartition().numPartitions
-      log.info(LocalDateTime.now + "-iterateAndReport- Found "+ fisCount+" at iteration number "+iter + " ("+minTreeSize+","+meanTreeSize+","+maxTreeSize+") Partitions: "+partitionsNum)
-//      log.info(LocalDateTime.now + "-iterateAndReport- Found "+ fisCount+" at iteration number "+iter)
+      if (collectStatistics) {
+        val treeSize = nextCanTreeRDD.map(part => part._2.nodesNum)
+        treeSize.cache()
+        val maxTreeSize = treeSize.max()
+        val minTreeSize = treeSize.min()
+        val meanTreeSize = treeSize.mean()
+        val partitionsNum = model.getPartition().numPartitions
+        log.info(LocalDateTime.now + "-iterateAndReport- Found " + fisCount + " at iteration number " + iter + " (" + minTreeSize + "," + meanTreeSize + "," + maxTreeSize + ") Partitions: " + partitionsNum)
+      } else {
+        log.info(LocalDateTime.now + "-iterateAndReport- Found " + fisCount + " at iteration number " + iter)
+      }
       baseCanTreeRDD = nextCanTreeRDD
       iter+=1
     }
@@ -155,9 +161,11 @@ package object cantreeutils {
                                       usecache :Boolean,
                                       minMinSup : Double,
                                       numberOfPartitioner: Int,
-                                      repartitionIdx:Int = 5): Unit = {
+                                      repartitionIdx:Int = 5,
+                                      collectStatistics: Boolean = true ): Unit = {
     import java.time.LocalDateTime
     var totTransactions = 0L
+    log.info(LocalDateTime.now + "-iterateAndReport- Found 0 at iteration number -1")
     var baseCanTreeRDD : RDD[(Int,CanTreeV1[Item])] = spark.sparkContext.emptyRDD
     var iter = 0
     var freqItems : mutable.HashMap[Item,Long] = mutable.HashMap.empty
@@ -190,13 +198,17 @@ package object cantreeutils {
       val fis =   model.run(nextCanTreeRDD,minSuppLong)
       fis.cache()
       val fisCount = fis.count()
-      val treeSize = nextCanTreeRDD.map(part => part._2.nodesNum)
-      treeSize.cache()
-      val maxTreeSize = treeSize.max()
-      val minTreeSize = treeSize.min()
-      val meanTreeSize = treeSize.mean()
       val partitionsNum = model.getPartition().numPartitions
-      log.info(LocalDateTime.now + "-iterateAndReport- Found "+ fisCount+" at iteration number "+iter + " ("+minTreeSize+","+meanTreeSize+","+maxTreeSize+") Partitions: "+partitionsNum)
+      if (collectStatistics) {
+        val treeSize = nextCanTreeRDD.map(part => part._2.nodesNum)
+        treeSize.cache()
+        val maxTreeSize = treeSize.max()
+        val minTreeSize = treeSize.min()
+        val meanTreeSize = treeSize.mean()
+        log.info(LocalDateTime.now + "-iterateAndReport- Found " + fisCount + " at iteration number " + iter + " (" + minTreeSize + "," + meanTreeSize + "," + maxTreeSize + ") Partitions: " + partitionsNum)
+      } else {
+        log.info(LocalDateTime.now + "-iterateAndReport- Found " + fisCount + " at iteration number " + iter + " Partitions: " + partitionsNum)
+      }
       if (iter!=0 && iter%repartitionIdx == 0) {
         baseCanTreeRDD = repartitionTransactions(fileList,f,spark,schema,model,fis,freqItems,sorter,numberOfPartitioner)
         baseCanTreeRDD.cache()
@@ -219,9 +231,10 @@ package object cantreeutils {
   schema: StructType,
   minSupPercentage : Double,
   sorter: Sorter[Item],
-  partitioner : Partitioner): Unit = {
+  partitioner : Partitioner,
+  collectStatistics: Boolean = true): Unit = {
     import java.time.LocalDateTime
-    log.info(LocalDateTime.now + "-iterateAndReport- start ")
+    log.info(LocalDateTime.now + "-iterateAndReport- Found 0 at iteration number -1 ")
     val df = prepareTransactions(fileList(0),spark,schema)
     val baseTransactions = df.rdd.map(t => t(1).asInstanceOf[mutable.WrappedArray[Item]].toArray)
     var itemFreq = mutable.Map[Item,Long]() ++getItemsCount(baseTransactions).collect().toMap
@@ -267,14 +280,17 @@ package object cantreeutils {
 //        currIncMiningRDD = nextIncTreeRDD
 //        currIncMiningRDD.cache()
         fisCount = nextFreqItemSets.map(_._2.size).sum().toLong
-        val treeSize = currCalculatedIncTrees.map(part => part._2.canTree.nodesNum)
-        treeSize.cache()
-        val maxTreeSize = treeSize.max()
-        val minTreeSize = treeSize.min()
-        val meanTreeSize = treeSize.mean()
-        val partitionsNum = model.getPartition().numPartitions
-        log.info(LocalDateTime.now + "-iterateAndReport- Found "+ fisCount+" at iteration number "+i + " ("+minTreeSize+","+meanTreeSize+","+maxTreeSize+") Partitions: "+partitionsNum)
-//        log.info(LocalDateTime.now + "-iterateAndReport- Found "+ fisCount +" at iteration number "+i)
+        if (collectStatistics) {
+          val treeSize = currCalculatedIncTrees.map(part => part._2.canTree.nodesNum)
+          treeSize.cache()
+          val maxTreeSize = treeSize.max()
+          val minTreeSize = treeSize.min()
+          val meanTreeSize = treeSize.mean()
+          val partitionsNum = model.getPartition().numPartitions
+          log.info(LocalDateTime.now + "-iterateAndReport- Found " + fisCount + " at iteration number " + i + " (" + minTreeSize + "," + meanTreeSize + "," + maxTreeSize + ") Partitions: " + partitionsNum)
+        } else {
+          log.info(LocalDateTime.now + "-iterateAndReport- Found "+ fisCount +" at iteration number "+i)
+        }
       }
     }
   }

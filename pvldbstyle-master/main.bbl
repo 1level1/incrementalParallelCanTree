@@ -2,7 +2,7 @@
 %%% Do NOT edit. File created by BibTeX with style
 %%% ACM-Reference-Format-Journals [18-Jan-2012].
 
-\begin{thebibliography}{14}
+\begin{thebibliography}{15}
 
 %%% ====================================================================
 %%% NOTE TO THE USER: you can override these defaults by providing
@@ -70,6 +70,24 @@
 \url{https://spark.apache.org/}
 \showURL{%
 \tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Apiletti, Baralis, Cerquitelli, Garza,
+  Pulvirenti, and Venturini}{Apiletti et~al\mbox{.}}{2017}]%
+        {APILETTI201767}
+\bibfield{author}{\bibinfo{person}{Daniele Apiletti}, \bibinfo{person}{Elena
+  Baralis}, \bibinfo{person}{Tania Cerquitelli}, \bibinfo{person}{Paolo Garza},
+  \bibinfo{person}{Fabio Pulvirenti}, {and} \bibinfo{person}{Luca Venturini}.}
+  \bibinfo{year}{2017}\natexlab{}.
+\newblock \showarticletitle{Frequent Itemsets Mining for Big Data: A
+  Comparative Analysis}.
+\newblock \bibinfo{journal}{\emph{Big Data Research}}  \bibinfo{volume}{9}
+  (\bibinfo{year}{2017}), \bibinfo{pages}{67--83}.
+\newblock
+\showISSN{2214-5796}
+\urldef\tempurl%
+\url{https://doi.org/10.1016/j.bdr.2017.06.006}
+\showDOI{\tempurl}
 
 
 \bibitem[\protect\citeauthoryear{Hong, Lin, and Wu}{Hong et~al\mbox{.}}{2008}]%

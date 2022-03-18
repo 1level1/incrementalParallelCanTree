@@ -1,0 +1,65 @@
+{
+  "outputdir": "/RG/rg-gudes/kulev/automation_7_1_22",
+  "log4jbasedir": "/RG/rg-gudes/kulev/cantree",
+  "master": "spark://cn31-ib:7077",
+  "testcases": [
+       {
+      "testpath":"/RG/rg-gudes/kulev/dataset/T15I5D1000N10_20splits/filesList1.txt",
+      "testname": "T15I5D1000N10",
+      "testParams":
+      [
+        {
+          "freq": 1,
+          "minMinSup": 0.1,
+          "pfp" : 0,
+          "set-cover": 0,
+          "song": 0,
+          "minSupport" : [0.001],
+          "coresExecutorMemNums" : [40,4,"20g"],
+          "partitions" : [100]
+        },
+        {
+          "freq": 0,
+          "minMinSup": 0,
+          "pfp" : 0,
+          "set-cover": 0,
+          "song": 0,
+          "minSupport" : [0.001],
+          "coresExecutorMemNums" : [40,4,"20g"],
+          "partitions" : [100]
+        },
+        {
+          "freq": 0,
+          "minMinSup": 0,
+          "pfp" : 1,
+          "set-cover": 0,
+          "song": 0,
+          "minSupport" : [0.001],
+          "coresExecutorMemNums" : [40,4,"20g"],
+          "partitions" : [100]
+        },
+        {
+          "freq": 1,
+          "minMinSup": 0.1,
+          "pfp" : 0,
+          "set-cover": 1,
+          "song": 0,
+          "minSupport" : [0.001],
+          "coresExecutorMemNums" : [40,4,"20g"],
+          "partitions" : [100]
+        },
+        {
+          "freq": 0,
+          "minMinSup": 0,
+          "pfp" : 0,
+          "set-cover": 0,
+          "song": 1,
+          "minSupport" : [0.001],
+          "coresExecutorMemNums" : [40,4,"20g"],
+          "partitions" : [100]
+        }
+      ]
+    }
+  ]
+}
+

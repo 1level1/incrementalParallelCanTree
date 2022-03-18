@@ -31,45 +31,45 @@ Warning--empty address in li2008pfp
 Warning--empty publisher in li2006fast
 Warning--empty address in li2006fast
 Warning--empty organization in SparkRDMA
-You've used 14 entries,
+You've used 15 entries,
             5901 wiz_defined-function locations,
-            1555 strings with 19001 characters,
-and the built_in function-call counts, 16348 in all, are:
-= -- 2029
-> -- 535
+            1564 strings with 19341 characters,
+and the built_in function-call counts, 17870 in all, are:
+= -- 2247
+> -- 609
 < -- 0
-+ -- 176
-- -- 180
-* -- 1108
-:= -- 1622
-add.period$ -- 68
-call.type$ -- 14
-change.case$ -- 91
-chr.to.int$ -- 14
-cite$ -- 34
-duplicate$ -- 1478
-empty$ -- 1037
-format.name$ -- 224
-if$ -- 3951
++ -- 201
+- -- 214
+* -- 1230
+:= -- 1786
+add.period$ -- 73
+call.type$ -- 15
+change.case$ -- 101
+chr.to.int$ -- 15
+cite$ -- 35
+duplicate$ -- 1578
+empty$ -- 1108
+format.name$ -- 252
+if$ -- 4321
 int.to.chr$ -- 2
 int.to.str$ -- 1
-missing$ -- 54
-newline$ -- 152
-num.names$ -- 112
-pop$ -- 578
+missing$ -- 58
+newline$ -- 164
+num.names$ -- 120
+pop$ -- 612
 preamble$ -- 1
-purify$ -- 211
+purify$ -- 230
 quote$ -- 0
-skip$ -- 536
+skip$ -- 568
 stack$ -- 0
-substring$ -- 1242
-swap$ -- 157
-text.length$ -- 0
+substring$ -- 1357
+swap$ -- 168
+text.length$ -- 19
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 336
+type$ -- 352
 warning$ -- 20
-while$ -- 110
+while$ -- 117
 width$ -- 0
-write$ -- 275
+write$ -- 296
 (There were 20 warnings)

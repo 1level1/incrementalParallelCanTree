@@ -24,7 +24,7 @@ def runTestsAutomation(cfgFile):
         data = json.load(f)
         for test in data['testcases']:
             for testParams in test['testParams']:
-                print((testParams['coresExecutorMemNums'][0],testParams['coresExecutorMemNums'][1],testParams['coresExecutorMemNums'][2]))
+                print((testParams['coresExecutorMemNums'][0],testParams['coresExecutorMemNums'][1],testParams['coresExecutorMemNums'][2],testParams['coresExecutorMemNums'][3]))
                 runTestcases.runTests(data['outputdir'],
                                       data['log4jbasedir'],
                                       data['master'],
@@ -36,8 +36,9 @@ def runTestsAutomation(cfgFile):
                                       testParams['song'],
                                       testParams['set-cover'],
                                       testParams['minSupport'],
-                                      [(testParams['coresExecutorMemNums'][0],testParams['coresExecutorMemNums'][1],testParams['coresExecutorMemNums'][2])],
-                                      testParams['partitions'])
+                                      [(testParams['coresExecutorMemNums'][0],testParams['coresExecutorMemNums'][1],testParams['coresExecutorMemNums'][2],testParams['coresExecutorMemNums'][3])],
+                                      testParams['partitions'],
+                                      testParams['collectStatistics']==1)
 
 
 if __name__ == "__main__":

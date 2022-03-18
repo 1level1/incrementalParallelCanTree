@@ -2,7 +2,11 @@
 
 \documentclass[12pt,a4paper,oneside,onecolumn]{book}
 \usepackage[utf8x]{inputenc}
-\usepackage[hebrew,english]{babel}
+%\usepackage[hebrew,english]{babel}
+%\usepackage[english]{babel}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
 \usepackage{libertine}
 \usepackage{courier}
 \usepackage[longnamesfirst,square,numbers,comma,sort&compress]{natbib}
@@ -16,7 +20,6 @@
 \usepackage{mathpazo}
 \usepackage{datetime}
 \usepackage[unicode=true] {hyperref}
-\usepackage[linesnumbered]{algorithm2e}
 \usepackage{adjustbox}
 \usepackage{caption}
 \usepackage{booktabs}
@@ -26,7 +29,17 @@
 \usepackage{atbegshi}
 \usepackage{hyperref}
 
-\input{hebrew_functions.tex}
+
+\usepackage{amsmath}
+\newcommand\vldbpagestyle{plain} 
+\algnewcommand\algorithmicforeach{\textbf{for each}}
+\algdef{S}[FOR]{ForEach}[1]{\algorithmicforeach\ #1\ \algorithmicdo}
+\usepackage{hyperref}
+\newcommand{\algorithmautorefname}{Algorithm}
+\let\origref\autoref
+\def\autoref#1{\textbf{\origref{#1}}}
+
+%\input{hebrew_functions.tex}
 \input{includes/stepstemplates}
 
 \titleformat{\chapter}[hang]{\bf\huge}{\thechapter}{2pc}{}
@@ -40,10 +53,11 @@
 
 \include{cover}
 
-\myfrontmatter
+%\myfrontmatter
+
+\include{acknowledgements}
 
 \include{abstract}
-\include{acknowledgements}
 
 \tableofcontents
 
@@ -56,19 +70,33 @@
 
 \mainmatter
 \input{introduction}
-%\input{background}
-\input{previous_work}
+\input{background}
 \input{main_issue}
+\input{ipfimimproved}
+\input{experimentstrategy}
+\input{results}
+\input{resultsdiscussion}
 \input{conclusion}
+
+
+%\input{includes/ipfim}
+%
+%\input{includes/results}
+%
+%\input{includes/improvements}
+%
+%\input{includes/conclusions}
+
+
 
 \bibliographystyle{acm}
 
 \bibliography{sample}
 
-\mybackmatter
-\RPtrue
-\include{cover_heb}
-\include{abstract_heb}
-\hebrewtableofcontents
-\RPfalse
+%\mybackmatter
+%\RPtrue
+%\include{cover_heb}
+%\include{abstract_heb}
+%\hebrewtableofcontents
+%\RPfalse
 \end{document}
