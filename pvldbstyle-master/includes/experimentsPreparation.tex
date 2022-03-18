@@ -1,0 +1,55 @@
+\section{Experiments Preparation}
+
+\subsection{Datasets}
+For this article, we used 3 datasets:
+\begin{enumerate}
+\item Synthetic datasets of 10M transactions, and 2 magnitudes less of items, average length of 15 items. The dataset was generated using IBM Quest Synthetic Data Generator ~\cite{agrawal1994quest}. 
+\item Synthetic datasets of 1M transactions, and 2 magnitudes less of items, average length of 15 items. The dataset was generated using IBM Quest Synthetic Data Generator ~\cite{agrawal1994quest}. 
+\item The Kosarak dataset contains 990,000 transactions with 41,270 distinct items and an average transaction length of 8.09 items (click-stream data of a hungarian on-line news portal). This dataset was the largest used by ~\cite{tanbeer2009efficient}.
+\end{enumerate}
+
+
+Every dataset was divided in to 5 iterations, \textit{I\textsubscript{0}}...\textit{I\textsubscript{4}}, where \textit{I\textsubscript{0}} is used as a base case with 50\% of the transactions, and the remaining 50\% are iterations of 12.5\% (e.g. base + 4 iterations).The iterations are saved accordingly as files \textit{f\textsubscript{0}}...\textit{f\textsubscript{4}}. 
+
+For \textbf{PFP}, at iteration \textit{i}, all files of \textit{0...i} are re-read and used as the dataset for recalculation of FIS.
+
+\subsection{Implementation}
+The implementation was done using Spark~\cite{spark}. Spark contains an MLlib library, which has an implementation of the PFP algorithm ~\cite{mllibpfp}. For our experiments, we leveraged that implementation and the edits required for IPFIM and IPFIM improved where minor:
+\begin{steps}
+\item Added support for custom sorting
+\item Added support for filtering items below minMin threshold value
+\item Added support for logging and statistics
+\end{steps}
+
+\subsubsection{CanTree}
+For CanTree algorithm implementation, as can be seen From ~\ref{sec:ipfim}, running IPFIM with only one group, will result in the original CanTree algorithm (adjusted to mapReduce).
+
+\subsubsection{Song et al.}
+For the algorithm developed by Song et al., we had to add a functionality to calculate the intermediate trees. This is also described in ~\ref{sec:song}. The detailed implementation can be found here .
+
+\subsubsection{Set-Cover-IPFIM}
+To support set-cover groups, we used a greedy set-cover algorithm to find the group distribution. This group list is later passed to the partitioning of a the transactions. 
+
+\subsection{Logging and Statistics}
+To perform our evaluation of execution and memory performance, we are collecting the statistics of run time and the tree-size of trees in different partitions.
+
+\subsection{Infrastructure}
+The used hardware is 4 clusters each with 20G memory and 40 cores. The provided infrastructure uses a SparkRDMA Plugin~\cite{SparkRDMA}. SparkRDMA provides an improvement of 3X to compared to HDFS [TODO:Add RDMA banchmarks]. For our experiments, since using same infrastructure, this improvement is not effecting the overall performance differences. 
+
+\iffalse
+This is however in our experiments, using the datasets as different files, while all experiments using same infrastructure, the comparison is valid.  Elaborate in a new section?
+\fi
+
+\subsection{Performance evaluation}
+For our experiments, we will perform the evaluation of the new proposed algorithms IPFIM, improved-IPFIM and set-cover-IPFIM and compare them to the original algorithms PFP, CanTree as well as the newer Song et al.
+
+The evaluation will review computation time at each iteration, as well as total computation improvement.  We also compare the differences in tree sizes for every algorithm and test case. For every iteration we will present the median tree size to better understand the inner structures of the algorithms. 
+
+\subsection{IPFIM vs CanTree}
+For CanTree~\cite{leung2005cantree} performance, we used IPFIM with only one group, meaning a single tree.
+
+\subsubsection{Synthetic Dataset}
+A comparison for 1M transactions (T15D1MN10K) with minSupport of 0.001, partitions of 1, 10 and 100 is seen at \autoref{fig:IPFP1M0001}.
+
+\subsubsection{Kosarak Dataset}
+A comparison with minSupport of 0.001, partitions of 1, 10 and 100 is seen at \autoref{fig:IPFP1M0001_10_100}.

@@ -1,4 +1,7 @@
-\section{Improvements}
+
+\section{Improvements - Need to add SetCover results and explanations}
+\label{sec:improvements}
+
 While developing and testing the algorithm, 2 main obstacles prevented from using larger datasets and smaller minSupport:
 \begin{enumerate}
 	\item Memory - Tree size.
@@ -6,8 +9,25 @@ While developing and testing the algorithm, 2 main obstacles prevented from usin
 \end{enumerate}
 
 To handle these obstacles, 2 techniques were implemented.
-To handle the computation time, an approach similar to~\cite{tanbeer2009efficient} was tested. Although the size of the tree was not effected by more than 10\%, computation time was improved by XXX.
+To handle the computation time, an approach similar to CPTree~\cite{tanbeer2009efficient} was tested, where we defined a semi-frequency order on 1st dataset half, and used it for the rest of the iterations. New items were sorted canonically.
 
-To handle the memory limitation, which is caused by the construction of a large tree, a partial approach of AFPIM~\cite{koh2004efficient} was implemented. We added a pre-min support to identify pre-frequent items, and tested performance while re reading the full dataset for missed items when those are found. 
-Using this approach we were able to run synthetic datasets of 100M transactions and 1M unique item sets. The results can be seen in XXX compared to PFP.
+To handle the memory limitation, which is caused by the construction of a large tree, a partial approach of AFPIM~\cite{koh2004efficient} was implemented. We added a pre-min support to identify pre-frequent items. For the simplicity of the experiment, items which where not frequent in iteration i, and will become frequent after sum of j iterations, are waived. A trade-off between missing items and tree size can be controlled using the pre-min parameter. 
 
+\subsection{IPFIM Improved vs IPFIM - Computation}
+Although the size of the tree was not effected by more than 10\%, when using semi-frequency order, computation time was improved by ~30X when running single partition, as seen in \autoref{fig:partialcannonical}.
+\begin{figure}
+  \centering
+  \includegraphics[width=\linewidth]{figures/ipfim_freq_vs_can_sort}
+  \caption{IPFIM partial frequency sort vs IPFIM cannonical sort}
+  \label{fig:partialcannonical}
+\end{figure}
+
+\subsection{IPFIM Improved vs IPFIM - Memory}
+Using a partial approach of AFPIM~\cite{koh2004efficient}, we were able to run synthetic datasets of 100M transactions and 100k unique item sets. The results, compared to PFP, for 100 partitions, min support of 0.01 and 0.003 can be seen  in \autoref{fig:ipfimImpT20}. As there is only 1 dataset scan for IPFIM, and we pre-defined the semi-frequency order, the results are 10x faster even for 1st iteration, and improve to 25x for last one.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\linewidth]{figures/t20_ipfim_imp_vs_pfp}
+  \caption{IPFIM pre-min, semi-frequency vs PFP}
+  \label{fig:ipfimImpT20}
+\end{figure}

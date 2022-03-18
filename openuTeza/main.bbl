@@ -11,10 +11,37 @@
 \newblock In {\em Proc. 20th int. conf. very large data bases, VLDB\/} (1994),
   vol.~1215, pp.~487--499.
 
+\bibitem{mahoot}
+{\sc Apache}.
+\newblock The apache mahout machine learning library,.
+
+\bibitem{hadoop}
+{\sc Apache}.
+\newblock The apache™ hadoop® project develops open-source software for
+  reliable, scalable, distributed computing.
+
+\bibitem{mllib}
+{\sc Apache}.
+\newblock Mllib is apache spark's scalable machine learning library.
+
+\bibitem{mllibpfp}
+{\sc Apache}.
+\newblock Pfp mllib implementation.
+
 \bibitem{spark}
 {\sc Apache}.
 \newblock Apache spark™ is a unified analytics engine for large-scale data
   processing, 2020.
+
+\bibitem{APILETTI201767}
+{\sc Apiletti, D., Baralis, E., Cerquitelli, T., Garza, P., Pulvirenti, F., and
+  Venturini, L.}
+\newblock Frequent itemsets mining for big data: A comparative analysis.
+\newblock {\em Big Data Research 9\/} (2017), 67--83.
+
+\bibitem{dataminingbook}
+{\sc Computer, R. M. V. P. C. C. S.~D., and of~Houston, M. S. D.~U.}
+\newblock The uh data mining hypertextbook, version 1.
 
 \bibitem{hong2008incrementally}
 {\sc Hong, T.-P., Lin, C.-W., and Wu, Y.-L.}
@@ -64,6 +91,12 @@
 \newblock Sparkrdma plugin is a high-performance, scalable and efficient
   shufflemanager open-source plugin for apache spark., 2020.
 
+\bibitem{song2017}
+{\sc Song, Y.-G., Cui, H.-M., and Feng, X.-B.}
+\newblock Parallel incremental frequent itemset mining for large data.
+\newblock {\em Journal of Computer Science and Technology 32}, 2 (2017),
+  368--385.
+
 \bibitem{tanbeer2009efficient}
 {\sc Tanbeer, S.~K., Ahmed, C.~F., Jeong, B.-S., and Lee, Y.-K.}
 \newblock Efficient single-pass frequent pattern mining using a prefix-tree.
@@ -73,5 +106,9 @@
 {\sc Tsay, Y.-J., Hsu, T.-J., and Yu, J.-R.}
 \newblock Fiut: A new method for mining frequent itemsets.
 \newblock {\em Information Sciences 179}, 11 (2009), 1724--1737.
+
+\bibitem{bigfim}
+{\sc ua~adrem}.
+\newblock Dist-eclat and bigfim implementation.
 
 \end{thebibliography}

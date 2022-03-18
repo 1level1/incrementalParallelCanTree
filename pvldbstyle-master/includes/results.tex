@@ -1,46 +1,164 @@
 \section{Experiments and Results}
 
+\subsection{Performance Evaluation}
+\subsubsection{Kosarak PFP 100|1000|500 partitions}
+Figure ~\autoref{fig:kosarak_pfp_001}
+\subsubsection{Synthetic Dataset}
+A comparison for 1M transactions (T15D1MN10K) with minSupport of 0.001, partitions of 1, 10 and 100 is seen at \autoref{fig:IPFP1M0001}.
 
-All the test cases were divided in to 50\% base case and the remaining 50\% to iterations of 2.5\% (e.g. 20 iterations).
+\subsubsection{Kosarak Dataset}
+A comparison with minSupport of 0.001, partitions of 1, 10 and 100 is seen at \autoref{fig:IPFP1M0001_10_100}.
 
-The implementation was done using Spark~\cite{spark}.
 
-The used hardware is 4 clusters each with 20G memory and 40 cores. Also used SparkRDMA Plugin~\cite{SparkRDMA}.
+%\begin{figure}
+%  \centering
+%  \includegraphics[width=\linewidth]{figures/IPFIM_VS_CANTREE_001_T15D1M10K}
+%  \caption{IPFIM vs CanTree T15D1M10K}
+%  \label{fig:IPFP1M0001}
+%\end{figure}
 
-For PFP~\cite{li2008pfp} performance comparison, Spark~\cite{spark} mllib package implements just that, and was used per iteration.
+\begin{figure}
+  \centering
+  \includegraphics[width=\linewidth]{figures/4iterations/T15I5D1000N10_100_0005}
+  \caption{T15I5D1000N10 100 partitions}
+  \label{fig:T15I5D1000N10_100_0005}
+\end{figure}
 
-For CanTree~\cite{leung2005cantree} performance, we used IPFIM with only one group, meaning a single tree.
+\begin{figure}
+  \centering
+  \includegraphics[width=\linewidth]{figures/4iterations/kosarak_pfp_001}
+  \caption{kosarak, minSup = 0.001, PFP 100|1000|500 partitions}
+  \label{fig:kosarak_pfp_001}
+\end{figure}
 
-\subsection{PFP VS IPFIM}
+\begin{figure}
+  \centering
+  \includegraphics[width=\linewidth]{figures/4iterations/kosarak_ipfim_imp_001}
+  \caption{kosarak, minSup = 0.001, IPFIM Improved 100|1000|500 partitions}
+  \label{fig:kosarak_ipfim_imp_001}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\linewidth]{figures/4iterations/kosarak_500part_001}
+  \caption{kosarak, minSup = 0.001,  partitions = 500}
+  \label{fig:kosarak_500part_001}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\linewidth]{figures/4iterations/T15I5D10000N100_pfp_0001}
+  \caption{T15I5D10000N100, minSup = 0.0001,  PFP 100|1000|500 partitions}
+  \label{fig:T15I5D10000N100_pfp_0001}
+\end{figure}
+
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\linewidth]{figures/4iterations/T15I5D10000N100_ipfim_imp_0001}
+  \caption{T15I5D10000N100, minSup = 0.0001,  IPFIM Improved 100|1000|500 partitions}
+  \label{fig:T15I5D10000N100_ipfim_imp_0001}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\linewidth]{figures/4iterations/T15I5D10000N100_ipfim_0001}
+  \caption{T15I5D10000N100, minSup = 0.0001,  IPFIM 100|1000|500 partitions}
+  \label{fig:T15I5D10000N100_ipfim_0001}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\linewidth]{figures/4iterations/T15I5D10000N100_1000part_0001}
+  \caption{T15I5D10000N100, minSup = 0.0001,  1000 partitions}
+  \label{fig:T15I5D10000N100_1000part_0001}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\linewidth]{figures/4iterations/T15I5D10000N100_1000part_SETCOVER_0001}
+  \caption{T15I5D10000N100, minSup = 0.0001,  1000 partitions, Set cover vs IPFIM}
+  \label{fig:T15I5D10000N100_1000part_SETCOVER_0001}
+\end{figure}
+
+
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\linewidth]{figures/4iterations/T15I5D10000N100_MinTree_PFP_0001}
+  \caption{T15I5D10000N100, minSup = 0.0001,  PFP, Min Tree size for partitions}
+  \label{fig:T15I5D10000N100_MinTree_PFP_0001}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\linewidth]{figures/4iterations/T15I5D10000N100_AvgTree_PFP_0001}
+  \caption{T15I5D10000N100, minSup = 0.0001,  PFP, Average Tree size for partitions}
+  \label{fig:T15I5D10000N100_AvgTree_PFP_0001}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\linewidth]{figures/4iterations/T15I5D10000N100_MaxTree_PFP_0001}
+  \caption{T15I5D10000N100, minSup = 0.0001,  PFP, Maximum Tree size for partitions}
+  \label{fig:T15I5D10000N100_MaxTree_PFP_0001}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\linewidth]{figures/4iterations/T15I5D10000N100_AvgTree_Partitins1000_0001}
+  \caption{T15I5D10000N100, minSup = 0.0001,  Average Tree size for 1000 partitions}
+  \label{fig:T15I5D10000N100_AvgTree_Partitins1000_0001}
+\end{figure}
+
+
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\linewidth]{figures/4iterations/kosarak_song_001}
+  \caption{kosarak, minSup = 0.001, SONG 100|1000|500 partitions}
+  \label{fig:kosarak_song_001}
+\end{figure}
+
+%
+%\begin{figure}[h!]
+%  \centering
+%  \includegraphics[width=\linewidth]{figures/IPFIM_VS_CANTREE_001_KOS}
+%  \caption{IPFIM vs CanTree Kosarak}
+%  \label{fig:IPFP1M0001_10_100}
+%\end{figure}
+
+
+\subsection{IPFIM vs PFP}
  For correct PFP~\cite{li2008pfp} mining, a read of all the dataset till that point needs to be performed.
+\subsubsection{Synthetic Dataset}
+A comparison for 10M transactions (T15D10MN100K) with minSupport of 0.001, 1K partitions is seen at \autoref{fig:PFPvsIPFP}.
 
-For the synthetic datasets, a comparison for minSup of 0.001 can be seen at \autoref{fig:PFPvsIPFP}. As seen, PFP~\cite{li2008pfp} starts better, but after a few iterations, IPFIM is more flat for every iteration, while PFP~\cite{li2008pfp} increases linearly.
-
-For the Kosarak dataset, results are seen in \autoref{fig:PFPvsIPFPKos}.
-Since there are much more frequent items for minSup of 0.001, the results show a poor performance for mining with only 10 partitions, since the trees are much larger. For 100 partitions, the results are still better for PFP~\cite{li2008pfp}, where the exponential mining process is the bottle neck for IPFIM. An improvment is discussed in section XXX
-
-\begin{figure}
-  \centering
-  \includegraphics[width=\linewidth]{figures/PFPvsIPFIM0_001_10M}
-  \caption{PFP vs IPFIM 10M}
-  \label{fig:PFPvsIPFP}
-\end{figure}
-
-\begin{figure}
-  \centering
-  \includegraphics[width=\linewidth]{figures/PFPvsIPFIM0_001_Kosarak}
-  \caption{PFP vs IPFIM Kosarak}
-  \label{fig:PFPvsIPFPKos}
-\end{figure}
+\subsubsection{Kosarak Dataset}
+A comparison with minSupport of 0.001, partitions of 10 and 100 is seen at \autoref{fig:PFPvsIPFPKos}.
 
 
-\subsection{IPFIM vs Interactive CanTree}
-\begin{figure}
-  \centering
-  \includegraphics[width=\linewidth]{figures/IPFP1M0001}
-  \caption{Inc. vs IPFIM}
-  \label{fig:IPFP1M0001}
-\end{figure}
-Using 10M iterations and 100K itemsets with only 1 partition (regular CanTree), will result a memory issue with the used architecture, thus the results are not presented here. For a 1M transaction with 10K unique itemsets, the results improve at 5X for every 10X partitions. This is due to memory improvements and parallel computations.
-For the Kosarak dataset, .
+%%\begin{figure}
+%%  \centering
+%%  \includegraphics[width=\linewidth]{figures/PFPvsIPFIM0_001_10M}
+%%  \caption{PFP vs IPFIM 10M}
+%%  \label{fig:PFPvsIPFP}
+%%\end{figure}
+%
+%\begin{figure}
+%  \centering
+%  \includegraphics[width=\linewidth]{figures/PFPvsIPFIM0_001_Kosarak}
+%  \caption{PFP vs IPFIM Kosarak}
+%  \label{fig:PFPvsIPFPKos}
+%\end{figure}
 
+%\begin{figure}[h!]
+%  \centering
+%  \includegraphics[width=\linewidth]{figures/IPFIM_VS_PFP_0001_T15D1M10K}
+%  \caption{IPFIM vs PFP 0.0001 T15D1M10K}
+%  \label{fig:IPFP_vs_PFP_0001_T15D1M10K}
+%\end{figure}
+
+\subsection{improved-IPFIM vs PFP}
+\subsection{improved-IPFIM vs Song et al.}
+\subsection{set-cover-IPFIM vs Song et al.}

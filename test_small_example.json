@@ -1,0 +1,54 @@
+{
+  "outputdir": "/Users/levk/Documents/teza/results1",
+  "log4jbasedir": "/Users/levk/Documents/teza/incrementalParallelCanTree",
+  "master": "local",
+  "testcases": [
+    {
+      "testpath": "/Users/levk/Documents/teza/incrementalParallelCanTree/test/smallTest.txt",
+      "testname": "smallTest",
+      "testParams": [
+        {
+          "freq": 0,
+          "minMinSup": 0.1,
+          "pfp": 1,
+          "set-cover": 0,
+          "song": 0,
+          "minSupport": [
+            0.3,
+            0.2
+          ],
+          "coresExecutorMemNums": [
+            3,
+            2,
+            "8g"
+          ],
+          "partitions": [
+            3,
+            4
+          ]
+        },
+        {
+          "freq": 1,
+          "minMinSup": 0.1,
+          "pfp": 0,
+          "set-cover": 0,
+          "song": 1,
+          "minSupport": [
+            0.3,
+            0.2
+          ],
+          "coresExecutorMemNums": [
+            3,
+            2,
+            "8g"
+          ],
+          "partitions": [
+            3,
+            4
+          ]
+        }
+      ]
+    }
+  ]
+}
+

@@ -1,58 +1,68 @@
-This is BibTeX, Version 0.99d (TeX Live 2019/Debian)
+This is BibTeX, Version 0.99d (TeX Live 2020)
 Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: main.aux
 A level-1 auxiliary file: cover.aux
-A level-1 auxiliary file: abstract.aux
 A level-1 auxiliary file: acknowledgements.aux
+A level-1 auxiliary file: abstract.aux
 The style file: acm.bst
-A level-1 auxiliary file: cover_heb.aux
-A level-1 auxiliary file: abstract_heb.aux
 Database file #1: sample.bib
 Warning--entry type for "spark" isn't style-file defined
 --line 302 of file sample.bib
+Warning--entry type for "hadoop" isn't style-file defined
+--line 309 of file sample.bib
+Warning--entry type for "mllib" isn't style-file defined
+--line 315 of file sample.bib
+Warning--entry type for "mllibpfp" isn't style-file defined
+--line 322 of file sample.bib
+Warning--entry type for "bigfim" isn't style-file defined
+--line 329 of file sample.bib
+Warning--entry type for "mahoot" isn't style-file defined
+--line 336 of file sample.bib
+Warning--entry type for "dataminingbook" isn't style-file defined
+--line 343 of file sample.bib
 Warning--entry type for "SparkRDMA" isn't style-file defined
---line 310 of file sample.bib
+--line 349 of file sample.bib
 Warning--I didn't find a database entry for "demoref"
 Warning--empty journal in kohefficient
-You've used 13 entries,
+You've used 21 entries,
             2253 wiz_defined-function locations,
-            870 strings with 11525 characters,
-and the built_in function-call counts, 4746 in all, are:
-= -- 465
-> -- 191
+            896 strings with 12363 characters,
+and the built_in function-call counts, 6752 in all, are:
+= -- 637
+> -- 287
 < -- 0
-+ -- 82
-- -- 66
-* -- 334
-:= -- 721
-add.period$ -- 36
-call.type$ -- 13
-change.case$ -- 71
++ -- 125
+- -- 98
+* -- 453
+:= -- 1044
+add.period$ -- 54
+call.type$ -- 21
+change.case$ -- 111
 chr.to.int$ -- 0
-cite$ -- 14
-duplicate$ -- 197
-empty$ -- 408
-format.name$ -- 66
-if$ -- 1027
+cite$ -- 22
+duplicate$ -- 263
+empty$ -- 598
+format.name$ -- 98
+if$ -- 1444
 int.to.chr$ -- 0
-int.to.str$ -- 13
-missing$ -- 11
-newline$ -- 65
-num.names$ -- 26
-pop$ -- 95
+int.to.str$ -- 21
+missing$ -- 13
+newline$ -- 99
+num.names$ -- 42
+pop$ -- 155
 preamble$ -- 1
-purify$ -- 58
+purify$ -- 90
 quote$ -- 0
-skip$ -- 147
+skip$ -- 217
 stack$ -- 0
-substring$ -- 326
-swap$ -- 67
+substring$ -- 409
+swap$ -- 83
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 52
+type$ -- 84
 warning$ -- 1
-while$ -- 50
-width$ -- 15
-write$ -- 128
-(There were 4 warnings)
+while$ -- 69
+width$ -- 23
+write$ -- 190
+(There were 10 warnings)

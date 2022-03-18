@@ -1,0 +1,402 @@
+spark-submit', '--class', 'CanTreeMain', '--master', 'spark://cn41-ib:7077', '--driver-memory', '8│379102 kulev     20   0  171012   2396   1204 R   0.7  0.0 128:47.84 top                         
+g', '--executor-memory', '80g', '--num-executors', '7', '--executor-cores', '20', '--files', 'src/m│272424 kulev     20   0  200444   2376   1012 S   0.0  0.0   1:11.08 sshd                        
+ain/resources/log4j_file_executor.properties', '--conf', 'spark.driver.extraJavaOptions=-Dlog4j.conf│272425 kulev     20   0  127720    676    672 S   0.0  0.0   0:00.12 bash                        
+iguration=file:src/main/resources/log4j_file.properties -Xss1g', '--conf', 'spark.executor.extraJava│379481 kulev     20   0   15.2g 572260   7632 S   0.0  0.3  17:14.71 java                        
+Options=-Dlog4j.configuration=file:src/main/resources/log4j_file_executor.properties -Xss1g', 'targe│                                                                                                 
+t/scala-2.11/cantree_2.11-0.1.jar', '--num-partitions', '1000', '--min-support', '0.01', '--in-file-│                                                                                                 
+list-path', '/RG/rg-gudes/kulev/dataset/T15I5D1000N10_20splits/filesList1.txt', '--app-name', 'MINMI│                                                                                                 
+N_FREQ_T15D1M10K_1000_20_7_80g_0_01', '--freq-sort', '1', '--min-min-support', '0.1
+
+
+
+spark-submit --class CanTreeMain --master spark://cn41-ib:7077 --driver-memory 80g --executor-memory 80g --num-executors 7 --executor-cores 20 --files src/main/resources/log4j_file_executor.properties --conf 'spark.driver.extraJavaOptions=-Dlog4j.configuration=file:src/main/resources/log4j_file.properties -Xss1g' --conf 'spark.executor.extraJavaOptions=-Dlog4j.configuration=file:src/main/resources/log4j_file_executor.properties -Xss1g' target/scala-2.11/cantree_2.11-0.1.jar --num-partitions 1000 --min-support 0.01 --in-file-list-path /RG/rg-gudes/kulev/dataset/T15I5D1000N10_20splits/filesList1.txt  --app-name MINMIN_FREQ_T15D1M10K_1000_20_7_80g_0_01 --freq-sort 1 --min-min-support 0.1
+
+
+
+
+
+
+def checkContains(arr : Array[Array[Int]], item : Int) : Boolean = {
+	for (i <- arr) 
+		for (j <- i)
+			if (j==item)
+				return true
+	return false
+}
+
+def findMissing(arr1 : Array[org.apache.spark.mllib.fpm.FPGrowth.FreqItemset[Int]], arr2 : Array[levko.cantree.utils.CanTreeFPGrowth.FreqItemset[Int]]) : org.apache.spark.mllib.fpm.FPGrowth.FreqItemset[Int] = {
+	var res = null;
+	var counter = 0;
+	for (item1 <- arr1) {
+		var found = false
+		if (item1.items.size <=1) {
+			for (item2 <- arr2) {
+				if (item2.items.size <=1) {
+					if (item1.items(0)==item2.items(0)) {
+						//println("found "+item1.items(0))
+						found = true
+						counter+=1
+						println(counter +" found "+item1.items(0))
+					}
+				}
+			}
+			if (!found) {
+				return item1
+			}
+		}
+	}
+	return res
+}
+
+
+
+
+data.flatMap { transaction =>
+    genCondTransactions(transaction, itemToRank, partitioner)
+  }.aggregateByKey(new CanTreeV1[Int], partitioner.numPartitions)(
+    (tree, transaction) => tree.add(transaction, 1L),
+    (tree1, tree2) => tree1.merge(tree2))
+
+
+
+
+import levko.cantree.utils.{CanTreeFPGrowth, CanTreeV1}
+import org.apache.spark.{HashPartitioner, Partitioner, SparkException}
+import org.apache.spark.sql.{DataFrame, SparkSession}
+import org.apache.spark.rdd.RDD
+import org.apache.spark.rdd.RDD._
+import scala.collection.mutable
+import scala.collection.mutable.ListBuffer
+import org.apache.spark.sql.functions.{col, collect_list, min}
+import scala.reflect.ClassTag
+import org.apache.spark.sql.types.{IntegerType, StructField, StructType}
+import org.apache.log4j.Logger
+import org.apache.spark.mllib.fpm.FPGrowth
+import scala.io.Source
+import scala.sys.exit
+  type Sorter[T] = (T, T) => Boolean
+  type StringSorter = Sorter[String]
+  type IntSorter = Sorter[Int]
+  def stringSorter : StringSorter = (s1,s2) => s1<s2
+  def intSorter : IntSorter = (i1,i2) => i1<i2
+  def customSorter(map: Map[Int, Long]): Sorter[Int] = { (i1, i2) =>
+    (map.get(i1), map.get(i2)) match {
+      case (Some(ic1), Some(ic2)) => ic1 < ic2
+      case(Some(ic1),_)           => false
+      case(_,Some(ic2))           => true
+      case _                      => i1 < i2
+    }
+  }
+  def prepareTransactions[Item](filePath: String, spark: SparkSession, customSchema : StructType):  DataFrame = {
+    val df = spark.read.format("csv").option("header", "false").schema(customSchema).load(filePath)
+    df.groupBy("InvoiceNo").agg(collect_list(col("StockCode")))
+  }
+  def getItemsCount[Item: ClassTag](data: RDD[Array[Item]]): RDD[(Item, Long)] = {
+    data.flatMap { t =>
+      val uniq = t.toSet
+      if (t.length != uniq.size) {
+        throw new SparkException(s"Items in a transaction must be unique but got ${t.toSeq}.")
+      }
+      t
+    }.map(v => (v, 1L))
+      .reduceByKey(_ + _)
+  }
+  def prepareTransactions[Item](filePath: String, spark: SparkSession, customSchema : StructType):  DataFrame = {
+    val df = spark.read.format("csv").option("header", "true").schema(customSchema).load(filePath)
+    df.groupBy("InvoiceNo").agg(collect_list(col("StockCode")))
+  }
+val numPartitions = 3
+val minSupport = 0.1
+val minminSupport = 0.8
+    val customSchema = StructType(Array(
+      StructField("InvoiceNo", IntegerType, true),
+      StructField("StockCode", IntegerType, true))
+    )
+    val partitioner : HashPartitioner = new HashPartitioner(numPartitions)
+val f = "/home/lev/Documents/teza/cantree/smallTest1.csv"
+val dfGrouped = prepareTransactions(f,spark,customSchema)
+      val transactions = dfGrouped.rdd.map(t=>t(1).asInstanceOf[mutable.WrappedArray[Int]].toArray)
+      val minMinSupport = math.floor(transactions.count()*minSupport*minminSupport).toLong
+      val model = new CanTreeFPGrowth().setMinSupport(minSupport).setPartitioner(partitioner).setMinMinSupport(minMinSupport)
+        val countMap = transactions.flatMap { t =>
+          val uniq = t.toSet
+          if (t.length != uniq.size) {
+            throw new SparkException(s"Items in a transaction must be unique but got ${t.toSeq}.")
+          }
+          t
+        }.map(v => (v, 1L)).reduceByKey(_ + _).collect().toMap
+        val customSort = customSorter(countMap)
+    var totTransactions = 0L
+var freqItems : mutable.HashMap[Int,Long] = mutable.HashMap.empty
+var schema = customSchema
+var sorter = customSort
+      val dfGrouped = prepareTransactions(f,spark,schema)
+      val transactions = dfGrouped.rdd.map(t=>t(1).asInstanceOf[mutable.WrappedArray[Int]].toArray)
+      totTransactions += transactions.count()
+var minSupPercentage = minSupport
+var minMinSup = minminSupport
+      val minSuppLong = math.ceil(totTransactions*minSupPercentage).toLong
+      val minMinSupLong = (minSuppLong*minMinSup).toLong
+      val currFreq = getItemsCount(transactions).filter(_._2 >= minMinSupLong).collect().toMap
+      for ((k,v)<-currFreq) {
+        if (freqItems.contains(k))
+          freqItems(k)+=v
+        else
+          freqItems.put(k,v)
+      }
+      val canTrees = model.genCanTrees(transactions,sorter,freqItems.toMap)
+    var baseCanTreeRDD : RDD[(Int,CanTreeV1[Int])] = spark.sparkContext.emptyRDD
+      val nextCanTreeRDD = baseCanTreeRDD.fullOuterJoin(canTrees).map{
+        case (part,(Some(tree1),Some(tree2))) => (part,tree1.merge(tree2))
+        case (part,(Some(tree1),_)) => (part,tree1)
+        case (part,(_,Some(tree2))) => (part,tree2)
+      }
+      val fisCount =   model.run(nextCanTreeRDD,minSuppLong).count()
+val fpModel = new FPGrowth().setMinSupport(minSupport).setNumPartitions(partitioner.numPartitions)
+fisCount = fpModel.run(transactions).freqItemsets.count()
+val fisCount = fpModel.run(transactions).freqItemsets.count()
+val pfpRes = fpModel.run(transactions).freqItemsets
+      val ipfimRes =   model.run(nextCanTreeRDD,minSuppLong)
+ipfimRes.collect()
+pfpRes.collectt()
+pfpRes.collect()
+canTrees.take(1)
+canTrees.take(1)._1
+canTrees.take(1)(1)
+canTrees.take(1)(0)
+canTrees.take(1)(0)(1)
+canTrees.take(1)(0)._1
+canTrees.take(1)(0)._2
+canTrees.take(1)(0)._2.root
+canTrees.take(1)(0)._2.extract(1)
+canTrees.take(1)(0)._2.extract(1).toList
+canTrees.take(3)(0)._2.extract(1).toList
+canTrees.take(3)(1)._2.extract(1).toList
+partitioner.getPartition(1)
+partitioner.getPartition(12)
+partitioner.getPartition(16)
+canTrees.take(3)(0)._2.extract(1).toList
+canTrees.take(3)(1)._2.extract(1).toList
+canTrees.take(3)(1)._2.extract(1,x => partitioner.getPartition(x) == 1).toList
+fpMode
+fpModel
+//val fpModel = new FPGrowth().setMinSupport(minSupport).setNumPartitions(partitioner.numPartitions)
+partitioner.numPartitions
+fpModel.numPartitions
+    val partitioner : HashPartitioner = new HashPartitioner(1)
+      val model = new CanTreeFPGrowth().setMinSupport(minSupport).setPartitioner(partitioner).setMinMinSupport(minMinSupport)
+      val canTrees = model.genCanTrees(transactions,sorter,freqItems.toMap)
+canTrees.take(3)(1)._2.extract(1).toList
+canTrees.take(1)
+canTrees.take(1)(0)
+canTrees.take(1)(0)._2.extract(1).toList
+canTrees.take(1)(0)._2.extract(1).toList.size
+pfpRes
+pfpRes.take(30)
+pfpRes.take(30).size
+    val partitioner : HashPartitioner = new HashPartitioner(3)
+      val canTrees = model.genCanTrees(transactions,sorter,freqItems.toMap)
+      val model = new CanTreeFPGrowth().setMinSupport(minSupport).setPartitioner(partitioner).setMinMinSupport(minMinSupport)
+      val canTrees = model.genCanTrees(transactions,sorter,freqItems.toMap)
+canTrees.take(4)(0)._2.extract(1).toList.size
+canTrees.take(4)(1)._2.extract(1).toList.size
+canTrees.take(4)(2)._2.extract(1).toList.size
+canTrees.take(4)(3)._2.extract(1).toList.size
+canTrees.take(4)(2)._2.extract(1).toList
+canTrees.take(4)(2)._2.extract(1,x => partitioner.getPartition(x) == 2).toList
+canTrees.take(4)(2)._2.extract(1,x => partitioner.getPartition(x) == 2).toList.size
+canTrees.take(4)(1)._2.extract(1,x => partitioner.getPartition(x) == 2).toList.size
+canTrees.take(4)(1)._2.extract(1,x => partitioner.getPartition(x) == 2).toList
+canTrees.take(4)(1)._2.extract(1,x => partitioner.getPartition(x) == 1).toList
+canTrees.take(4)(1)._2.extract(1,x => partitioner.getPartition(x) == 1).toList.size
+canTrees.take(4)(0)._2.extract(1,x => partitioner.getPartition(x) == 0).toList.size
+canTrees.count()
+pfpRes
+pfpRes.take(20)
+pfpRes.take(30)
+val freqItemsCount = transactions.flatMap { t =>
+      val uniq = t.toSet
+      if (t.length != uniq.size) {
+        throw new SparkException(s"Items in a transaction must be unique but got ${t.toSeq}.")
+      }
+      t
+    }.map(v => (v, 1L)).reduceByKey(partitioner, _ + _).filter(_._2 >= minSuppLong).collect().sortBy(-_._2)
+freqItemsCount.collect()
+freqItemsCount
+canTrees.
+canTrees
+canTrees.take(1)
+canTrees.take(1)(1)
+canTrees.take(1)(0)
+canTrees.take(1)(0)(1)
+canTrees.take(1)(0)_.2
+canTrees.take(1)(0)._2
+canTrees.take(1)(0)._2.root
+canTrees.take(1)(0)._2.root.children
+canTrees.take(1)(0)._2.root.children(12)
+canTrees.take(1)(0)._2.root.children(12).item
+canTrees.take(1)(0)._2.root.children(12).children
+canTrees.take(1)(0)._2.root.children(15).children
+transactions.take(20)
+canTrees.take(3)(0)._2.root.children
+canTrees.take(3)(1)._2.root.children
+canTrees.take(3)(2)._2.root.children
+freqItemsCount
+val freqItems = freqItemsCount.map(_._1)
+val data = transactions
+val minCount = minSuppLong
+val itemToRank = freqItems.zipWithIndex.toMap
+freqItems
+data.flatMap { transaction =>
+      genCondTransactions(transaction, itemToRank, partitioner)
+    }.take(20)
+def genCondTransactions[Item: ClassTag](
+      transaction: Array[Item],
+      itemToRank: Map[Item, Int],
+      partitioner: Partitioner): mutable.Map[Int, Array[Int]] = {
+    val output = mutable.Map.empty[Int, Array[Int]]
+    // Filter the basket by frequent items pattern and sort their ranks.
+    val filtered = transaction.flatMap(itemToRank.get)
+    ju.Arrays.sort(filtered)
+    val n = filtered.length
+    var i = n - 1
+    while (i >= 0) {
+      val item = filtered(i)
+      val part = partitioner.getPartition(item)
+      if (!output.contains(part)) {
+        output(part) = filtered.slice(0, i + 1)
+      }
+      i -= 1
+    }
+    output
+  }
+import java.{util => ju}
+def genCondTransactions[Item: ClassTag](
+      transaction: Array[Item],
+      itemToRank: Map[Item, Int],
+      partitioner: Partitioner): mutable.Map[Int, Array[Int]] = {
+    val output = mutable.Map.empty[Int, Array[Int]]
+    // Filter the basket by frequent items pattern and sort their ranks.
+    val filtered = transaction.flatMap(itemToRank.get)
+    ju.Arrays.sort(filtered)
+    val n = filtered.length
+    var i = n - 1
+    while (i >= 0) {
+      val item = filtered(i)
+      val part = partitioner.getPartition(item)
+      if (!output.contains(part)) {
+        output(part) = filtered.slice(0, i + 1)
+      }
+      i -= 1
+    }
+    output
+  }
+data.flatMap { transaction =>
+      genCondTransactions(transaction, itemToRank, partitioner)
+    }
+val condTrans = data.flatMap { transaction =>
+      genCondTransactions(transaction, itemToRank, partitioner)
+    }
+condTrans.take(30)
+val pfpTrees = data.flatMap { transaction =>
+      genCondTransactions(transaction, itemToRank, partitioner)
+    }.aggregateByKey(new FPTree[Int], partitioner.numPartitions)(
+      (tree, transaction) => tree.add(transaction, 1L),
+      (tree1, tree2) => tree1.merge(tree2))
+import org.apache.spark.mllib.fpm.FPTree
+FPTree
+val pfpTrees = data.flatMap { transaction =>genCondTransactions(transaction, itemToRank, partitioner)
+    }.aggregateByKey(new FPTree[Int], partitioner.numPartitions)(
+      (tree, transaction) => tree.add(transaction, 1L),
+      (tree1, tree2) => tree1.merge(tree2))
+import org.apache.spark.mllib.fpm.FPTree111
+import org.apache.spark.mllib.fpm.FPTree
+val pfpTrees = data.flatMap { transaction =>
+      genCondTransactions(transaction, itemToRank, partitioner)
+    }.aggregateByKey(new CanTreeV1[Int], partitioner.numPartitions)(
+      (tree, transaction) => tree.add(transaction, 1L),
+      (tree1, tree2) => tree1.merge(tree2))
+pfpTrees.take(1)
+pfpTrees.take(1)(0)
+pfpTrees.take(1)(0)._2
+pfpTrees.take(1)(0)._2.root
+pfpTrees.take(1)(0)._2.root.children
+pfpTrees.take(1)(0)._2.root.children(0).children
+itemToRank
+pfpTrees.take(2)(0)._2.root.children
+pfpTrees.take(2)(1)._2.root.children
+pfpTrees.take(2)(2)._2.root.children
+pfpTrees.take(2)(0)._2.root.children
+pfpTrees.take(2)(1)._2.root.children
+pfpTrees.take(2)(1)._2.root.children(0).children
+pfpTrees.take(2)(1)._2.root.children(0).count
+pfpTrees.take(2)(0)._2.root.children(0).count
+pfpTrees.take(2)(1)._2.root.children(0)
+pfpTrees.take(2)(1)._2.root.children(0)(0)
+pfpTrees.take(2)(1)._2.root.children(0)
+pfpTrees.take(2)(1)._2.root.children(0).children
+pfpTrees.take(2)(1)._2.root.children(0).children(1)
+pfpTrees.take(2)(1)._2.root.children(0).children(1).chldren
+pfpTrees.take(2)(1)._2.root.children(0).children(1).children
+pfpTrees.take(2)(1)._2.root.children(0).children(1).children(4)
+pfpTrees.take(2)(1)._2.root.children(0).children(1).children(4).children
+pfpTrees.take(2)(1)._2.root.children(0).children
+pfpTrees.take(2)(1)._2.root.children(0).children(2)
+pfpTrees.take(2)(1)._2.root.children(0).children(2).children
+partitioner.getPartition(0)
+partitioner.getPartition(1)
+partitioner.getPartition(2)
+partitioner.getPartition(3)
+partitioner.getPartition(4)
+canTrees.take(3)
+canTrees.take(4)
+canTrees.take(3)(0)
+canTrees.take(3)(0)._2
+canTrees.take(3)(0)._2.root.children
+canTrees.take(3)(1)._2.root.children
+canTrees.take(3)(2)._2.root.children
+canTrees.take(3)(2)._2.root.children(11)
+canTrees.take(3)(2)._2.root.children(11).children
+canTrees.take(3)(2)._2.root.children(11).count
+pfpTrees.take(2)(1).extract(minCount, x => partitioner.getPartition(x) == 1)
+pfpTrees.take(2)(1)._2.extract(minCount, x => partitioner.getPartition(x) == 1)
+pfpTrees.take(2)(1)._2.extract(minCount, x => partitioner.getPartition(x) == 1).toList
+pfpTrees.take(2)(0)._2.extract(minCount, x => partitioner.getPartition(x) == 0).toList
+pfpTrees.take(2)(2)
+pfpTrees.take(2)(0)._2.extract(minCount, x => partitioner.getPartition(x) == 0).toList.size
+pfpTrees.take(2)(1)._2.extract(minCount, x => partitioner.getPartition(x) == 1).size
+pfpTrees.take(3)
+pfpTrees.take(3)(2)
+pfpTrees.take(3)(2)._2
+pfpTrees.take(3)(2)._2._2.extract(minCount, x => partitioner.getPartition(x) == 2).toList.size
+pfpTrees.take(3)(2)._2.extract(minCount, x => partitioner.getPartition(x) == 2).toList.size
+pfpTrees.take(3)(2)._2.extract(minCount, x => partitioner.getPartition(x) == 2).toList
+partitioner.getPartition(5)
+partitioner.getPartition(2)
+freqItems
+itemToRank
+itemToRank(5)
+canTrees.take(3)(2)._2.extract(minCount, x => partitioner.getPartition(x) == 2).toList
+canTrees.take(3)(2)._2.extract(minCount, x => partitioner.getPartition(x) == 2).toList.size
+canTrees.take(3)(1)._2.extract(minCount, x => partitioner.getPartition(x) == 1).toList.size
+canTrees.take(3)(0)._2.extract(minCount, x => partitioner.getPartition(x) == 0).toList.size
+partitioner.getPartition(1)
+partitioner.getPartition(14)
+partitioner.getPartition(16)
+partitioner.getPartition(11)
+canTrees.take(3)(2)._2.extract(minCount, x => partitioner.getPartition(x) == 2).toList
+canTrees.take(3)(2)._2.extract(minCount, x => partitioner.getPartition(x) == 1).toList
+canTrees.take(3)(2)._2.extract(minCount, x => partitioner.getPartition(x) == 2).toList
+partitioner.getPartition(11)
+canTrees.take(3)(2)._2.root.children
+pfpTrees.take(3)(2)._2.root.children
+pfpTrees.take(3)(2)._2..extract(minCount, x => partitioner.getPartition(x) == 2).toList
+pfpTrees.take(3)(2)._2.extract(minCount, x => partitioner.getPartition(x) == 2).toList
+pfpTrees.take(3)(2)._2.extract(minCount, x => partitioner.getPartition(x) == 2).toList.size
+pfpTrees.take(3)(1)._2.extract(minCount, x => partitioner.getPartition(x) == 1).toList.size
+pfpTrees.take(3)(1)._2.extract(minCount, x => partitioner.getPartition(x) == 1).toList
+pfpTrees.take(3)(0)._2.extract(minCount, x => partitioner.getPartition(x) == 0).toList
+pfpTrees.take(3)(0)._2.root.children
+pfpTrees.take(3)(1)._2.root.children
+pfpTrees.take(3)(2)._2.root.children
+

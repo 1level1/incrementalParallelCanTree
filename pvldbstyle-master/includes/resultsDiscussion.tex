@@ -1,0 +1,31 @@
+
+
+\section{Discussion}
+\label{sec:discussion}
+
+The total computation time consists from 2 main section:
+\begin{enumerate}
+\item Read, scan and build model. \label{item:disc1}
+\item Mine FIS from model.\label{item:disc2}
+\end{enumerate}
+
+IPFIM proposes improvement for the 1st item. When the 2nd item computation time is by far larger than 1st one, the improvement is negligible in total. The drawbacks of the CanTree algorithm are even more evident for small minSup values and large dataset - large memory consumption and slow minning time due to inefficient tree traversal. For this reason an improvement to the original IPFIM algorithm is proposed in section \hyperref[sec:improvements]{\textit{Improvments}}.
+
+For moderate support values and dataset sizes, where ratio of 1 and 2 is balanced, IPFIM outperforms PFP as it will require only one DB scan and iterative construction (\autoref{fig:PFPvsIPFP})
+
+
+\subsection{PFP VS IPFIM}
+\subsubsection{Synthetic Datasets}
+As seen at \autoref{fig:PFPvsIPFP}, PFP~\cite{li2008pfp} starts better, but after a few iterations, IPFIM is more flat for every iteration, while PFP~\cite{li2008pfp} increases linearly due to full data read. 
+
+\subsubsection{Kosarak Dataset}
+For the Kosarak dataset, results are seen in \autoref{fig:PFPvsIPFPKos}.
+Since there are much more frequent items (~20X) for minSup of 0.001, the results show a poor performance for mining with only 10 partitions. For 100 partitions, the results are still better for PFP~\cite{li2008pfp}, where the exponential mining process is the bottle neck for IPFIM.
+
+\subsection{CanTree VS IPFIM}
+\subsubsection{Synthetic Datasets}
+Using 10M iterations and 100K itemsets with only 1 partition (regular CanTree), will result a memory overflow with the used architecture, thus the results are not presented here. For a 1M transaction with 10K unique itemsets, the results improve at 5X for every 10X partitions. This is due to memory improvements and parallel computations as seen in \autoref{fig:IPFP1M0001}.
+
+\subsubsection{Kosarak Dataset}
+For the Kosarak dataset, the improvement is 5X and 50X for 10 and 100 partitions, as seen in \autoref{fig:IPFP1M0001_10_100}.
+

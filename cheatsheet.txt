@@ -148,12 +148,12 @@ def createIterationFiles(fileName : String,iterNum : Int,outputdir : String) : U
 	val boundaries = df.agg(min("InvoiceNo"),max("InvoiceNo"))
 	val maxRow = df.agg(max("InvoiceNo")).take(1)(0).getInt(0)
 	val mid = math.floor(0.5*maxRow)
-	df.filter(df("InvoiceNo") < mid).write.csv(outputdir+"baseDF.csv")
+	df.filter(df("InvoiceNo") < mid).coalesce(1).write.csv(outputdir+"baseDF.csv")
 	val iterSize = math.ceil(mid/iterNum).toInt
 	for (i <- 0 to iterNum-1) {
 		val currStart = mid+i*iterSize
 		val currEnd = mid+(i+1)*iterSize
-		df.filter(df("InvoiceNo")>=currStart && df("InvoiceNo") < currEnd).write.csv(outputdir+i+".csv")
+		df.filter(df("InvoiceNo")>=currStart && df("InvoiceNo") < currEnd).coalesce(1).write.csv(outputdir+i+".csv")
 	}
 }
 
@@ -189,3 +189,36 @@ for i in range(0,20):
 
 
 spark-submit --class CanTreeMain --master local --driver-memory 8g --executor-memory 8g --num-executors 2 --executor-cores 3 --conf spark.driver.extraJavaOptions=-Dlog4j.configuration=file:src/main/resources/log4j_file.properties target/scala-2.11/cantree_2.11-0.1.jar --num-partitions 1 --min-support 0.1 --in-file-list-path /RG/rg-gudes/kulev/kosarak_20splits/filesList.txt --app-name kosarak_1_40_4_20g_0_1
+
+
+rsync -av -e 'ssh -o "Proxycommand ssh kulev@sheshet.cslab.openu.ac.il -W %h:%p"' target/scala-2.11/cantree_2.11-0.1.jar kulev@login.hpc.pub.lan:~/work/cantree/target/scala-2.11/cantree_2.11-0.1.jar
+
+ssh -L 18081:localhost:18080 kulev@sheshet.cslab.openu.ac.il
+
+
+var itemsHash : mutable.HashMap[Item,Int] = mutable.HashMap.empty
+for (i in 0 to 1000)
+    itemHash(i)=i
+
+def runRand(itemsHash : mutable.HashMap[Int,Int]) : Unit = {
+    val r = scala.util.Random
+    1 to 100000 foreach( i => {
+        val item : Int = i.asInstanceOf[Int]
+        itemsHash(item)
+        }
+    )
+}
+
+def runRandIm[Item:ClassTag](itemsHash : immutable.Map[Item,Int]) : Unit = {
+    val r = scala.util.Random
+    0 to 100000 foreach( i => itemsHash(r.nextInt(100000)))
+}
+
+
+var subs : List[Set[Int]] = List.empty
+itemsHash.map( i => Set(i._1) ::subs )
+
+
+
+
+ssh -L 5901:localhost:5901 -J kulev@sheshet.cslab.openu.ac.il kulev@login

@@ -1,0 +1,15 @@
+2020-11-19T23:32:09.983-iterateAndReport- Found 4465 at iteration number 0
+2020-11-19T23:36:46.604-iterateAndReport- Found 4464 at iteration number 1
+2020-11-19T23:39:16.282-iterateAndReport- Found 4468 at iteration number 2
+2020-11-19T23:41:45.470-iterateAndReport- Found 4465 at iteration number 3
+2020-11-19T23:44:23.267-iterateAndReport- Found 4467 at iteration number 4
+2020-11-19T23:46:49.316-iterateAndReport- Found 4468 at iteration number 5
+2020-11-19T23:49:16.607-iterateAndReport- Found 4462 at iteration number 6
+2020-11-19T23:51:39.584-iterateAndReport- Found 4464 at iteration number 7
+2020-11-19T23:54:03.921-iterateAndReport- Found 4464 at iteration number 8
+2020-11-19T23:56:21.917-iterateAndReport- Found 4465 at iteration number 9
+2020-11-19T23:59:04.939-iterateAndReport- Found 4462 at iteration number 10
+2020-11-20T00:01:31.450-iterateAndReport- Found 4465 at iteration number 11
+2020-11-20T00:04:20.104-iterateAndReport- Found 4464 at iteration number 12
+2020-11-20T00:07:07.187-iterateAndReport- Found 4464 at iteration number 13
+2020-11-20T00:11:02.615-iterateAndReport- Found 4466 at iteration number 14

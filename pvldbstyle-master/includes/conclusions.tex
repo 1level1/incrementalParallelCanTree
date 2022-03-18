@@ -1,5 +1,7 @@
 \section{Conclusions}
-From the results, there is a memory limitation when building trees with full items to support interactive transactions. Splitting to multiple partitions and calculations will improve memory and runtime performance.
+For a single computation of frequent items, the benchmark for performance and memory for IPFIM, is PFP. This is because IPFIM is using similar techniques, and FP tree is the optimal structure for this purpose (except some variations mentioned in previous sections, e.g. optimal sharding).
+As already mentioned in the \hyperref[sec:discussion]{\textit{discussion}} section, when there is a relatively equal ratio between reading a dataset and computation time of frequent item sets, IPFIM with the suggested improvements out performs PFP. However, for large FIS computation time, this advantage is negligible in total.
 
-The improvements mentioned in section XXX are a good approach for handling 
+Using a canonical order approach, as in Cantree, was almost not practical for large data sets, nor for small min support calculations. The improvement of using a semi-frequency and pre-min support limitation, provides the best balance , and provides best performance.
 
+For future work, it is interesting to enhance PFP to use "smart" grouping. For example trying to use greedy set cover to find groups for of frequent itemsets.

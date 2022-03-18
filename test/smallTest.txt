@@ -1,5 +1,6 @@
-/home/lev/Documents/teza/cantree/test/base.csv
-/home/lev/Documents/teza/cantree/test/0.csv
-/home/lev/Documents/teza/cantree/test/1.csv
-/home/lev/Documents/teza/cantree/test/2.csv
-/home/lev/Documents/teza/cantree/test/3.csv
+/Users/levk/Documents/teza/incrementalParallelCanTree/test/base.csv
+/Users/levk/Documents/teza/incrementalParallelCanTree/test/0.csv
+/Users/levk/Documents/teza/incrementalParallelCanTree/test/1.csv
+/Users/levk/Documents/teza/incrementalParallelCanTree/test/2.csv
+/Users/levk/Documents/teza/incrementalParallelCanTree/test/3.csv
+/Users/levk/Documents/teza/incrementalParallelCanTree/test/4.csv

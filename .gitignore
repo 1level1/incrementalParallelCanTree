@@ -29,3 +29,6 @@ target*
 *.swo
 log.spark
 error.log
+
+*.pyc
+*.DS_Store

@@ -1,11 +1,33 @@
-\select@language {english}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Maximal Frequent Itemset Illustration\relax }}{4}{figure.caption.8}%
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Maximal Frequent Itemset Illustration\relax }}{5}{figure.caption.10}%
+\contentsline {figure}{\numberline {2.3}{\ignorespaces Relationship between Frequent Itemset Representations\relax }}{6}{figure.caption.11}%
+\contentsline {figure}{\numberline {2.4}{\ignorespaces Apriori Example\relax }}{8}{figure.caption.14}%
+\contentsline {figure}{\numberline {2.5}{\ignorespaces FPGrowth example\relax }}{9}{figure.caption.15}%
+\contentsline {figure}{\numberline {2.6}{\ignorespaces Execution time for different min-sup values, average transaction length 10\relax }}{10}{figure.caption.16}%
+\contentsline {figure}{\numberline {2.7}{\ignorespaces Execution time for different min-sup values , average transaction length 30\relax }}{11}{figure.caption.17}%
+\contentsline {figure}{\numberline {2.8}{\ignorespaces The CanTree after each group of transactions is added\relax }}{14}{figure.caption.20}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {\@@number {\@@number {3}.\@@number {1}}}{\ignorespaces An example of trees and mining for minSup=2 and 2 partitions\relax }}{\@@number {4}}{figure.caption.6}%
-\contentsline {figure}{\numberline {\@@number {\@@number {3}.\@@number {2}}}{\ignorespaces FPGrowth example\relax }}{\@@number {6}}{figure.caption.7}%
+\contentsline {figure}{\numberline {3.1}{\ignorespaces IPFIM example\relax }}{19}{figure.caption.24}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {\@@number {\@@number {4}.\@@number {1}}}{\ignorespaces PFP vs IPFIM 10M\relax }}{\@@number {9}}{figure.caption.8}%
-\contentsline {figure}{\numberline {\@@number {\@@number {4}.\@@number {2}}}{\ignorespaces PFP vs IPFIM Kosarak\relax }}{\@@number {10}}{figure.caption.9}%
-\contentsline {figure}{\numberline {\@@number {\@@number {4}.\@@number {3}}}{\ignorespaces Inc. vs IPFIM\relax }}{\@@number {10}}{figure.caption.10}%
+\contentsline {figure}{\numberline {4.1}{\ignorespaces IPFIM partial frequency sort vs IPFIM cannonical sort\relax }}{21}{figure.caption.25}%
+\contentsline {figure}{\numberline {4.2}{\ignorespaces IPFIM pre-min, semi-frequency vs PFP\relax }}{22}{figure.caption.26}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {6.1}{\ignorespaces T15I5D1000N10 100 partitions\relax }}{27}{figure.caption.35}%
+\contentsline {figure}{\numberline {6.2}{\ignorespaces kosarak, minSup = 0.001, PFP 100|1000|500 partitions\relax }}{27}{figure.caption.36}%
+\contentsline {figure}{\numberline {6.3}{\ignorespaces kosarak, minSup = 0.001, IPFIM Improved 100|1000|500 partitions\relax }}{28}{figure.caption.37}%
+\contentsline {figure}{\numberline {6.4}{\ignorespaces kosarak, minSup = 0.001, partitions = 500\relax }}{28}{figure.caption.38}%
+\contentsline {figure}{\numberline {6.5}{\ignorespaces T15I5D10000N100, minSup = 0.0001, PFP 100|1000|500 partitions\relax }}{29}{figure.caption.39}%
+\contentsline {figure}{\numberline {6.6}{\ignorespaces T15I5D10000N100, minSup = 0.0001, IPFIM Improved 100|1000|500 partitions\relax }}{29}{figure.caption.40}%
+\contentsline {figure}{\numberline {6.7}{\ignorespaces T15I5D10000N100, minSup = 0.0001, IPFIM 100|1000|500 partitions\relax }}{30}{figure.caption.41}%
+\contentsline {figure}{\numberline {6.8}{\ignorespaces T15I5D10000N100, minSup = 0.0001, 1000 partitions\relax }}{30}{figure.caption.42}%
+\contentsline {figure}{\numberline {6.9}{\ignorespaces T15I5D10000N100, minSup = 0.0001, 1000 partitions, Set cover vs IPFIM\relax }}{31}{figure.caption.43}%
+\contentsline {figure}{\numberline {6.10}{\ignorespaces T15I5D10000N100, minSup = 0.0001, PFP, Min Tree size for partitions\relax }}{31}{figure.caption.44}%
+\contentsline {figure}{\numberline {6.11}{\ignorespaces T15I5D10000N100, minSup = 0.0001, PFP, Average Tree size for partitions\relax }}{32}{figure.caption.45}%
+\contentsline {figure}{\numberline {6.12}{\ignorespaces T15I5D10000N100, minSup = 0.0001, PFP, Maximum Tree size for partitions\relax }}{32}{figure.caption.46}%
+\contentsline {figure}{\numberline {6.13}{\ignorespaces T15I5D10000N100, minSup = 0.0001, Average Tree size for 1000 partitions\relax }}{33}{figure.caption.47}%
+\contentsline {figure}{\numberline {6.14}{\ignorespaces kosarak, minSup = 0.001, SONG 100|1000|500 partitions\relax }}{33}{figure.caption.48}%
+\addvspace {10\p@ }
 \addvspace {10\p@ }
