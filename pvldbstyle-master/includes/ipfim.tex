@@ -3,7 +3,50 @@
 The implementation of this algorithm strongly depends on PFP~\cite{li2008pfp}. To support incremental tree updates, we are using a predefined comparison function to arrange the items insertion order, as used in CanTree~\cite{leung2005cantree}.
 
 \subsection{IPFIM Outline}
-The combination of the previously mentioned algorithms will provide an incremental and parallel algorithm for mining FIS.  \autoref{fig:IPFIMexample} shows an example for a 2 partition calculation of CanTrees based on the partition function of $\{a6,a4,a2\}\to 0$ and $\{a5,a3,a1\}\to 1$.
+The combination of the previously mentioned algorithms will provide an incremental and parallel algorithm for mining FIS.  The highlevel algorithm is presented in ~\ref{alg:ipfim}, while the inner update of every iteration is in ~\ref{alg:ipfimiteration}.
+
+\begin{algorithm}
+  \caption{IPFIM}
+  \begin{algorithmic}[1]
+   \label{alg:ipfim}
+    \Procedure{IPFIM}{minSupport, iterationsArray[],numIterations, sortFunction,partitioner}
+    \State $canTrees\gets$ RDD[$|partitioner|$] of empty $CanTree$ objects
+    \State $fisArray\gets$ array[$numIterations$]
+    \For{$i\gets 0\ ;\  i\! <\! numIterations \ ;\  i\! +\! +$}
+    	\State $canTrees \gets IPFIMIteration(iterationsArray[i],canTrees,sortFunction,partitioner)$
+    	\State $fisArray[i] \gets mineCanTrees(canTrees,minSupport)$ \Comment{Same as in FPGrowth}
+    \EndFor
+    \State \textbf{return} $fisArray$
+    \EndProcedure
+  \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+  \caption{IPFIMIteration}
+  \begin{algorithmic}[1]
+   \label{alg:ipfimiteration}
+    \Procedure{IPFIMIteration}{data,canTrees,sortFunction,partitioner}
+    \State $sortedTransactions\gets\text{order data by sortFunction}$
+    \State $partitionedTransactions\gets\text{map sortedTransactions to key'=g; value'={t\textsubscript{i}[0]…t\textsubscript{i}[L]}}$ \Comment{As in PFP}
+	\State $canTrees \gets\text{Reduce partitionedTransactions and update trees}$
+	\State \textbf{return} $canTrees$
+    \EndProcedure
+  \end{algorithmic}
+\end{algorithm}
+
+For every iteration there the following map/reduce jobs:
+\begin{enumerate}
+\item Map: Read and sort data
+\item Map: Split based on the partitioner
+\item Reduce: Add to proper CanTree object in group
+\end{enumerate}
+Followed by the mining map:
+\begin{enumerate}
+\item Map: every partition, 1-length fis to its projected recursive tree, and output FIS
+\end{enumerate}
+
+\subsubsection{IPFIM Example}
+ \autoref{fig:IPFIMexample} shows an example for a 2 partition calculation of CanTrees based on the partition function of $\{a6,a4,a2\}\to 0$ and $\{a5,a3,a1\}\to 1$.
 \begin{figure}
   \centering
   \includegraphics[width=\linewidth]{figures/IncrementalTreeMining1}
@@ -11,21 +54,21 @@ The combination of the previously mentioned algorithms will provide an increment
   \label{fig:IPFIMexample}
 \end{figure}
 
-The highlevel steps for the combined algorithm are:
-\begin{steps}
-	\item Define a comparison function: compare(item1,item2)->bool
-	\item Define a Partition function: partition(item)->Long
-	\item For every increment:
-		\begin{enumerate}
-		\label{sec:ipfimAlg}
-			\item PFP: Scan transaction and sort using compare function
-			\item PFP: Scan sorted transactions and replace using the PFP \autoref{alg:pfpalg} lines 7:9
-			\label{sec:ipfimpf}
-			\item PFP+CanTree: Update each group partition with the transactions of the group and
-			 update the CanTree (save the partial CanTree)
-			\item PFP: Run FP-Growth on every partitions CanTree and reduce results for final output
-		\end{enumerate}
-\end{steps}
+%The highlevel steps for the combined algorithm are:
+%\begin{steps}
+%	\item Define a comparison function: compare(item1,item2)->bool
+%	\item Define a Partition function: partition(item)->Long
+%	\item For every increment:
+%		\begin{enumerate}
+%		\label{sec:ipfimAlg}
+%			\item PFP: Scan transaction and sort using compare function
+%			\item PFP: Scan sorted transactions and replace using the PFP \autoref{alg:pfpalg} lines 7:9
+%			\label{sec:ipfimpf}
+%			\item PFP+CanTree: Update each group partition with the transactions of the group and
+%			 update the CanTree (save the partial CanTree)
+%			\item PFP: Run FP-Growth on every partitions CanTree and reduce results for final output
+%		\end{enumerate}
+%\end{steps}
 
 
 \subsection{Correctness}

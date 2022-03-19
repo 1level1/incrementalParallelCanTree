@@ -42,6 +42,8 @@ An example of a CanTree is presented in \autoref{tab:table1} and \autoref{fig:Ca
   \end{center}
 \end{table}
 
+
+
 \begin{figure}
   \centering
   \includegraphics[width=\linewidth]{figures/CanTreeExample}
@@ -49,9 +51,143 @@ An example of a CanTree is presented in \autoref{tab:table1} and \autoref{fig:Ca
   \label{fig:CanTreeExample}
 \end{figure}
 
+
+
 \paragraph{CP-Tree}
 \label{par:cptree}
-	The work of~\cite{tanbeer2009efficient} proposes an improvement to CanTree, called CompactPattern-Tree, and discusses the memory and computation limitations of CanTree for large incremental Databases. The issues are caused due to un-efficient tree structure, and CP-Tree is proposing an improvement by periodically (using a proposed guideline) updating the order of the construction literals list (l-list) and rebuilding the trees. As mention in the original article and as seen by our experiments, the CanTree and CP-Tree has a similar tree size, and the difference for our test cases was 10\% in tree sizes. However as seen in our results, using semi-frequency based order, improves the mining results by 10X and more for smaller minSupport values.
+	The work of~\cite{tanbeer2009efficient} proposes an improvement to CanTree, called CompactPattern-Tree, and discusses the memory and computation limitations of CanTree for large incremental Databases. The issues are caused due to un-efficient tree structure, and CP-Tree is proposing an improvement by periodically (using a proposed guideline) updating the order of the construction literals list (l-list) and rebuilding the trees. As mention in the original article and as seen by our experiments, the CanTree and CP-Tree has a similar tree size, and the difference for our test cases was 10\% in tree sizes. However as seen in our results, using semi-frequency based order, improves the mining results by 10X and more for smaller minSupport values [TODO: Add graphs].
+
+\paragraph{AFPIM - Adjusting FP-tree Structure for Incremental Mining }
+\label{par:AFPIM}
+  The work by ~\cite{kohefficient}, is using a technique of pre-min support threshold for defining a pre-frequent itemset. The rational behind this approach is that to identify those items within every iteration, does not require another scan of the previous data as it is already part of the intermediate tree.  Table \ref{tab:AFPIMCases} demonstrates the different scenarios in to the possibilities when new iterations are added, $ \cup D $ is the union of all iterations on DB. $ \cup D $ needs to be scanned to re-construct the FP-tree of
+$ \cup D $  only if there exist any item belonging to case 4. For cases 5 or 6, which are in-frequent in DB, these items can be ignored because the corresponding itemsets are not frequent in $ \cup D $.  For the correctness of the algorithm, 3 operations were defined:
+
+\begin{enumerate}[label=\textbf{AFPIM.\arabic*}]
+\item \label{AFPIMRemove} Remove nodes of infrequent items - Direct remove of the infrequent nodes and reattach sons to parent.
+\item \label{AFPIMAdjust} Adjusting the path of nodes - a bubble-sort for maintaining frequency order.
+\item Insert or remove data from FP-tree - After the tree is scanned and re-sorted based on~\ref{AFPIMAdjust}, add/remove new sorted data.
+\end{enumerate}
+
+\paragraph{AFPIM example}
+\label{par:AFPIMexample}
+Let the original database, DB, be illustrated in ~\ref{tab:AFPIM}. The minimum
+support is 0.2 and the pre-minimum support is 0.15. Scan DB once to collect the set of
+frequent or pre-frequent items: A:2, B:6, C:5, D:3, E:4, F:7, G:1, and H:1 (:indicates the
+support count). The items with support counts no less than 2 (i.e. 13×0.15=1.95) are
+frequent or pre-frequent items in DB. Thus, A, B, C, D, E, and F are frequent items in
+DB. After sorting all the frequent or pre-frequent items in support descending order, the
+result is F:7, B:6, C:5, E:4, D:3, and A:2. Accordingly, the constructed FP-tree of DB is
+shown as ~\ref{fig:AFPIMBase}.
+Then 5 transactions are inserted into and 3 transactions are removed from DB,
+where the transaction data are shown as ~\ref{tab:AFPIMdbp} and ~\ref{tab:AFPIMdbm}. The support counts of all the items in $ db^+ $ and $ db^- $ are listed in ~\ref{tab:AFPIMFinal}. For each item X in $\cup D $,  minimum support of X can be obtained by a simple computation. The result is A:2, B:9, C:5, D:7, E:6, F:8, G:1, and H:2. In new database $\cup D $, a pre-frequent or frequent item must have support counts no less than 3 (i.e. (13+5-3)×0.15=2.25). Therefore, the frequent or pre-frequent 1-itemsets in $\cup D $, shown in frequency descending order, are B:9, F:8, D:7, E:6, and C:5.  As shown in ~\ref{tab:AFPIMFinal} , A is not a frequent or pre-frequent item in $\cup D $,.
+Thus, the nodes representing A are removed from the FP-tree. The resultant FP-tree is shown as ~\ref{fig:AFMPIAfterDelete}. We will not discuss in detail the other operations, as in IPFIM improved algorithm we use a semi-frequency order, and no need to perform ~\ref{AFPIMAdjust}, as for correctness of the mining, a rescan and rebuild of the FP-Tree for case 4 in \ref{tab:AFPIMCases} is required.  However we skipped this phase for the evaluations.
+  
+\begin{table}[h!]
+  \begin{center}
+    \caption{AFPIM cases}
+    \label{tab:AFPIMCases}
+    \begin{tabular}{l|c|l} % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+      \thead{case} & \thead{in DB} & \thead{in $\cup D $ }\\
+      \hline
+Case 1 &  \makecell{X is a frequent or \\ pre-frequent item} & X is a frequent item \\
+Case 2 & \makecell{X is a frequent or \\ pre-frequent item} & X is a pre-frequent item \\
+Case 3 & \makecell{X is a frequent or \\ pre-frequent item} & X is an infrequent item \\
+Case 4 & X is an infrequent item & X is a frequent item \\
+Case 5 & X is an infrequent item & X is a pre-frequent item \\
+Case 6 & X is an infrequent item & X is an infrequent item \\
+    \end{tabular}
+  \end{center}
+\end{table}
+  
+  
+  \begin{table}[h!]
+  \begin{center}
+    \caption{Original Database DB for AFPIM:}
+    \label{tab:AFPIM}
+    \begin{tabular}{l|c|cl} % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+      \thead{TID} & \thead{Items} & \thead{Frequent or pre-frequent items \\
+(ordered in frequency descending order) } \\
+      \hline
+      1 & BDEF & FBED\\
+      2 & F & F\\
+       3 & ABEF & FBEA \\
+	  4 & CH & C \\
+       5 & BF  & FB \\
+       6 & B  & B \\
+       7 &  ABEF & FBEA \\
+       8 & CG  & C \\
+       9 &  BF & FB \\
+       10 & CDE & CED \\
+       11 & F  & F \\
+       12 & CD & CD \\
+       13 & C & C \\
+    \end{tabular}
+  \end{center}
+\end{table}
+
+  \begin{table}[h!]
+  \begin{center}
+    \caption{$ db^+$ }
+    \label{tab:AFPIMdbp}
+    \begin{tabular}{l|cl} % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+      \thead{TID} & \thead{Itemset} \\
+      \hline
+       14 & BCDEF   \\
+       15 & BDEF  \\
+       16 & BCDG  \\
+       17 & BD  \\
+       18 & DH  \\
+    \end{tabular}
+  \end{center}
+\end{table}
+
+  \begin{table}[h!]
+  \begin{center}
+    \caption{$ db^-$ }
+    \label{tab:AFPIMdbm}
+    \begin{tabular}{l|cl} % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+      \thead{TID} & \thead{Itemset} \\
+      \hline
+       5 & BF   \\	
+       8 & CG  \\
+       1 & CD  \\
+    \end{tabular}
+  \end{center}
+\end{table}
+
+
+
+
+  \begin{table}[h!]
+  \begin{center}
+    \caption{$ \cup D$ Frequency}
+    \label{tab:AFPIMFinal}
+    \begin{tabular}{l|c|l} % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+      \thead{Database} & \thead{Items} & \thead{Frequent or pre-frequent items \\
+(ordered in frequency descending order) } \\
+      \hline
+DB & A:2, B:6, C:5, D:3, E:4, F:7, G:1, H:1 & F:7, B:6, C:5, E:4, D:3, A:2\\
+$ db^+ $ & B:4,C:2,D:5,E:2,F:2,G:1,H:1 & - \\
+$ db^- $ & B:1,C:2,D:1,F:1,G:1 & -\\
+$ \cup D$  & A:2, B:9, C:5, D:7, E:6, F:8, G:1, H:2 & B:9, F:8, D:7, E:6, C:5 \\
+ \end{tabular}
+  \end{center}
+\end{table}
+
+
+\begin{figure}
+  \centering
+  \includegraphics[scale=0.75]{figures/AFPIMBase}
+  \caption{FP-tree of AFPIM DB}
+  \label{fig:AFPIMBase}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[scale=0.75]{figures/AFMPIAfterDelete}
+  \caption{FP-tree After delete of $ \cup D$}
+  \label{fig:AFMPIAfterDelete}
+\end{figure}
 
 
 \subsection{Parallel Frequent Itemsets mining}
@@ -93,7 +229,7 @@ A more detailed description of PFP~\cite{li2008pfp} is described here \autoref{a
 \end{algorithm}
 
 
-To better understand the distribution of transactions between groups in PFP, an example is provided in \autoref{tab:table2}. This example shows the initial state of raw transactions, sorting them frequency based, and distributing based on a G-List of single item per group -> \{C\},\{E\},\{B\},\{A\}. Last lines demonstrate the output at line 9 \autoref{alg:pfpalg} of every transaction. 
+To better understand the distribution of transactions between groups in PFP, an example is provided in \autoref{tab:table2}. This example shows the initial state of raw transactions, sorting them frequency based, and distributing based on a G-List of single item per group - \{C\},\{E\},\{B\},\{A\}. Last lines demonstrate the output at line 9 \autoref{alg:pfpalg} of every transaction. 
 
 \begin{table}[h!]
   \begin{center}
@@ -187,4 +323,30 @@ IncMiningPFP consists of the following steps:
 
 In this paper, although the IPFIM and IncBuildingPFP are similar, in \autoref{sec:improvements}, we present a different technique based on the CPTree~\cite{tanbeer2009efficient} and AFPIM~\cite{koh2004efficient} approach.
 
-Song et el.~\cite{song2017} was also tested using classic map-reduce, while here we test the performance using Spark [TODO: Add section on spark]. Spark programs iteratively run about 100 times faster than Hadoop in-memory, and 10 times faster on disk ~\cite{spark}.
+Song et el.~\cite{song2017} was also tested using classic map-reduce, while here we test the performance using Spark. Spark programs iteratively run about 100 times faster than Hadoop in-memory, and 10 times faster on disk ~\cite{spark}.
+
+\subsubsection{Set-Cover}
+The set cover problem is a classical question in combinatorics, computer science, operations research, and complexity theory. It is one of Karp's 21 NP-complete problems shown to be NP-complete in 1972 ~\cite{setcoveralgo}.
+
+\paragraph{Formal Definition} Given a set system $ \Sigma = (X, S)$, where $S = \{s \textsubscript{1}, . . . , s\textsubscript{n}\}$, compute a set $C \subseteq \{1, . . . , n\}$ of minimum cardinality such that $X = \bigcup\limits_{i \in C} s \textsubscript{i}\\ $ 
+For Example, given a set of elements $ \displaystyle \{1,2,...,n\}$ and a collection $X$ of $\displaystyle m$ sets whose union equals to $S$, the set cover problem is to identify the smallest sub-collection of $\displaystyle X$ whose union equals to $S$. For example, consider the universe $\displaystyle S=\{1,2,3,4,5\}$ and the collection of sets $\displaystyle C=\{\{1,2,3\},\{2,4\},\{3,4\},\{4,5\}\}$. Clearly the union of $\displaystyle C$ is $\displaystyle S$. However, we can cover all of the elements with the following, smaller number of sets: $\displaystyle X= \{\{1,2,3\},\{4,5\}\}$.
+For our hypothesis, the Set-Cover-Ipfim algorithm [TODO:Ref set-cover-ipfim],we wanted to check whether the use of of optimal groups based on frequent itemsets, will result in better computation time, as it is potentially to optimize the distribution. A more detailed explanation is in [TODO].
+
+Since the classic solution is NP-Hard, we used a naive greedy implementation, which requires $ O(mn^2) $ in ~\ref{alg:setcover}, where m is the item size, and n is number of items.
+
+\begin{algorithm}
+  \caption{Greedy set-cover implementation}\label{setcover}
+  \begin{algorithmic}[1]
+   \label{alg:setcover}
+    \Procedure{Greedy-Set-Cover}{X,S}
+      \State $U \gets X$  // $U$ stores the uncovered items
+      \State $C \gets empty$ // $C$ stores the sets of the cover
+      \While{$U$ is nonempty}
+        \State select s[i] in $S$ that covers the most elements of $U$
+		\State add i to $C$
+		\State remove the elements of s[i] from $U$
+      \EndWhile
+ 	\State return $C$
+    \EndProcedure
+  \end{algorithmic}
+\end{algorithm}

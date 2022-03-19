@@ -88,9 +88,9 @@ The work by Daniele Apiletti et el. ~\cite{APILETTI201767} is focusing on compar
 This work is performing extensive evaluation on synthetic and real world datasets and testing execution time, load balancing, and communication costs between 4 parallel itemset mining algorithm.
 
 The participating algorithms are:
-\begin{enumerate}
-\item The Parallel FP-Growth implementation provided in Hadoop  Mahout 0.9 ~\cite{mahoot}
-\item The Parallel FP-Growth implementation provided in MLlib for Spark
+\begin{enumerate}[label=\textbf{SparkVsHadoop.\arabic*}]
+\item \label{hadoopPFP} The Parallel FP-Growth implementation provided in Hadoop  Mahout 0.9 ~\cite{mahoot}
+\item \label{sparkPFP} The Parallel FP-Growth implementation provided in MLlib for Spark
 1.3.0 ~\cite{mllib}
 \item The June 2015 implementation of BigFIM ~\cite{bigfim} 
 \item The version of DistEclat downloaded from ~\cite{bigfim} on September 2015
@@ -105,7 +105,7 @@ with respect to MLlib PFP.
 
 The evaluations in the paper were done using synthetic and real-world data.
 The synthetic data and real-world data 
-The results of the paper tested a synthetic and real-world data 
+The results of the paper tested a synthetic and real-world data. In ~\autoref{fig:sparkVsHadoopfig6} and ~\autoref{fig:sparkVsHadoopfig7} it can be seen that for low minSupport values,  ~\autoref{sparkPFP} has the better performance, so the implementation and comparison using Spark~\cite{spark} is very relevant, as others were tested on classic mapReduce.
 
 
 

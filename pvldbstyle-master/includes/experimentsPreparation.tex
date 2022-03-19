@@ -3,9 +3,9 @@
 \subsection{Datasets}
 For this article, we used 3 datasets:
 \begin{enumerate}
-\item Synthetic datasets of 10M transactions, and 2 magnitudes less of items, average length of 15 items. The dataset was generated using IBM Quest Synthetic Data Generator ~\cite{agrawal1994quest}. 
-\item Synthetic datasets of 1M transactions, and 2 magnitudes less of items, average length of 15 items. The dataset was generated using IBM Quest Synthetic Data Generator ~\cite{agrawal1994quest}. 
-\item The Kosarak dataset contains 990,000 transactions with 41,270 distinct items and an average transaction length of 8.09 items (click-stream data of a hungarian on-line news portal). This dataset was the largest used by ~\cite{tanbeer2009efficient}.
+\item  \label{data:10Msynt} Synthetic datasets of 10M transactions, and 2 magnitudes less of items, average length of 15 items. The dataset was generated using IBM Quest Synthetic Data Generator ~\cite{agrawal1994quest}. 
+\item \label{data:1Msynt} Synthetic datasets of 1M transactions, and 2 magnitudes less of items, average length of 15 items. The dataset was generated using IBM Quest Synthetic Data Generator ~\cite{agrawal1994quest}. 
+\item \label{data:kosarak} The Kosarak dataset contains 990,000 transactions with 41,270 distinct items and an average transaction length of 8.09 items (click-stream data of a hungarian on-line news portal). This dataset was the largest used by ~\cite{tanbeer2009efficient}.
 \end{enumerate}
 
 
@@ -22,10 +22,10 @@ The implementation was done using Spark~\cite{spark}. Spark contains an MLlib li
 \end{steps}
 
 \subsubsection{CanTree}
-For CanTree algorithm implementation, as can be seen From ~\ref{sec:ipfim}, running IPFIM with only one group, will result in the original CanTree algorithm (adjusted to mapReduce).
+For CanTree algorithm implementation, as can be seen From ~\ref{sec:ipfim}, running IPFIM with only one group and a lexicographical sorter function, will result in the original CanTree algorithm (adjusted to mapReduce).
 
 \subsubsection{Song et al.}
-For the algorithm developed by Song et al., we had to add a functionality to calculate the intermediate trees. This is also described in ~\ref{sec:song}. The detailed implementation can be found here .
+For the algorithm developed by Song et al., we had to add a functionality to calculate the intermediate trees. This is also described in ~\ref{sec:song}. The detailed implementation can be found here ~\cite{songLevImplementation}.
 
 \subsubsection{Set-Cover-IPFIM}
 To support set-cover groups, we used a greedy set-cover algorithm to find the group distribution. This group list is later passed to the partitioning of a the transactions. 

@@ -1,5 +1,5 @@
 
-\section{Improvements - Need to add SetCover results and explanations}
+\section{Improvements}
 \label{sec:improvements}
 
 While developing and testing the algorithm, 2 main obstacles prevented from using larger datasets and smaller minSupport:
@@ -8,10 +8,13 @@ While developing and testing the algorithm, 2 main obstacles prevented from usin
 	\item Computation Time - Tree order.
 \end{enumerate}
 
+\subsection{IPFIM-Improved}
 To handle these obstacles, 2 techniques were implemented.
-To handle the computation time, an approach similar to CPTree~\cite{tanbeer2009efficient} was tested, where we defined a semi-frequency order on 1st dataset half, and used it for the rest of the iterations. New items were sorted canonically.
+To handle the computation time, an approach similar to CPTree~\ref{par:cptree} was tested, where we defined a semi-frequency order on 1st dataset half, and used it for the rest of the iterations. New items were sorted canonically.
 
-To handle the memory limitation, which is caused by the construction of a large tree, a partial approach of AFPIM~\cite{koh2004efficient} was implemented. We added a pre-min support to identify pre-frequent items. For the simplicity of the experiment, items which where not frequent in iteration i, and will become frequent after sum of j iterations, are waived. A trade-off between missing items and tree size can be controlled using the pre-min parameter. 
+To handle the memory limitation, which is caused by the construction of a large tree, a partial approach of ~\ref{par:AFPIM} was used - We added a pre-min support to identify pre-frequent items. For the simplicity of the experiment, items which where not frequent in iteration i, and will become frequent after sum of j iterations, are waived. A trade-off between missing items and tree size can be controlled using the pre-min parameter.  Also, as mentioned earlier, since we use a semi-frequent order similar to ~\ref{par:cptree}, no need to perform ~\ref{AFPIMAdjust}, only ~\ref{AFPIMRemove} and recalculation for items that are under case 4 in ~\ref{tab:AFPIMCases}.
+
+The algorithm is presented in 
 
 \subsection{IPFIM Improved vs IPFIM - Computation}
 Although the size of the tree was not effected by more than 10\%, when using semi-frequency order, computation time was improved by ~30X when running single partition, as seen in \autoref{fig:partialcannonical}.

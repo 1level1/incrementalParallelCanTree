@@ -1,114 +1,141 @@
 \begin{thebibliography}{10}
 
 \bibitem{agrawal1994quest}
-{\sc Agrawal, R., and Srikant, R.}
+Rakesh Agrawal and Ramakrishnan Srikant.
 \newblock Quest synthetic data generator.
-\newblock {\em IBM Almaden Research Center\/} (1994).
+\newblock {\em IBM Almaden Research Center}, 1994.
 
 \bibitem{agrawal1994fast}
-{\sc Agrawal, R., Srikant, R., et~al.}
+Rakesh Agrawal, Ramakrishnan Srikant, et~al.
 \newblock Fast algorithms for mining association rules.
-\newblock In {\em Proc. 20th int. conf. very large data bases, VLDB\/} (1994),
-  vol.~1215, pp.~487--499.
+\newblock In {\em Proc. 20th int. conf. very large data bases, VLDB}, volume
+  1215, pages 487--499, 1994.
 
 \bibitem{mahoot}
-{\sc Apache}.
+Apache.
 \newblock The apache mahout machine learning library,.
+\newblock URL: \url{http://mahout.apache.org/}.
 
 \bibitem{hadoop}
-{\sc Apache}.
+Apache.
 \newblock The apache™ hadoop® project develops open-source software for
   reliable, scalable, distributed computing.
+\newblock URL: \url{https://hadoop.apache.org/}.
 
 \bibitem{mllib}
-{\sc Apache}.
+Apache.
 \newblock Mllib is apache spark's scalable machine learning library.
+\newblock URL: \url{https://spark.apache.org/mllib/}.
 
 \bibitem{mllibpfp}
-{\sc Apache}.
+Apache.
 \newblock Pfp mllib implementation.
+\newblock URL:
+  \url{https://github.com/apache/spark/blob/master/mllib/src/main/scala/org/apache/spark/mllib/fpm/FPGrowth.scala}.
+
+\bibitem{songLevImplementation}
+Apache.
+\newblock Song implementation.
+\newblock URL:
+  \url{https://github.com/1level1/incrementalParallelCanTree/blob/564fcbd7fdd3662910531c5cc7a12274b5e16218/src/main/scala/levko/cantree/utils/cantreeutils.scala#L228}.
 
 \bibitem{spark}
-{\sc Apache}.
+Apache.
 \newblock Apache spark™ is a unified analytics engine for large-scale data
   processing, 2020.
+\newblock URL: \url{https://spark.apache.org/}.
 
 \bibitem{APILETTI201767}
-{\sc Apiletti, D., Baralis, E., Cerquitelli, T., Garza, P., Pulvirenti, F., and
-  Venturini, L.}
+Daniele Apiletti, Elena Baralis, Tania Cerquitelli, Paolo Garza, Fabio
+  Pulvirenti, and Luca Venturini.
 \newblock Frequent itemsets mining for big data: A comparative analysis.
-\newblock {\em Big Data Research 9\/} (2017), 67--83.
+\newblock {\em Big Data Research}, 9:67--83, 2017.
+\newblock URL:
+  \url{https://www.sciencedirect.com/science/article/pii/S2214579616300193},
+  \href {https://doi.org/https://doi.org/10.1016/j.bdr.2017.06.006}
+  {\path{doi:https://doi.org/10.1016/j.bdr.2017.06.006}}.
 
 \bibitem{dataminingbook}
-{\sc Computer, R. M. V. P. C. C. S.~D., and of~Houston, M. S. D.~U.}
+Rakesh M. Verma Ping Chen Computer Science~Department Computer and Math Science
+  Dept.~University of~Houston.
 \newblock The uh data mining hypertextbook, version 1.
+\newblock URL:
+  \url{https://www.hypertextbookshop.com/dataminingbook/public_version/contents/contents.html}.
 
 \bibitem{hong2008incrementally}
-{\sc Hong, T.-P., Lin, C.-W., and Wu, Y.-L.}
+Tzung-Pei Hong, Chun-Wei Lin, and Yu-Lung Wu.
 \newblock Incrementally fast updated frequent pattern trees.
-\newblock {\em Expert Systems with Applications 34}, 4 (2008), 2424--2435.
+\newblock {\em Expert Systems with Applications}, 34(4):2424--2435, 2008.
 
 \bibitem{hunyadi2011performance}
-{\sc Hunyadi, D.}
+Daniel Hunyadi.
 \newblock Performance comparison of apriori and fp-growth algorithms in
   generating association rules.
-\newblock In {\em Proceedings of the European computing conference\/} (2011),
-  pp.~376--381.
+\newblock In {\em Proceedings of the European computing conference}, pages
+  376--381, 2011.
 
 \bibitem{kohefficient}
-{\sc Koh, J.-L., and Shieh, S.-F.}
-\newblock An efficient approach for maintaining association rules.
+Jia-Ling Koh and Shui-Feng Shieh.
+\newblock An efficient approach for maintaining association rules - afpim.
 
 \bibitem{koh2004efficient}
-{\sc Koh, J.-L., and Shieh, S.-F.}
+Jia-Ling Koh and Shui-Feng Shieh.
 \newblock An efficient approach for maintaining association rules based on
   adjusting fp-tree structures.
 \newblock In {\em International Conference on Database Systems for Advanced
-  Applications\/} (2004), Springer, pp.~417--424.
+  Applications}, pages 417--424. Springer, 2004.
 
 \bibitem{leung2005cantree}
-{\sc Leung, C.-S., Khan, Q.~I., and Hoque, T.}
+CK-S Leung, Quamrul~I Khan, and Tariqul Hoque.
 \newblock Cantree: a tree structure for efficient incremental mining of
   frequent patterns.
 \newblock In {\em Fifth IEEE International Conference on Data Mining
-  (ICDM'05)\/} (2005), IEEE, pp.~8--pp.
+  (ICDM'05)}, pages 8--pp. IEEE, 2005.
 
 \bibitem{li2008pfp}
-{\sc Li, H., Wang, Y., Zhang, D., Zhang, M., and Chang, E.~Y.}
+Haoyuan Li, Yi~Wang, Dong Zhang, Ming Zhang, and Edward~Y Chang.
 \newblock Pfp: parallel fp-growth for query recommendation.
 \newblock In {\em Proceedings of the 2008 ACM conference on Recommender
-  systems\/} (2008), pp.~107--114.
+  systems}, pages 107--114, 2008.
 
 \bibitem{li2006fast}
-{\sc Li, X., Deng, Z.-H., and Tang, S.}
+Xin Li, Zhi-Hong Deng, and Shiwei Tang.
 \newblock A fast algorithm for maintenance of association rules in incremental
   databases.
 \newblock In {\em International Conference on Advanced Data Mining and
-  Applications\/} (2006), Springer, pp.~56--63.
+  Applications}, pages 56--63. Springer, 2006.
 
 \bibitem{SparkRDMA}
-{\sc Mellanox}.
+Mellanox.
 \newblock Sparkrdma plugin is a high-performance, scalable and efficient
   shufflemanager open-source plugin for apache spark., 2020.
+\newblock URL: \url{https://www.mellanox.com/products/SparkRDMA}.
 
 \bibitem{song2017}
-{\sc Song, Y.-G., Cui, H.-M., and Feng, X.-B.}
+Yu-Geng Song, Hui-Min Cui, and Xiao-Bing Feng.
 \newblock Parallel incremental frequent itemset mining for large data.
-\newblock {\em Journal of Computer Science and Technology 32}, 2 (2017),
-  368--385.
+\newblock {\em Journal of Computer Science and Technology}, 32(2):368--385,
+  2017.
 
 \bibitem{tanbeer2009efficient}
-{\sc Tanbeer, S.~K., Ahmed, C.~F., Jeong, B.-S., and Lee, Y.-K.}
+Syed~Khairuzzaman Tanbeer, Chowdhury~Farhan Ahmed, Byeong-Soo Jeong, and
+  Young-Koo Lee.
 \newblock Efficient single-pass frequent pattern mining using a prefix-tree.
-\newblock {\em Information Sciences 179}, 5 (2009), 559--583.
+\newblock {\em Information Sciences}, 179(5):559--583, 2009.
 
 \bibitem{tsay2009fiut}
-{\sc Tsay, Y.-J., Hsu, T.-J., and Yu, J.-R.}
+Yuh-Jiuan Tsay, Tain-Jung Hsu, and Jing-Rung Yu.
 \newblock Fiut: A new method for mining frequent itemsets.
-\newblock {\em Information Sciences 179}, 11 (2009), 1724--1737.
+\newblock {\em Information Sciences}, 179(11):1724--1737, 2009.
 
 \bibitem{bigfim}
-{\sc ua~adrem}.
+ua~adrem.
 \newblock Dist-eclat and bigfim implementation.
+\newblock URL: \url{https://github.com/ua-adrem/bigfim}.
+
+\bibitem{setcoveralgo}
+Wikipedia.
+\newblock Set-cover algorithm, 1972.
+\newblock URL: \url{https://en.wikipedia.org/wiki/Set_cover_problem}.
 
 \end{thebibliography}

@@ -1,56 +1,62 @@
 \contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}%
-\contentsline {section}{\numberline {1.1}Introduction - Add formal definitions of FIS etc... add more about the issue}{1}{section.1.1}%
-\contentsline {chapter}{\numberline {2}Background And Related Work}{2}{chapter.2}%
-\contentsline {section}{\numberline {2.1}Background}{2}{section.2.1}%
-\contentsline {subsection}{\numberline {2.1.1}Frequent Itemset}{2}{subsection.2.1.1}%
-\contentsline {subsubsection}{Max and Closed Frequent Itemset}{2}{subsubsection*.6}%
-\contentsline {paragraph}{Max Frequent Itemset}{3}{paragraph*.7}%
-\contentsline {paragraph}{Closed Frequent Itemset }{3}{paragraph*.9}%
-\contentsline {subsection}{\numberline {2.1.2}FP-Tree and FP-Growth}{7}{subsection.2.1.2}%
-\contentsline {paragraph}{Apriori}{7}{paragraph*.12}%
-\contentsline {paragraph}{FPGrowth}{7}{paragraph*.13}%
-\contentsline {subsection}{\numberline {2.1.3}Apache Spark vs Hadoop}{7}{subsection.2.1.3}%
-\contentsline {section}{\numberline {2.2}RELATED WORK}{12}{section.2.2}%
-\contentsline {subsection}{\numberline {2.2.1}Incremental Frequent Itemsets Mining}{12}{subsection.2.2.1}%
-\contentsline {paragraph}{Canonical-Tree}{12}{paragraph*.18}%
-\contentsline {paragraph}{CP-Tree}{12}{paragraph*.21}%
-\contentsline {subsection}{\numberline {2.2.2}Parallel Frequent Itemsets mining}{13}{subsection.2.2.2}%
-\contentsline {subsection}{\numberline {2.2.3}Incremental and Parallel Frequent itemsets mining}{14}{subsection.2.2.3}%
-\contentsline {subsection}{\numberline {2.2.4}Song et al. }{15}{subsection.2.2.4}%
-\contentsline {subsubsection}{IncMiningPFP}{15}{subsubsection*.23}%
-\contentsline {chapter}{\numberline {3}IPFIM Algorithm}{18}{chapter.3}%
-\contentsline {section}{\numberline {3.1}IPFIM - Incremental Parallel Frequent Itemsets Mining}{18}{section.3.1}%
-\contentsline {subsection}{\numberline {3.1.1}IPFIM Outline}{18}{subsection.3.1.1}%
-\contentsline {subsection}{\numberline {3.1.2}Correctness}{19}{subsection.3.1.2}%
-\contentsline {chapter}{\numberline {4}IPFIM Improvements}{20}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Improvements - Need to add SetCover results and explanations}{20}{section.4.1}%
-\contentsline {subsection}{\numberline {4.1.1}IPFIM Improved vs IPFIM - Computation}{20}{subsection.4.1.1}%
-\contentsline {subsection}{\numberline {4.1.2}IPFIM Improved vs IPFIM - Memory}{21}{subsection.4.1.2}%
-\contentsline {chapter}{\numberline {5}Experiment Preparation}{23}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Experiments Preparation}{23}{section.5.1}%
-\contentsline {subsection}{\numberline {5.1.1}Datasets}{23}{subsection.5.1.1}%
-\contentsline {subsection}{\numberline {5.1.2}Implementation}{23}{subsection.5.1.2}%
-\contentsline {subsection}{\numberline {5.1.3}Logging and Statistics}{24}{subsection.5.1.3}%
-\contentsline {subsubsection}{CanTree}{24}{subsubsection*.27}%
-\contentsline {subsubsection}{Song et al.}{24}{subsubsection*.28}%
-\contentsline {subsubsection}{Set-Cover-IPFIM}{24}{subsubsection*.29}%
-\contentsline {subsection}{\numberline {5.1.4}Infrastructure}{24}{subsection.5.1.4}%
-\contentsline {subsection}{\numberline {5.1.5}Performance evaluation}{25}{subsection.5.1.5}%
-\contentsline {subsection}{\numberline {5.1.6}IPFIM vs CanTree}{25}{subsection.5.1.6}%
-\contentsline {subsubsection}{Synthetic Dataset}{25}{subsubsection*.30}%
-\contentsline {subsubsection}{Kosarak Dataset}{25}{subsubsection*.31}%
-\contentsline {chapter}{\numberline {6}Experiments Results }{26}{chapter.6}%
-\contentsline {section}{\numberline {6.1}Experiments and Results}{26}{section.6.1}%
-\contentsline {subsection}{\numberline {6.1.1}Performance Evaluation}{26}{subsection.6.1.1}%
-\contentsline {subsubsection}{Kosarak PFP 100|1000|500 partitions}{26}{subsubsection*.32}%
-\contentsline {subsubsection}{Synthetic Dataset}{26}{subsubsection*.33}%
-\contentsline {subsubsection}{Kosarak Dataset}{26}{subsubsection*.34}%
-\contentsline {subsection}{\numberline {6.1.2}IPFIM vs PFP}{26}{subsection.6.1.2}%
-\contentsline {subsubsection}{Synthetic Dataset}{26}{subsubsection*.49}%
-\contentsline {subsubsection}{Kosarak Dataset}{34}{subsubsection*.50}%
-\contentsline {subsection}{\numberline {6.1.3}improved-IPFIM vs PFP}{34}{subsection.6.1.3}%
-\contentsline {subsection}{\numberline {6.1.4}improved-IPFIM vs Song et al.}{34}{subsection.6.1.4}%
-\contentsline {subsection}{\numberline {6.1.5}set-cover-IPFIM vs Song et al.}{34}{subsection.6.1.5}%
-\contentsline {chapter}{\numberline {7}Results Discussion}{35}{chapter.7}%
-\contentsline {chapter}{\numberline {8}Conclusion}{36}{chapter.8}%
-\contentsline {section}{\numberline {8.1}Conclusions}{36}{section.8.1}%
+\contentsline {section}{\numberline {1.1}Introduction - Add in to what this work contributes}{1}{section.1.1}%
+\contentsline {subsubsection}{Contribution}{1}{subsubsection*.6}%
+\contentsline {chapter}{\numberline {2}Background And Related Work}{3}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Background}{3}{section.2.1}%
+\contentsline {subsection}{\numberline {2.1.1}Frequent Itemset}{3}{subsection.2.1.1}%
+\contentsline {subsubsection}{Max and Closed Frequent Itemset}{3}{subsubsection*.7}%
+\contentsline {paragraph}{Max Frequent Itemset}{4}{paragraph*.8}%
+\contentsline {paragraph}{Closed Frequent Itemset }{4}{paragraph*.10}%
+\contentsline {subsection}{\numberline {2.1.2}FP-Tree and FP-Growth}{8}{subsection.2.1.2}%
+\contentsline {paragraph}{Apriori}{8}{paragraph*.13}%
+\contentsline {paragraph}{FPGrowth}{8}{paragraph*.14}%
+\contentsline {subsection}{\numberline {2.1.3}Apache Spark vs Hadoop}{8}{subsection.2.1.3}%
+\contentsline {section}{\numberline {2.2}RELATED WORK}{13}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Incremental Frequent Itemsets Mining}{13}{subsection.2.2.1}%
+\contentsline {paragraph}{Canonical-Tree}{13}{paragraph*.19}%
+\contentsline {paragraph}{CP-Tree}{13}{paragraph*.22}%
+\contentsline {paragraph}{AFPIM - Adjusting FP-tree Structure for Incremental Mining }{14}{paragraph*.23}%
+\contentsline {paragraph}{AFPIM example}{14}{paragraph*.24}%
+\contentsline {subsection}{\numberline {2.2.2}Parallel Frequent Itemsets mining}{16}{subsection.2.2.2}%
+\contentsline {subsection}{\numberline {2.2.3}Incremental and Parallel Frequent itemsets mining}{19}{subsection.2.2.3}%
+\contentsline {subsection}{\numberline {2.2.4}Song et al. }{20}{subsection.2.2.4}%
+\contentsline {subsubsection}{IncMiningPFP}{20}{subsubsection*.33}%
+\contentsline {subsubsection}{Set-Cover}{21}{subsubsection*.34}%
+\contentsline {paragraph}{Formal Definition}{21}{paragraph*.35}%
+\contentsline {chapter}{\numberline {3}IPFIM Algorithm}{24}{chapter.3}%
+\contentsline {section}{\numberline {3.1}IPFIM - Incremental Parallel Frequent Itemsets Mining}{24}{section.3.1}%
+\contentsline {subsection}{\numberline {3.1.1}IPFIM Outline}{24}{subsection.3.1.1}%
+\contentsline {subsubsection}{IPFIM Example}{25}{subsubsection*.36}%
+\contentsline {subsection}{\numberline {3.1.2}Correctness}{25}{subsection.3.1.2}%
+\contentsline {chapter}{\numberline {4}IPFIM Improvements}{27}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Improvements}{27}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}IPFIM-Improved}{27}{subsection.4.1.1}%
+\contentsline {subsection}{\numberline {4.1.2}IPFIM Improved vs IPFIM - Computation}{28}{subsection.4.1.2}%
+\contentsline {subsection}{\numberline {4.1.3}IPFIM Improved vs IPFIM - Memory}{28}{subsection.4.1.3}%
+\contentsline {chapter}{\numberline {5}Experiment Preparation}{30}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Experiments Preparation}{30}{section.5.1}%
+\contentsline {subsection}{\numberline {5.1.1}Datasets}{30}{subsection.5.1.1}%
+\contentsline {subsection}{\numberline {5.1.2}Implementation}{30}{subsection.5.1.2}%
+\contentsline {subsubsection}{CanTree}{31}{subsubsection*.40}%
+\contentsline {subsubsection}{Song et al.}{31}{subsubsection*.41}%
+\contentsline {subsubsection}{Set-Cover-IPFIM}{31}{subsubsection*.42}%
+\contentsline {subsection}{\numberline {5.1.3}Logging and Statistics}{31}{subsection.5.1.3}%
+\contentsline {subsection}{\numberline {5.1.4}Infrastructure}{31}{subsection.5.1.4}%
+\contentsline {subsection}{\numberline {5.1.5}Performance evaluation}{32}{subsection.5.1.5}%
+\contentsline {subsection}{\numberline {5.1.6}IPFIM vs CanTree}{32}{subsection.5.1.6}%
+\contentsline {subsubsection}{Synthetic Dataset}{32}{subsubsection*.43}%
+\contentsline {subsubsection}{Kosarak Dataset}{32}{subsubsection*.44}%
+\contentsline {chapter}{\numberline {6}Experiments Results }{33}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Experiments and Results}{33}{section.6.1}%
+\contentsline {subsection}{\numberline {6.1.1}Performance Evaluation}{33}{subsection.6.1.1}%
+\contentsline {subsubsection}{Kosarak PFP 100\textbar 1000\textbar 500 partitions}{33}{subsubsection*.45}%
+\contentsline {subsubsection}{PFP}{33}{subsubsection*.46}%
+\contentsline {subsection}{\numberline {6.1.2}IPFIM vs PFP}{33}{subsection.6.1.2}%
+\contentsline {subsubsection}{Synthetic Dataset}{33}{subsubsection*.62}%
+\contentsline {subsubsection}{Kosarak Dataset}{41}{subsubsection*.63}%
+\contentsline {subsection}{\numberline {6.1.3}improved-IPFIM vs PFP}{41}{subsection.6.1.3}%
+\contentsline {subsection}{\numberline {6.1.4}improved-IPFIM vs Song et al.}{41}{subsection.6.1.4}%
+\contentsline {subsection}{\numberline {6.1.5}set-cover-IPFIM vs Song et al.}{41}{subsection.6.1.5}%
+\contentsline {chapter}{\numberline {7}Results Discussion}{42}{chapter.7}%
+\contentsline {chapter}{\numberline {8}Conclusion}{43}{chapter.8}%
+\contentsline {section}{\numberline {8.1}Conclusions}{43}{section.8.1}%

@@ -4,7 +4,12 @@ The top-level auxiliary file: main.aux
 A level-1 auxiliary file: cover.aux
 A level-1 auxiliary file: acknowledgements.aux
 A level-1 auxiliary file: abstract.aux
-The style file: acm.bst
+The style file: plainurl.bst
+Reallocated glb_str_ptr (elt_size=4) to 20 items from 10.
+Reallocated global_strs (elt_size=200001) to 20 items from 10.
+Reallocated glb_str_end (elt_size=4) to 20 items from 10.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
 Database file #1: sample.bib
 Warning--entry type for "spark" isn't style-file defined
 --line 302 of file sample.bib
@@ -14,55 +19,60 @@ Warning--entry type for "mllib" isn't style-file defined
 --line 315 of file sample.bib
 Warning--entry type for "mllibpfp" isn't style-file defined
 --line 322 of file sample.bib
-Warning--entry type for "bigfim" isn't style-file defined
+Warning--entry type for "songLevImplementation" isn't style-file defined
 --line 329 of file sample.bib
-Warning--entry type for "mahoot" isn't style-file defined
+Warning--entry type for "bigfim" isn't style-file defined
 --line 336 of file sample.bib
-Warning--entry type for "dataminingbook" isn't style-file defined
+Warning--entry type for "mahoot" isn't style-file defined
 --line 343 of file sample.bib
+Warning--entry type for "dataminingbook" isn't style-file defined
+--line 350 of file sample.bib
 Warning--entry type for "SparkRDMA" isn't style-file defined
---line 349 of file sample.bib
+--line 356 of file sample.bib
+Warning--entry type for "setcoveralgo" isn't style-file defined
+--line 364 of file sample.bib
 Warning--I didn't find a database entry for "demoref"
 Warning--empty journal in kohefficient
-You've used 21 entries,
-            2253 wiz_defined-function locations,
-            896 strings with 12363 characters,
-and the built_in function-call counts, 6752 in all, are:
-= -- 637
-> -- 287
-< -- 0
-+ -- 125
-- -- 98
-* -- 453
-:= -- 1044
-add.period$ -- 54
-call.type$ -- 21
-change.case$ -- 111
+Warning--empty year in kohefficient
+You've used 23 entries,
+            2882 wiz_defined-function locations,
+            1008 strings with 14257 characters,
+and the built_in function-call counts, 10044 in all, are:
+= -- 1020
+> -- 344
+< -- 7
++ -- 131
+- -- 102
+* -- 486
+:= -- 1370
+add.period$ -- 72
+call.type$ -- 23
+change.case$ -- 119
 chr.to.int$ -- 0
-cite$ -- 22
-duplicate$ -- 263
-empty$ -- 598
-format.name$ -- 98
-if$ -- 1444
+cite$ -- 25
+duplicate$ -- 299
+empty$ -- 1027
+format.name$ -- 102
+if$ -- 2666
 int.to.chr$ -- 0
-int.to.str$ -- 21
+int.to.str$ -- 23
 missing$ -- 13
-newline$ -- 99
-num.names$ -- 42
-pop$ -- 155
+newline$ -- 118
+num.names$ -- 46
+pop$ -- 288
 preamble$ -- 1
-purify$ -- 90
+purify$ -- 96
 quote$ -- 0
-skip$ -- 217
+skip$ -- 729
 stack$ -- 0
-substring$ -- 409
-swap$ -- 83
-text.length$ -- 0
+substring$ -- 419
+swap$ -- 79
+text.length$ -- 7
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 84
-warning$ -- 1
-while$ -- 69
-width$ -- 23
-write$ -- 190
-(There were 10 warnings)
+type$ -- 92
+warning$ -- 2
+while$ -- 73
+width$ -- 25
+write$ -- 240
+(There were 13 warnings)

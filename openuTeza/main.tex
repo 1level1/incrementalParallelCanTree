@@ -29,7 +29,7 @@
 \usepackage{atbegshi}
 \usepackage{hyperref}
 
-
+\usepackage{url}
 \usepackage{amsmath}
 \newcommand\vldbpagestyle{plain} 
 \algnewcommand\algorithmicforeach{\textbf{for each}}
@@ -38,6 +38,7 @@
 \newcommand{\algorithmautorefname}{Algorithm}
 \let\origref\autoref
 \def\autoref#1{\textbf{\origref{#1}}}
+\usepackage{makecell}
 
 %\input{hebrew_functions.tex}
 \input{includes/stepstemplates}
@@ -89,10 +90,10 @@
 
 
 
-\bibliographystyle{acm}
+%\bibliographystyle{acm}
 
 \bibliography{sample}
-
+\bibliographystyle{plainurl}
 %\mybackmatter
 %\RPtrue
 %\include{cover_heb}

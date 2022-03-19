@@ -1,15 +1,13 @@
 \section{Experiments and Results}
 
 \subsection{Performance Evaluation}
-\subsubsection{Kosarak PFP 100|1000|500 partitions}
-Figure ~\autoref{fig:kosarak_pfp_001}
-\subsubsection{Synthetic Dataset}
-A comparison for 1M transactions (T15D1MN10K) with minSupport of 0.001, partitions of 1, 10 and 100 is seen at \autoref{fig:IPFP1M0001}.
+\subsubsection{Kosarak PFP 100\textbar 1000\textbar 500 partitions}
+~\autoref{fig:kosarak_pfp_001} presents PFP with different partitions sizes. Best performance achieved for 500 partitions.
 
-\subsubsection{Kosarak Dataset}
-A comparison with minSupport of 0.001, partitions of 1, 10 and 100 is seen at \autoref{fig:IPFP1M0001_10_100}.
+\subsubsection{PFP}
+We first evaluate the performance of PFP to better understand its behaviour. ~\autoref{fig:kosarak_pfp_001} presents PFP performance on the ~\autoref{data:kosarak} with different partitions sizes. Best performance achieved for 500 partitions. For ~\autoref{data:10Msynt} ~\autoref{fig:T15I5D10000N100_pfp_0001}, best performance is achieved for 1000 partitions. And ~\autoref{fig:T15I5D1000N10_pfp_00001} for ~\autoref{data:1Msynt} with support of 0.00001 (more than 10 items are frequent). 100 and 500 have the better performance.
 
-
+For tree size, 
 %\begin{figure}
 %  \centering
 %  \includegraphics[width=\linewidth]{figures/IPFIM_VS_CANTREE_001_T15D1M10K}
@@ -33,6 +31,13 @@ A comparison with minSupport of 0.001, partitions of 1, 10 and 100 is seen at \a
 
 \begin{figure}
   \centering
+  \includegraphics[width=\linewidth]{figures/4iterations/T15I5D1000N10_pfp_00001}
+  \caption{T15I5D1000N10, minSup = 0.00001, PFP 100|1000|500 partitions}
+  \label{fig:T15I5D1000N10_pfp_00001}
+\end{figure}
+
+\begin{figure}
+  \centering
   \includegraphics[width=\linewidth]{figures/4iterations/kosarak_ipfim_imp_001}
   \caption{kosarak, minSup = 0.001, IPFIM Improved 100|1000|500 partitions}
   \label{fig:kosarak_ipfim_imp_001}
@@ -48,7 +53,7 @@ A comparison with minSupport of 0.001, partitions of 1, 10 and 100 is seen at \a
 \begin{figure}
   \centering
   \includegraphics[width=\linewidth]{figures/4iterations/T15I5D10000N100_pfp_0001}
-  \caption{T15I5D10000N100, minSup = 0.0001,  PFP 100|1000|500 partitions}
+  \caption{T15I5D10000N100, minSup = 0.0001,  PFP 100\textbar 1000\textbar 500 partitions}
   \label{fig:T15I5D10000N100_pfp_0001}
 \end{figure}
 
@@ -56,14 +61,14 @@ A comparison with minSupport of 0.001, partitions of 1, 10 and 100 is seen at \a
 \begin{figure}
   \centering
   \includegraphics[width=\linewidth]{figures/4iterations/T15I5D10000N100_ipfim_imp_0001}
-  \caption{T15I5D10000N100, minSup = 0.0001,  IPFIM Improved 100|1000|500 partitions}
+  \caption{T15I5D10000N100, minSup = 0.0001,  IPFIM Improved 100\textbar 1000\textbar 500 partitions}
   \label{fig:T15I5D10000N100_ipfim_imp_0001}
 \end{figure}
 
 \begin{figure}
   \centering
   \includegraphics[width=\linewidth]{figures/4iterations/T15I5D10000N100_ipfim_0001}
-  \caption{T15I5D10000N100, minSup = 0.0001,  IPFIM 100|1000|500 partitions}
+  \caption{T15I5D10000N100, minSup = 0.0001,  IPFIM 100\textbar 1000\textbar 500 partitions}
   \label{fig:T15I5D10000N100_ipfim_0001}
 \end{figure}
 
@@ -116,7 +121,7 @@ A comparison with minSupport of 0.001, partitions of 1, 10 and 100 is seen at \a
 \begin{figure}
   \centering
   \includegraphics[width=\linewidth]{figures/4iterations/kosarak_song_001}
-  \caption{kosarak, minSup = 0.001, SONG 100|1000|500 partitions}
+  \caption{kosarak, minSup = 0.001, SONG 100\textbar 1000\textbar 500 partitions}
   \label{fig:kosarak_song_001}
 \end{figure}
 
