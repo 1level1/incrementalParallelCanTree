@@ -29,50 +29,52 @@ Warning--entry type for "dataminingbook" isn't style-file defined
 --line 350 of file sample.bib
 Warning--entry type for "SparkRDMA" isn't style-file defined
 --line 356 of file sample.bib
-Warning--entry type for "setcoveralgo" isn't style-file defined
+Warning--entry type for "SparkPerformance" isn't style-file defined
 --line 364 of file sample.bib
+Warning--entry type for "setcoveralgo" isn't style-file defined
+--line 372 of file sample.bib
 Warning--I didn't find a database entry for "demoref"
 Warning--empty journal in kohefficient
 Warning--empty year in kohefficient
 You've used 23 entries,
             2882 wiz_defined-function locations,
-            1008 strings with 14257 characters,
-and the built_in function-call counts, 10044 in all, are:
-= -- 1020
-> -- 344
+            1008 strings with 14222 characters,
+and the built_in function-call counts, 9876 in all, are:
+= -- 1001
+> -- 332
 < -- 7
-+ -- 131
-- -- 102
-* -- 486
-:= -- 1370
++ -- 127
+- -- 98
+* -- 462
+:= -- 1341
 add.period$ -- 72
 call.type$ -- 23
-change.case$ -- 119
+change.case$ -- 117
 chr.to.int$ -- 0
 cite$ -- 25
-duplicate$ -- 299
-empty$ -- 1027
-format.name$ -- 102
-if$ -- 2666
+duplicate$ -- 297
+empty$ -- 1023
+format.name$ -- 98
+if$ -- 2636
 int.to.chr$ -- 0
 int.to.str$ -- 23
-missing$ -- 13
+missing$ -- 12
 newline$ -- 118
 num.names$ -- 46
-pop$ -- 288
+pop$ -- 293
 preamble$ -- 1
-purify$ -- 96
+purify$ -- 94
 quote$ -- 0
-skip$ -- 729
+skip$ -- 727
 stack$ -- 0
-substring$ -- 419
+substring$ -- 388
 swap$ -- 79
 text.length$ -- 7
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 92
 warning$ -- 2
-while$ -- 73
+while$ -- 71
 width$ -- 25
-write$ -- 240
-(There were 13 warnings)
+write$ -- 239
+(There were 14 warnings)

@@ -1,16 +1,14 @@
 \section{Introduction - Add in to what this work contributes}
 
-Describe in the following order:
-\begin{enumerate}
-\item Take a lot from the abstract regarding the proposition of the algorithm.
-\item Add the contribution description here: new algo, testing on spark...
-\item Apriori and FP-Growth 
-\item problem in paralelism in both cases 
-\item problem in incremental
-\end{enumerate}
+%Describe in the following order:
+%\begin{enumerate}
+%\item Apriori and FP-Growth 
+%\item problem in paralelism in both cases 
+%\item problem in incremental
+%\end{enumerate}
 
-Mining of frequent items and association rules is a well known and studied field in Computer Science.
- The algorithms and solutions in this field can be roughly divided into two types - Apriori~\cite{agrawal1994fast} and tree based solutions~\cite{tsay2009fiut,leung2005cantree,tanbeer2009efficient} Each type has benefits and limitations such as simplicity, performance, memory consumptions and scaling. 
+%Mining of frequent items and association rules is a well known and studied field in Computer Science.
+% The algorithms and solutions in this field can be roughly divided into two types - Apriori~\cite{agrawal1994fast} and tree based solutions~\cite{tsay2009fiut,leung2005cantree,tanbeer2009efficient} Each type has benefits and limitations such as simplicity, performance, memory consumptions and scaling. 
 %We can also divide the requirements for frequent items mining, into use cases like:
 %\begin{enumerate}
 %\item Build and mine once.
@@ -18,14 +16,17 @@ Mining of frequent items and association rules is a well known and studied field
 %\item Build and mine with support for incremental updates.
 %\end{enumerate}
 
-
-In this paper, we will describe an approach for dealing with an incrementally updated database, while avoiding candidate generation, and performing a single DB scan.
+Frequent itemset (FIS) mining is an important building block of machine learning. As the access to online resources grew, so does the size of the databases and today’s databases’ sizes go far beyond capabilities of a single machine. The need to provide better performance has grown and platforms for parallel computation, and the frameworks who support them, also became main stream.
+In this thesis, we will describe an approach for dealing with an incrementally updated database, while avoiding candidate generation, and performing a single DB scan.
 
 We will discuss previous related work, describe current technology and review implementation, usage and performance.
 
 \subsubsection{Contribution}
-This work contribution is the following:
+This work contributions are:
 \begin{enumerate}
-\item Noval developed and implemented algorithm for mining fis.
-\item Thorough review, experiment and comparison of existing parallel and incremental algorithms for fis mining based on tree based structures.
+\item Thorough review, experiment and comparison of existing parallel and incremental algorithms for FIS mining based on tree based structures, and evaluate their performance experimentally with various datasets and parameters
+\item Novel developed and implemented algorithm for mining FIS.
 \end{enumerate}
+
+\subsubsection{Thesis Structure}
+The structure of this work is as follows: ~\autoref{chap:background} will present the relevant definitions and algorithms with examples, ~\autoref{chap:main-issue} and ~\autoref{chap:ipfim-improved} will present the proposed algorithms - IPFIM and IPFIM-Improved, ~\autoref{chap:experiments-preparation} will review how we implemented and tested the different algorithms and scenarios, ~\autoref{chap:results} will present the results and last are ~\autoref{chap:results-discusion} and ~\autoref{chap:conclusion} that will summaries the thesis and outline future work.

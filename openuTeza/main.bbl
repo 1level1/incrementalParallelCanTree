@@ -62,6 +62,11 @@ Rakesh M. Verma Ping Chen Computer Science~Department Computer and Math Science
 \newblock URL:
   \url{https://www.hypertextbookshop.com/dataminingbook/public_version/contents/contents.html}.
 
+\bibitem{SparkPerformance}
+Databricks.
+\newblock Apache spark, 2020.
+\newblock URL: \url{https://databricks.com/spark/about}.
+
 \bibitem{hong2008incrementally}
 Tzung-Pei Hong, Chun-Wei Lin, and Yu-Lung Wu.
 \newblock Incrementally fast updated frequent pattern trees.
@@ -122,11 +127,6 @@ Syed~Khairuzzaman Tanbeer, Chowdhury~Farhan Ahmed, Byeong-Soo Jeong, and
   Young-Koo Lee.
 \newblock Efficient single-pass frequent pattern mining using a prefix-tree.
 \newblock {\em Information Sciences}, 179(5):559--583, 2009.
-
-\bibitem{tsay2009fiut}
-Yuh-Jiuan Tsay, Tain-Jung Hsu, and Jing-Rung Yu.
-\newblock Fiut: A new method for mining frequent itemsets.
-\newblock {\em Information Sciences}, 179(11):1724--1737, 2009.
 
 \bibitem{bigfim}
 ua~adrem.

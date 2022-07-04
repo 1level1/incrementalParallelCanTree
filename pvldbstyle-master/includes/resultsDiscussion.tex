@@ -5,27 +5,38 @@
 
 The total computation time consists from 2 main section:
 \begin{enumerate}
-\item Read, scan and build model. \label{item:disc1}
+\item Build FIS model. \label{item:disc1}
 \item Mine FIS from model.\label{item:disc2}
 \end{enumerate}
 
-IPFIM proposes improvement for the 1st item. When the 2nd item computation time is by far larger than 1st one, the improvement is negligible in total. The drawbacks of the CanTree algorithm are even more evident for small minSup values and large dataset - large memory consumption and slow minning time due to inefficient tree traversal. For this reason an improvement to the original IPFIM algorithm is proposed in section \hyperref[sec:improvements]{\textit{Improvments}}.
+IPFIM proposes improvement for the 1st item. When the 2nd item computation time is by far larger than 1st one, the improvement is negligible in total. The drawbacks of the CanTree algorithm are even more evident for small minSup values and large dataset - large memory consumption and slow minning time due to inefficient tree traversal. For this reason an improvement to the original IPFIM algorithm is proposed in details in section ~\autoref{sec:improvements}.
 
-For moderate support values and dataset sizes, where ratio of 1 and 2 is balanced, IPFIM outperforms PFP as it will require only one DB scan and iterative construction (\autoref{fig:PFPvsIPFP})
+\subsubsection{IPFIM}
+For stressed results, large DB e.g. ~\autoref{fig:T15I5D10000N100_ipfim_0001}, IPFIM failed for 100 due to memory error as the tree was the largest and not frequency optimized  ~\autoref{fig:T15I5D10000N100_MaxTree_IPFIM_0001}, 10M. 
+
+Similar to the conclusion of ~\cite{song2017}, IPFIM has advantage for moderate databases and support values, and its main advantage is the simplicity. It can be used to calculate different support values as the data is independent of the order nor the support values. An example can be seen in ~\autoref{fig:T15I5D10000N100_1000part_0001} as IPFIM has the best performance, while ~\autoref{subsec:IncMiningPFP} has the worst as it requires more processing.
+
+\subsubsection{IPFIM-Improved}
+Although in this work we haven`t implemented all the corner cases from ~\autoref{par:AFPIM}, the results show that maintaining a min-min-support improve the memory and mining when low resources are available ~\autoref{fig:T15I5D1000N10_100_0005}. From ~\autoref{fig:T15I5D1000N10_100_0005} we can see since the minSup is relatively low (item count of more then 10 is frequent), PFP is increasingly rising, while ~\autoref{subsec:IncMiningPFP} is steady and has best performance, slightly better then ~\autoref{sec:improvements}.
 
 
-\subsection{PFP VS IPFIM}
-\subsubsection{Synthetic Datasets}
-As seen at \autoref{fig:PFPvsIPFP}, PFP~\cite{li2008pfp} starts better, but after a few iterations, IPFIM is more flat for every iteration, while PFP~\cite{li2008pfp} increases linearly due to full data read. 
-
-\subsubsection{Kosarak Dataset}
-For the Kosarak dataset, results are seen in \autoref{fig:PFPvsIPFPKos}.
-Since there are much more frequent items (~20X) for minSup of 0.001, the results show a poor performance for mining with only 10 partitions. For 100 partitions, the results are still better for PFP~\cite{li2008pfp}, where the exponential mining process is the bottle neck for IPFIM.
-
-\subsection{CanTree VS IPFIM}
-\subsubsection{Synthetic Datasets}
-Using 10M iterations and 100K itemsets with only 1 partition (regular CanTree), will result a memory overflow with the used architecture, thus the results are not presented here. For a 1M transaction with 10K unique itemsets, the results improve at 5X for every 10X partitions. This is due to memory improvements and parallel computations as seen in \autoref{fig:IPFP1M0001}.
-
-\subsubsection{Kosarak Dataset}
-For the Kosarak dataset, the improvement is 5X and 50X for 10 and 100 partitions, as seen in \autoref{fig:IPFP1M0001_10_100}.
-
+\subsubsection{Set-Cover}
+As can be seen from ~\autoref{fig:T15I5D10000N100_1000part_SETCOVER_0001}, the overhead of using a map for grouping, vs a simple hash functions, is very performance heavy. The potential in memory is evident from ~\autoref{fig:T15I5D10000N100_AvgTree_SetCover_0001}, as the trees are balanced and provide a good ratio of 50\% less of an average tree size in comparison to ~\autoref{fig:T15I5D10000N100_AvgTree_IPFIMImproved_0001}.
+%For moderate support values and dataset sizes, where ratio of 1 and 2 is balanced, IPFIM outperforms PFP as it will require only one DB scan and iterative construction (\autoref{fig:PFPvsIPFP})
+%
+%
+%\subsection{PFP VS IPFIM}
+%\subsubsection{Synthetic Datasets}
+%As seen at \autoref{fig:PFPvsIPFP}, PFP~\cite{li2008pfp} starts better, but after a few iterations, IPFIM is more flat for every iteration, while PFP~\cite{li2008pfp} increases linearly due to full data read. 
+%
+%\subsubsection{Kosarak Dataset}
+%For the Kosarak dataset, results are seen in \autoref{fig:PFPvsIPFPKos}.
+%Since there are much more frequent items (~20X) for minSup of 0.001, the results show a poor performance for mining with only 10 partitions. For 100 partitions, the results are still better for PFP~\cite{li2008pfp}, where the exponential mining process is the bottle neck for IPFIM.
+%
+%\subsection{CanTree VS IPFIM}
+%\subsubsection{Synthetic Datasets}
+%Using 10M iterations and 100K itemsets with only 1 partition (regular CanTree), will result a memory overflow with the used architecture, thus the results are not presented here. For a 1M transaction with 10K unique itemsets, the results improve at 5X for every 10X partitions. This is due to memory improvements and parallel computations as seen in \autoref{fig:IPFP1M0001}.
+%
+%\subsubsection{Kosarak Dataset}
+%For the Kosarak dataset, the improvement is 5X and 50X for 10 and 100 partitions, as seen in \autoref{fig:IPFP1M0001_10_100}.
+%

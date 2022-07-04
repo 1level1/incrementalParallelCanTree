@@ -3,7 +3,14 @@
 \subsection{Incremental Frequent Itemsets Mining}
 The definition of an Incremental update, is to recompute outputs which depend on the incoming inputs only, without recomputing the whole data.
 
-The challenge while performing incremental updates for frequent items mining, is a non consistent frequency order. Several algorithms such as AFPIM~\cite{koh2004efficient}, EFPIM~\cite{li2006fast} and FUFP-tree~\cite{hong2008incrementally} are keeping an updated frequency based trees, by reordering branches where frequency has changed. 
+The challenge while performing incremental updates for frequent items mining, is a non consistent frequency order. Several algorithms such as AFPIM~\cite{koh2004efficient}, EFPIM~\cite{li2006fast} and FUFP-tree~\cite{hong2008incrementally} are keeping an updated frequency based trees, by reordering branches where frequency has changed.  Each with its technique.
+\begin{enumerate}
+\item AFPIM~\cite{koh2004efficient}  described in~\autoref{par:AFPIM}
+\item EFPIM~\cite{li2006fast}
+\item FUFP-tree~\cite{hong2008incrementally}
+\end{enumerate}
+
+[TODO: Describe each algo in 2-3 sentences]
 
 \paragraph{Canonical-Tree}
 The work of~\cite{leung2005cantree} presented a Canonical Tree (CanTree) which preserves the frequency descending structure as in FP Growth mining, by relying on a predefined order, which will not affect the tree structure and correctness.
@@ -19,7 +26,7 @@ caused by incremental updating.
 of frequencies of all its children.
 \end{enumerate}
 
-Since CanTree preserves same feature as the FP-Tree for mining FIS, the mining is done in the same fasion as the original FP-Growth algorithm.
+Since CanTree preserves the same feature as the FP-Tree for mining FIS, the mining is done in the same fasion as the original FP-Growth algorithm.
 
 An example of a CanTree is presented in \autoref{tab:table1} and \autoref{fig:CanTreeExample}
 
@@ -34,8 +41,10 @@ An example of a CanTree is presented in \autoref{tab:table1} and \autoref{fig:Ca
        & t\textsubscript{2} & {d, f, b, a, e}\\
         & t\textsubscript{3} & {a}\\
 	   & t\textsubscript{4} & {d, a, b}\\
+	         \hline
        The first group of insertions (db1) & t\textsubscript{5} & {a, c, b}\\
         & t\textsubscript{6} & {c, b, a, e}\\
+              \hline
        The second group of insertions (db2) & t\textsubscript{7} & {a, b, c}\\
         & t\textsubscript{8} & {a, b, c} \\
     \end{tabular}
@@ -44,7 +53,7 @@ An example of a CanTree is presented in \autoref{tab:table1} and \autoref{fig:Ca
 
 
 
-\begin{figure}
+\begin{figure}[H]
   \centering
   \includegraphics[width=\linewidth]{figures/CanTreeExample}
   \caption{The CanTree after each group of transactions is added}
@@ -55,12 +64,31 @@ An example of a CanTree is presented in \autoref{tab:table1} and \autoref{fig:Ca
 
 \paragraph{CP-Tree}
 \label{par:cptree}
-	The work of~\cite{tanbeer2009efficient} proposes an improvement to CanTree, called CompactPattern-Tree, and discusses the memory and computation limitations of CanTree for large incremental Databases. The issues are caused due to un-efficient tree structure, and CP-Tree is proposing an improvement by periodically (using a proposed guideline) updating the order of the construction literals list (l-list) and rebuilding the trees. As mention in the original article and as seen by our experiments, the CanTree and CP-Tree has a similar tree size, and the difference for our test cases was 10\% in tree sizes. However as seen in our results, using semi-frequency based order, improves the mining results by 10X and more for smaller minSupport values [TODO: Add graphs].
+	The work of~\cite{tanbeer2009efficient} proposes an improvement to the CanTree algorithm, called CompactPattern-Tree, and discusses the memory and computation limitations of CanTree for large incremental Databases. The issues are caused due to un-efficient tree structure, and CP-Tree is proposing an improvement by periodically (using a proposed guideline) updating the order of the construction literals list (l-list) and rebuilding the trees. As mentioned in the original article and as seen by our experiments, the CanTree and CP-Tree have similar tree size, and the difference for our test cases was about 10\% in tree sizes. However as seen in our results, using semi-frequency based order, improves the mining results by 10X and more for smaller minSupport values [TODO: Add graphs].
+
 
 \paragraph{AFPIM - Adjusting FP-tree Structure for Incremental Mining }
 \label{par:AFPIM}
-  The work by ~\cite{kohefficient}, is using a technique of pre-min support threshold for defining a pre-frequent itemset. The rational behind this approach is that to identify those items within every iteration, does not require another scan of the previous data as it is already part of the intermediate tree.  Table \ref{tab:AFPIMCases} demonstrates the different scenarios in to the possibilities when new iterations are added, $ \cup D $ is the union of all iterations on DB. $ \cup D $ needs to be scanned to re-construct the FP-tree of
+  The work by ~\cite{koh2004efficient}, is using a technique of pre-min support threshold for defining a pre-frequent itemset. The rational behind this approach is that to identify those items within every iteration, does not require another scan of the previous data as it is already part of the intermediate tree.  Table \ref{tab:AFPIMCases} demonstrates the different scenarios and the possibilities when new iterations are added, $ \cup D $ is the union of all iterations on DB. $ \cup D $ needs to be scanned to re-construct the FP-tree of
 $ \cup D $  only if there exist any item belonging to case 4. For cases 5 or 6, which are in-frequent in DB, these items can be ignored because the corresponding itemsets are not frequent in $ \cup D $.  For the correctness of the algorithm, 3 operations were defined:
+
+\begin{table}[h!]
+  \begin{center}
+    \caption{AFPIM cases}
+    \label{tab:AFPIMCases}
+    \begin{tabular}{l|c|l} % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+      \thead{case} & \thead{in DB} & \thead{in $\cup D $ }\\
+      \hline
+Case 1 &  \makecell{X is a frequent or \\ pre-frequent item} & X is a frequent item \\
+Case 2 & \makecell{X is a frequent or \\ pre-frequent item} & X is a pre-frequent item \\
+Case 3 & \makecell{X is a frequent or \\ pre-frequent item} & X is an infrequent item \\
+Case 4 & X is an infrequent item & X is a frequent item \\
+Case 5 & X is an infrequent item & X is a pre-frequent item \\
+Case 6 & X is an infrequent item & X is an infrequent item \\
+    \end{tabular}
+  \end{center}
+\end{table}
+
 
 \begin{enumerate}[label=\textbf{AFPIM.\arabic*}]
 \item \label{AFPIMRemove} Remove nodes of infrequent items - Direct remove of the infrequent nodes and reattach sons to parent.
@@ -79,26 +107,8 @@ DB. After sorting all the frequent or pre-frequent items in support descending o
 result is F:7, B:6, C:5, E:4, D:3, and A:2. Accordingly, the constructed FP-tree of DB is
 shown as ~\ref{fig:AFPIMBase}.
 Then 5 transactions are inserted into and 3 transactions are removed from DB,
-where the transaction data are shown as ~\ref{tab:AFPIMdbp} and ~\ref{tab:AFPIMdbm}. The support counts of all the items in $ db^+ $ and $ db^- $ are listed in ~\ref{tab:AFPIMFinal}. For each item X in $\cup D $,  minimum support of X can be obtained by a simple computation. The result is A:2, B:9, C:5, D:7, E:6, F:8, G:1, and H:2. In new database $\cup D $, a pre-frequent or frequent item must have support counts no less than 3 (i.e. (13+5-3)×0.15=2.25). Therefore, the frequent or pre-frequent 1-itemsets in $\cup D $, shown in frequency descending order, are B:9, F:8, D:7, E:6, and C:5.  As shown in ~\ref{tab:AFPIMFinal} , A is not a frequent or pre-frequent item in $\cup D $,.
-Thus, the nodes representing A are removed from the FP-tree. The resultant FP-tree is shown as ~\ref{fig:AFMPIAfterDelete}. We will not discuss in detail the other operations, as in IPFIM improved algorithm we use a semi-frequency order, and no need to perform ~\ref{AFPIMAdjust}, as for correctness of the mining, a rescan and rebuild of the FP-Tree for case 4 in \ref{tab:AFPIMCases} is required.  However we skipped this phase for the evaluations.
-  
-\begin{table}[h!]
-  \begin{center}
-    \caption{AFPIM cases}
-    \label{tab:AFPIMCases}
-    \begin{tabular}{l|c|l} % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
-      \thead{case} & \thead{in DB} & \thead{in $\cup D $ }\\
-      \hline
-Case 1 &  \makecell{X is a frequent or \\ pre-frequent item} & X is a frequent item \\
-Case 2 & \makecell{X is a frequent or \\ pre-frequent item} & X is a pre-frequent item \\
-Case 3 & \makecell{X is a frequent or \\ pre-frequent item} & X is an infrequent item \\
-Case 4 & X is an infrequent item & X is a frequent item \\
-Case 5 & X is an infrequent item & X is a pre-frequent item \\
-Case 6 & X is an infrequent item & X is an infrequent item \\
-    \end{tabular}
-  \end{center}
-\end{table}
-  
+where the transaction data are shown as ~\ref{tab:AFPIMdbp} and ~\ref{tab:AFPIMdbm}. The support counts of all the items in $ db^+ $ and $ db^- $ are listed in ~\ref{tab:AFPIMFinal}. For each item X in $\cup D $,  minimum support of X can be obtained by a simple computation. The result is A:2, B:9, C:5, D:7, E:6, F:8, G:1, and H:2. In new database $\cup D $, a pre-frequent or frequent item must have support counts no less than 3 (i.e. (13+5-3)×0.15=2.25). Therefore, the frequent or pre-frequent 1-itemsets in $\cup D $, shown in frequency descending order, are B:9, F:8, D:7, E:6, and C:5.  As shown in table ~\ref{tab:AFPIMFinal} , A is not a frequent or pre-frequent item in $\cup D $,.
+Thus, the nodes representing A are removed from the FP-tree. The resultant FP-tree is shown as figure ~\ref{fig:AFMPIAfterDelete}. We will not discuss in detail the other operations, as in IPFIM improved algorithm we use a semi-frequency order, and no need to perform ~\ref{AFPIMAdjust}, as for correctness of the mining, a rescan and rebuild of the FP-Tree for case 4 in \ref{tab:AFPIMCases} is required.  However we skipped this phase for the evaluations.  
   
   \begin{table}[h!]
   \begin{center}
@@ -175,14 +185,14 @@ $ \cup D$  & A:2, B:9, C:5, D:7, E:6, F:8, G:1, H:2 & B:9, F:8, D:7, E:6, C:5 \\
 \end{table}
 
 
-\begin{figure}
+\begin{figure}[H]
   \centering
   \includegraphics[scale=0.75]{figures/AFPIMBase}
   \caption{FP-tree of AFPIM DB}
   \label{fig:AFPIMBase}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[H]
   \centering
   \includegraphics[scale=0.75]{figures/AFMPIAfterDelete}
   \caption{FP-tree After delete of $ \cup D$}
@@ -191,6 +201,7 @@ $ \cup D$  & A:2, B:9, C:5, D:7, E:6, F:8, G:1, H:2 & B:9, F:8, D:7, E:6, C:5 \\
 
 
 \subsection{Parallel Frequent Itemsets mining}
+\label{subs:PFP}
 The difficulty in parallelizing FP-growth is to distribute iterations to parallel trees while still allowing correct mining. PFP~\cite{li2008pfp} is solving this by dividing the DB transactions to independent trees using a Group-List, where every group consists of subgroup of the original items, and redistributing iterations in the DB based on this list.
 PFP~\cite{li2008pfp} has the following MapReduce stages:
 
@@ -207,8 +218,8 @@ PFP~\cite{li2008pfp} has the following MapReduce stages:
 
 A more detailed description of PFP~\cite{li2008pfp} is described here \autoref{alg:pfpalg}:
 \begin{algorithm}
-  \caption{Highlevel description of the PFP-Growth algorithm}\label{euclid}
-  \begin{algorithmic}[1]
+  \caption{Highlevel description of the PFP-Growth algorithm}%\label{euclid}
+  \begin{algorithmic}
    \label{alg:pfpalg}
     \Procedure{PFP-Growth}{}
       \State $F-List\gets$ Find global frequency list
@@ -231,7 +242,7 @@ A more detailed description of PFP~\cite{li2008pfp} is described here \autoref{a
 
 To better understand the distribution of transactions between groups in PFP, an example is provided in \autoref{tab:table2}. This example shows the initial state of raw transactions, sorting them frequency based, and distributing based on a G-List of single item per group - \{C\},\{E\},\{B\},\{A\}. Last lines demonstrate the output at line 9 \autoref{alg:pfpalg} of every transaction. 
 
-\begin{table}[h!]
+\begin{table}[H]
   \begin{center}
     \caption{A simple example of distributed FP-Growth:}
     \label{tab:table2}
@@ -294,10 +305,11 @@ The drawbacks are also drawn from the 2 algorithms - large memory consumption fo
 
 \subsection{Song et al. }
 \label{sec:song}
-A paper by Song et el.~\cite{song2017} proposes 2 techniques for building and mining frequent itemsets - IncBuildingPFP and IncMiningPFP. IncBuildingPFP presents a parallel model based on CanTree that supports incremental mining. This approach is similar to IPFIM and presented in \autoref{sec:ipfim}.  
+A paper by Song et el.~\cite{song2017} proposes 2 techniques for building and mining frequent itemsets - IncBuildingPFP and IncMiningPFP. IncBuildingPFP presents a parallel model based on CanTree that supports incremental mining. This approach is similar to IPFIM and presented in \autoref{sec:ipfim}.  It is important to mention, that our work was developed independently and only after implementation and testing, this work was discovered and and as comparison and evaluation.
 
 
 \subsubsection{IncMiningPFP}
+\label{subsec:IncMiningPFP}
 As discussed by Song et el.~\cite{song2017} (and analysed later in this article as well), using CanTree as is, will result in memory and time limitation for relatively medium datasets (>1M) even with large clusters (>100G RAM).  IncMiningPFP solves the problem of mining by constructing FP-Growth tree for shards with new incremental items. For other shards, the data is taken from cache.
 
 IncMiningPFP consists of the following steps:

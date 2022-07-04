@@ -20,33 +20,45 @@
 \providecommand \oddpage@label [2]{}
 \@input{acknowledgements.aux}
 \@input{abstract.aux}
-\citation{agrawal1994fast}
-\citation{tsay2009fiut,leung2005cantree,tanbeer2009efficient}
 \@writefile{toc}{\contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \newlabel{chap:intro}{{1}{1}{Introduction}{chapter.1}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {1.1}Introduction - Add in to what this work contributes}{1}{section.1.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{Contribution}{1}{subsubsection*.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Thesis Structure}{1}{subsubsection*.7}\protected@file@percent }
 \citation{dataminingbook}
 \@writefile{toc}{\contentsline {chapter}{\numberline {2}Background And Related Work}{3}{chapter.2}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{chap:background}{{2}{3}{Background And Related Work}{chapter.2}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {2.1}Background}{3}{section.2.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.1.1}Frequent Itemset}{3}{subsection.2.1.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{Max and Closed Frequent Itemset}{3}{subsubsection*.7}\protected@file@percent }
-\citation{agrawal1994fast}
-\@writefile{toc}{\contentsline {paragraph}{Max Frequent Itemset}{4}{paragraph*.8}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Closed Frequent Itemset }{4}{paragraph*.10}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {2.1}{\ignorespaces Maximal Frequent Itemset Illustration\relax }}{5}{figure.caption.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Max and Closed Frequent Itemset}{3}{subsubsection*.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Max Frequent Itemset}{3}{paragraph*.9}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2.1}{\ignorespaces Maximal Frequent itemsets Illustration\relax }}{4}{figure.caption.10}\protected@file@percent }
 \providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
-\newlabel{fig:maxFISExample}{{2.1}{5}{Maximal Frequent Itemset Illustration\relax }{figure.caption.9}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2.2}{\ignorespaces Maximal Frequent Itemset Illustration\relax }}{6}{figure.caption.11}\protected@file@percent }
-\newlabel{fig:closedFISExample}{{2.2}{6}{Maximal Frequent Itemset Illustration\relax }{figure.caption.11}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2.3}{\ignorespaces Relationship between Frequent Itemset Representations\relax }}{7}{figure.caption.12}\protected@file@percent }
-\newlabel{fig:relationBetweenFIS}{{2.3}{7}{Relationship between Frequent Itemset Representations\relax }{figure.caption.12}{}}
+\newlabel{fig:maxFISExample}{{2.1}{4}{Maximal Frequent itemsets Illustration\relax }{figure.caption.10}{}}
+\@writefile{toc}{\contentsline {paragraph}{Closed Frequent itemsets }{5}{paragraph*.11}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2.2}{\ignorespaces Closed and Maximal Frequent itemsets Illustration\relax }}{5}{figure.caption.12}\protected@file@percent }
+\newlabel{fig:closedFISExample}{{2.2}{5}{Closed and Maximal Frequent itemsets Illustration\relax }{figure.caption.12}{}}
+\citation{agrawal1994fast}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.3}{\ignorespaces Relationship between Frequent itemsets Representations\relax }}{6}{figure.caption.13}\protected@file@percent }
+\newlabel{fig:relationBetweenFIS}{{2.3}{6}{Relationship between Frequent itemsets Representations\relax }{figure.caption.13}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1.2}Common Algorithms For Mining FIS}{6}{subsection.2.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Apriori}{6}{paragraph*.14}\protected@file@percent }
 \citation{agrawal1994fast}
 \citation{hunyadi2011performance}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.4}{\ignorespaces Apriori Example\relax }}{7}{figure.caption.15}\protected@file@percent }
+\newlabel{fig:aprioriexample}{{2.4}{7}{Apriori Example\relax }{figure.caption.15}{}}
+\@writefile{toc}{\contentsline {paragraph}{FPGrowth}{7}{paragraph*.16}\protected@file@percent }
+\citation{hadoop}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.5}{\ignorespaces FPGrowth example\relax }}{8}{figure.caption.17}\protected@file@percent }
+\newlabel{fig:fpgrowthexample}{{2.5}{8}{FPGrowth example\relax }{figure.caption.17}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1.3}Parallel Algorithms For Mining FIS}{8}{subsection.2.1.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Apache Hadoop}{8}{paragraph*.18}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Apache Spark}{8}{paragraph*.19}\protected@file@percent }
+\citation{SparkPerformance}
 \citation{APILETTI201767}
 \citation{hadoop}
 \citation{spark}
@@ -56,199 +68,231 @@
 \citation{bigfim}
 \citation{mllib}
 \citation{APILETTI201767}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.1.2}FP-Tree and FP-Growth}{8}{subsection.2.1.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Apriori}{8}{paragraph*.13}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{FPGrowth}{8}{paragraph*.14}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.1.3}Apache Spark vs Hadoop}{8}{subsection.2.1.3}\protected@file@percent }
-\newlabel{sec:sparkvhadoop}{{2.1.3}{8}{Apache Spark vs Hadoop}{subsection.2.1.3}{}}
-\newlabel{hadoopPFP}{{{{\textbf  {SparkVsHadoop.1}}}}{8}{Apache Spark vs Hadoop}{Item.11}{}}
-\newlabel{sparkPFP}{{{{\textbf  {SparkVsHadoop.2}}}}{8}{Apache Spark vs Hadoop}{Item.12}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2.4}{\ignorespaces Apriori Example\relax }}{9}{figure.caption.15}\protected@file@percent }
-\newlabel{fig:aprioriexample}{{2.4}{9}{Apriori Example\relax }{figure.caption.15}{}}
 \citation{mllib}
-\@writefile{lof}{\contentsline {figure}{\numberline {2.5}{\ignorespaces FPGrowth example\relax }}{10}{figure.caption.16}\protected@file@percent }
-\newlabel{fig:fpgrowthexample}{{2.5}{10}{FPGrowth example\relax }{figure.caption.16}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2.6}{\ignorespaces Execution time for different min-sup values, average transaction length 10\relax }}{11}{figure.caption.17}\protected@file@percent }
-\newlabel{fig:sparkVsHadoopfig6}{{2.6}{11}{Execution time for different min-sup values, average transaction length 10\relax }{figure.caption.17}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2.7}{\ignorespaces  Execution time for different min-sup values , average transaction length 30\relax }}{12}{figure.caption.18}\protected@file@percent }
-\newlabel{fig:sparkVsHadoopfig7}{{2.7}{12}{Execution time for different min-sup values , average transaction length 30\relax }{figure.caption.18}{}}
+\citation{spark}
+\newlabel{sec:sparkvhadoop}{{2.1.3}{9}{Apache Spark}{paragraph*.19}{}}
+\newlabel{hadoopPFP}{{{{\textbf  {SparkVsHadoop.1}}}}{9}{Apache Spark}{Item.6}{}}
+\newlabel{sparkPFP}{{{{\textbf  {SparkVsHadoop.2}}}}{9}{Apache Spark}{Item.7}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.6}{\ignorespaces Execution time for different min-sup values, average transaction length 10\relax }}{10}{figure.caption.20}\protected@file@percent }
+\newlabel{fig:sparkVsHadoopfig6}{{2.6}{10}{Execution time for different min-sup values, average transaction length 10\relax }{figure.caption.20}{}}
+\citation{koh2004efficient}
+\citation{li2006fast}
+\citation{hong2008incrementally}
 \citation{koh2004efficient}
 \citation{li2006fast}
 \citation{hong2008incrementally}
 \citation{leung2005cantree}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.7}{\ignorespaces  Execution time for different min-sup values , average transaction length 30\relax }}{11}{figure.caption.21}\protected@file@percent }
+\newlabel{fig:sparkVsHadoopfig7}{{2.7}{11}{Execution time for different min-sup values , average transaction length 30\relax }{figure.caption.21}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {2.2}RELATED WORK}{11}{section.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.1}Incremental Frequent Itemsets Mining}{11}{subsection.2.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Canonical-Tree}{12}{paragraph*.22}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {2.1}{\ignorespaces Consider the following database:\relax }}{12}{table.caption.23}\protected@file@percent }
+\newlabel{tab:table1}{{2.1}{12}{Consider the following database:\relax }{table.caption.23}{}}
 \citation{tanbeer2009efficient}
-\@writefile{toc}{\contentsline {section}{\numberline {2.2}RELATED WORK}{13}{section.2.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.1}Incremental Frequent Itemsets Mining}{13}{subsection.2.2.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Canonical-Tree}{13}{paragraph*.19}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{CP-Tree}{13}{paragraph*.22}\protected@file@percent }
-\newlabel{par:cptree}{{2.2.1}{13}{CP-Tree}{paragraph*.22}{}}
-\citation{kohefficient}
-\@writefile{lot}{\contentsline {table}{\numberline {2.1}{\ignorespaces Consider the following database:\relax }}{14}{table.caption.20}\protected@file@percent }
-\newlabel{tab:table1}{{2.1}{14}{Consider the following database:\relax }{table.caption.20}{}}
-\@writefile{toc}{\contentsline {paragraph}{AFPIM - Adjusting FP-tree Structure for Incremental Mining }{14}{paragraph*.23}\protected@file@percent }
-\newlabel{par:AFPIM}{{2.2.1}{14}{AFPIM - Adjusting FP-tree Structure for Incremental Mining }{paragraph*.23}{}}
-\newlabel{AFPIMRemove}{{{{\textbf  {AFPIM.1}}}}{14}{AFPIM - Adjusting FP-tree Structure for Incremental Mining }{Item.18}{}}
-\newlabel{AFPIMAdjust}{{{{\textbf  {AFPIM.2}}}}{14}{AFPIM - Adjusting FP-tree Structure for Incremental Mining }{Item.19}{}}
-\@writefile{toc}{\contentsline {paragraph}{AFPIM example}{14}{paragraph*.24}\protected@file@percent }
-\newlabel{par:AFPIMexample}{{2.2.1}{14}{AFPIM example}{paragraph*.24}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2.8}{\ignorespaces The CanTree after each group of transactions is added\relax }}{15}{figure.caption.21}\protected@file@percent }
-\newlabel{fig:CanTreeExample}{{2.8}{15}{The CanTree after each group of transactions is added\relax }{figure.caption.21}{}}
+\citation{koh2004efficient}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.8}{\ignorespaces The CanTree after each group of transactions is added\relax }}{13}{figure.caption.24}\protected@file@percent }
+\newlabel{fig:CanTreeExample}{{2.8}{13}{The CanTree after each group of transactions is added\relax }{figure.caption.24}{}}
+\@writefile{toc}{\contentsline {paragraph}{CP-Tree}{13}{paragraph*.25}\protected@file@percent }
+\newlabel{par:cptree}{{2.2.1}{13}{CP-Tree}{paragraph*.25}{}}
+\@writefile{toc}{\contentsline {paragraph}{AFPIM - Adjusting FP-tree Structure for Incremental Mining }{13}{paragraph*.26}\protected@file@percent }
+\newlabel{par:AFPIM}{{2.2.1}{13}{AFPIM - Adjusting FP-tree Structure for Incremental Mining }{paragraph*.26}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2.2}{\ignorespaces AFPIM cases\relax }}{14}{table.caption.27}\protected@file@percent }
+\newlabel{tab:AFPIMCases}{{2.2}{14}{AFPIM cases\relax }{table.caption.27}{}}
+\newlabel{AFPIMRemove}{{{{\textbf  {AFPIM.1}}}}{14}{AFPIM - Adjusting FP-tree Structure for Incremental Mining }{Item.16}{}}
+\newlabel{AFPIMAdjust}{{{{\textbf  {AFPIM.2}}}}{14}{AFPIM - Adjusting FP-tree Structure for Incremental Mining }{Item.17}{}}
+\@writefile{toc}{\contentsline {paragraph}{AFPIM example}{14}{paragraph*.28}\protected@file@percent }
+\newlabel{par:AFPIMexample}{{2.2.1}{14}{AFPIM example}{paragraph*.28}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2.3}{\ignorespaces Original Database DB for AFPIM:\relax }}{15}{table.caption.29}\protected@file@percent }
+\newlabel{tab:AFPIM}{{2.3}{15}{Original Database DB for AFPIM:\relax }{table.caption.29}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2.4}{\ignorespaces $ db^+$ \relax }}{16}{table.caption.30}\protected@file@percent }
+\newlabel{tab:AFPIMdbp}{{2.4}{16}{$ db^+$ \relax }{table.caption.30}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2.5}{\ignorespaces $ db^-$ \relax }}{16}{table.caption.31}\protected@file@percent }
+\newlabel{tab:AFPIMdbm}{{2.5}{16}{$ db^-$ \relax }{table.caption.31}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2.6}{\ignorespaces $ \cup D$ Frequency\relax }}{16}{table.caption.32}\protected@file@percent }
+\newlabel{tab:AFPIMFinal}{{2.6}{16}{$ \cup D$ Frequency\relax }{table.caption.32}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.9}{\ignorespaces FP-tree of AFPIM DB\relax }}{16}{figure.caption.33}\protected@file@percent }
+\newlabel{fig:AFPIMBase}{{2.9}{16}{FP-tree of AFPIM DB\relax }{figure.caption.33}{}}
 \citation{li2008pfp}
 \citation{li2008pfp}
-\@writefile{lot}{\contentsline {table}{\numberline {2.2}{\ignorespaces AFPIM cases\relax }}{16}{table.caption.25}\protected@file@percent }
-\newlabel{tab:AFPIMCases}{{2.2}{16}{AFPIM cases\relax }{table.caption.25}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {2.3}{\ignorespaces Original Database DB for AFPIM:\relax }}{16}{table.caption.26}\protected@file@percent }
-\newlabel{tab:AFPIM}{{2.3}{16}{Original Database DB for AFPIM:\relax }{table.caption.26}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.2}Parallel Frequent Itemsets mining}{16}{subsection.2.2.2}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {2.9}{\ignorespaces FP-tree of AFPIM DB\relax }}{17}{figure.caption.30}\protected@file@percent }
-\newlabel{fig:AFPIMBase}{{2.9}{17}{FP-tree of AFPIM DB\relax }{figure.caption.30}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2.10}{\ignorespaces FP-tree After delete of $ \cup D$\relax }}{17}{figure.caption.31}\protected@file@percent }
-\newlabel{fig:AFMPIAfterDelete}{{2.10}{17}{FP-tree After delete of $ \cup D$\relax }{figure.caption.31}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {2.4}{\ignorespaces $ db^+$ \relax }}{18}{table.caption.27}\protected@file@percent }
-\newlabel{tab:AFPIMdbp}{{2.4}{18}{$ db^+$ \relax }{table.caption.27}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {2.5}{\ignorespaces $ db^-$ \relax }}{18}{table.caption.28}\protected@file@percent }
-\newlabel{tab:AFPIMdbm}{{2.5}{18}{$ db^-$ \relax }{table.caption.28}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {2.6}{\ignorespaces $ \cup D$ Frequency\relax }}{18}{table.caption.29}\protected@file@percent }
-\newlabel{tab:AFPIMFinal}{{2.6}{18}{$ \cup D$ Frequency\relax }{table.caption.29}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.10}{\ignorespaces FP-tree After delete of $ \cup D$\relax }}{17}{figure.caption.34}\protected@file@percent }
+\newlabel{fig:AFMPIAfterDelete}{{2.10}{17}{FP-tree After delete of $ \cup D$\relax }{figure.caption.34}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.2}Parallel Frequent Itemsets mining}{17}{subsection.2.2.2}\protected@file@percent }
+\newlabel{subs:PFP}{{2.2.2}{17}{Parallel Frequent Itemsets mining}{subsection.2.2.2}{}}
 \citation{li2008pfp}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces Highlevel description of the PFP-Growth algorithm\relax }}{18}{algorithm.1}\protected@file@percent }
+\newlabel{alg:pfpalg}{{0}{18}{Highlevel description of the PFP-Growth algorithm\relax }{algorithm.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2.7}{\ignorespaces A simple example of distributed FP-Growth:\relax }}{19}{table.caption.35}\protected@file@percent }
+\newlabel{tab:table2}{{2.7}{19}{A simple example of distributed FP-Growth:\relax }{table.caption.35}{}}
 \citation{kohefficient}
 \citation{tanbeer2009efficient}
-\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces Highlevel description of the PFP-Growth algorithm\relax }}{19}{algorithm.1}\protected@file@percent }
-\newlabel{euclid}{{1}{19}{Highlevel description of the PFP-Growth algorithm\relax }{algorithm.1}{}}
-\newlabel{alg:pfpalg}{{0}{19}{Highlevel description of the PFP-Growth algorithm\relax }{algorithm.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.3}Incremental and Parallel Frequent itemsets mining}{19}{subsection.2.2.3}\protected@file@percent }
 \citation{song2017}
 \citation{song2017}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.3}Incremental and Parallel Frequent itemsets mining}{20}{subsection.2.2.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.2.4}Song et al. }{20}{subsection.2.2.4}\protected@file@percent }
 \newlabel{sec:song}{{2.2.4}{20}{Song et al. }{subsection.2.2.4}{}}
-\@writefile{toc}{\contentsline {subsubsection}{IncMiningPFP}{20}{subsubsection*.33}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{IncMiningPFP}{20}{subsubsection*.36}\protected@file@percent }
+\newlabel{subsec:IncMiningPFP}{{2.2.4}{20}{IncMiningPFP}{subsubsection*.36}{}}
 \citation{tanbeer2009efficient}
 \citation{koh2004efficient}
 \citation{song2017}
 \citation{spark}
 \citation{setcoveralgo}
-\@writefile{toc}{\contentsline {subsubsection}{Set-Cover}{21}{subsubsection*.34}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{Formal Definition}{21}{paragraph*.35}\protected@file@percent }
-\newlabel{chap:background}{{2.2.4}{21}{Formal Definition}{algorithm.2}{}}
+\@writefile{toc}{\contentsline {subsubsection}{Set-Cover}{21}{subsubsection*.37}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Formal Definition}{21}{paragraph*.38}\protected@file@percent }
 \@writefile{loa}{\contentsline {algorithm}{\numberline {2}{\ignorespaces Greedy set-cover implementation\relax }}{22}{algorithm.2}\protected@file@percent }
 \newlabel{setcover}{{2}{22}{Greedy set-cover implementation\relax }{algorithm.2}{}}
 \newlabel{alg:setcover}{{0}{22}{Greedy set-cover implementation\relax }{algorithm.2}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {2.7}{\ignorespaces A simple example of distributed FP-Growth:\relax }}{23}{table.caption.32}\protected@file@percent }
-\newlabel{tab:table2}{{2.7}{23}{A simple example of distributed FP-Growth:\relax }{table.caption.32}{}}
 \citation{li2008pfp}
 \citation{leung2005cantree}
-\@writefile{toc}{\contentsline {chapter}{\numberline {3}IPFIM Algorithm}{24}{chapter.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {3}IPFIM Algorithm}{23}{chapter.3}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{chap:main-issue}{{3}{24}{IPFIM Algorithm}{chapter.3}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {3.1}IPFIM - Incremental Parallel Frequent Itemsets Mining}{24}{section.3.1}\protected@file@percent }
-\newlabel{sec:ipfim}{{3.1}{24}{IPFIM - Incremental Parallel Frequent Itemsets Mining}{section.3.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1.1}IPFIM Outline}{24}{subsection.3.1.1}\protected@file@percent }
-\@writefile{loa}{\contentsline {algorithm}{\numberline {3}{\ignorespaces IPFIM\relax }}{24}{algorithm.3}\protected@file@percent }
-\newlabel{alg:ipfim}{{0}{24}{IPFIM\relax }{algorithm.3}{}}
+\newlabel{chap:main-issue}{{3}{23}{IPFIM Algorithm}{chapter.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.1}IPFIM - Incremental Parallel Frequent Itemsets Mining}{23}{section.3.1}\protected@file@percent }
+\newlabel{sec:ipfim}{{3.1}{23}{IPFIM - Incremental Parallel Frequent Itemsets Mining}{section.3.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1.1}IPFIM Outline}{23}{subsection.3.1.1}\protected@file@percent }
+\@writefile{loa}{\contentsline {algorithm}{\numberline {3}{\ignorespaces IPFIM\relax }}{23}{algorithm.3}\protected@file@percent }
+\newlabel{alg:ipfim}{{0}{23}{IPFIM\relax }{algorithm.3}{}}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {4}{\ignorespaces IPFIMIteration\relax }}{24}{algorithm.4}\protected@file@percent }
+\newlabel{alg:ipfimiteration}{{0}{24}{IPFIMIteration\relax }{algorithm.4}{}}
+\@writefile{toc}{\contentsline {subsubsection}{IPFIM Example}{24}{subsubsection*.39}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces IPFIM example\relax }}{24}{figure.caption.40}\protected@file@percent }
+\newlabel{fig:IPFIMexample}{{3.1}{24}{IPFIM example\relax }{figure.caption.40}{}}
 \citation{demoref}
-\@writefile{loa}{\contentsline {algorithm}{\numberline {4}{\ignorespaces IPFIMIteration\relax }}{25}{algorithm.4}\protected@file@percent }
-\newlabel{alg:ipfimiteration}{{0}{25}{IPFIMIteration\relax }{algorithm.4}{}}
-\@writefile{toc}{\contentsline {subsubsection}{IPFIM Example}{25}{subsubsection*.36}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.1.2}Correctness}{25}{subsection.3.1.2}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces IPFIM example\relax }}{26}{figure.caption.37}\protected@file@percent }
-\newlabel{fig:IPFIMexample}{{3.1}{26}{IPFIM example\relax }{figure.caption.37}{}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {4}IPFIM Improvements}{27}{chapter.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {4}IPFIM Improvements}{26}{chapter.4}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{chap:ipfim-improved}{{4}{27}{IPFIM Improvements}{chapter.4}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.1}Improvements}{27}{section.4.1}\protected@file@percent }
-\newlabel{sec:improvements}{{4.1}{27}{Improvements}{section.4.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.1}IPFIM-Improved}{27}{subsection.4.1.1}\protected@file@percent }
-\citation{koh2004efficient}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces IPFIM partial frequency sort vs IPFIM cannonical sort\relax }}{28}{figure.caption.38}\protected@file@percent }
-\newlabel{fig:partialcannonical}{{4.1}{28}{IPFIM partial frequency sort vs IPFIM cannonical sort\relax }{figure.caption.38}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.2}IPFIM Improved vs IPFIM - Computation}{28}{subsection.4.1.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.3}IPFIM Improved vs IPFIM - Memory}{28}{subsection.4.1.3}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces IPFIM pre-min, semi-frequency vs PFP\relax }}{29}{figure.caption.39}\protected@file@percent }
-\newlabel{fig:ipfimImpT20}{{4.2}{29}{IPFIM pre-min, semi-frequency vs PFP\relax }{figure.caption.39}{}}
+\newlabel{chap:ipfim-improved}{{4}{26}{IPFIM Improvements}{chapter.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.1}Improvements}{26}{section.4.1}\protected@file@percent }
+\newlabel{sec:improvements}{{4.1}{26}{Improvements}{section.4.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.1}IPFIM-Improved}{26}{subsection.4.1.1}\protected@file@percent }
+\@writefile{loa}{\contentsline {algorithm}{\numberline {5}{\ignorespaces IPFIMImprovedIteration\relax }}{27}{algorithm.5}\protected@file@percent }
+\newlabel{alg:IPFIMImprovedIteration}{{0}{27}{IPFIMImprovedIteration\relax }{algorithm.5}{}}
 \citation{agrawal1994quest}
 \citation{agrawal1994quest}
 \citation{tanbeer2009efficient}
 \citation{spark}
 \citation{mllibpfp}
-\@writefile{toc}{\contentsline {chapter}{\numberline {5}Experiment Preparation}{30}{chapter.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {5}Experiment Preparation}{28}{chapter.5}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{chap:experiments-preparation}{{5}{30}{Experiment Preparation}{chapter.5}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.1}Experiments Preparation}{30}{section.5.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.1}Datasets}{30}{subsection.5.1.1}\protected@file@percent }
-\newlabel{data:10Msynt}{{1}{30}{Datasets}{Item.49}{}}
-\newlabel{data:1Msynt}{{2}{30}{Datasets}{Item.50}{}}
-\newlabel{data:kosarak}{{3}{30}{Datasets}{Item.51}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.2}Implementation}{30}{subsection.5.1.2}\protected@file@percent }
+\newlabel{chap:experiments-preparation}{{5}{28}{Experiment Preparation}{chapter.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.1}Experiments Preparation}{28}{section.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.1}Datasets}{28}{subsection.5.1.1}\protected@file@percent }
+\newlabel{data:10Msynt}{{{{\textbf  {Dataset.1}}}}{28}{Datasets}{Item.47}{}}
+\newlabel{data:1Msynt}{{{{\textbf  {Dataset.2}}}}{28}{Datasets}{Item.48}{}}
+\newlabel{data:kosarak}{{{{\textbf  {Dataset.3}}}}{28}{Datasets}{Item.49}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.2}Implementation}{28}{subsection.5.1.2}\protected@file@percent }
 \citation{songLevImplementation}
 \citation{SparkRDMA}
-\@writefile{toc}{\contentsline {subsubsection}{CanTree}{31}{subsubsection*.40}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{Song et al.}{31}{subsubsection*.41}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{Set-Cover-IPFIM}{31}{subsubsection*.42}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.3}Logging and Statistics}{31}{subsection.5.1.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.4}Infrastructure}{31}{subsection.5.1.4}\protected@file@percent }
-\citation{leung2005cantree}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.5}Performance evaluation}{32}{subsection.5.1.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.6}IPFIM vs CanTree}{32}{subsection.5.1.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{Synthetic Dataset}{32}{subsubsection*.43}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{Kosarak Dataset}{32}{subsubsection*.44}\protected@file@percent }
-\citation{li2008pfp}
-\@writefile{toc}{\contentsline {chapter}{\numberline {6}Experiments Results }{33}{chapter.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{CanTree}{29}{subsubsection*.41}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Song et al.}{29}{subsubsection*.42}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Set-Cover-IPFIM}{29}{subsubsection*.43}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.3}Logging and Statistics}{29}{subsection.5.1.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.4}Infrastructure}{29}{subsection.5.1.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.5}Performance evaluation}{30}{subsection.5.1.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {6}Experiments Results }{31}{chapter.6}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{chap:results}{{6}{33}{Experiments Results}{chapter.6}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {6.1}Experiments and Results}{33}{section.6.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.1.1}Performance Evaluation}{33}{subsection.6.1.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{Kosarak PFP 100\textbar 1000\textbar 500 partitions}{33}{subsubsection*.45}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{PFP}{33}{subsubsection*.46}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.1.2}IPFIM vs PFP}{33}{subsection.6.1.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{Synthetic Dataset}{33}{subsubsection*.62}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {6.1}{\ignorespaces T15I5D1000N10 100 partitions\relax }}{34}{figure.caption.47}\protected@file@percent }
-\newlabel{fig:T15I5D1000N10_100_0005}{{6.1}{34}{T15I5D1000N10 100 partitions\relax }{figure.caption.47}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.2}{\ignorespaces kosarak, minSup = 0.001, PFP 100|1000|500 partitions\relax }}{34}{figure.caption.48}\protected@file@percent }
-\newlabel{fig:kosarak_pfp_001}{{6.2}{34}{kosarak, minSup = 0.001, PFP 100|1000|500 partitions\relax }{figure.caption.48}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.3}{\ignorespaces T15I5D1000N10, minSup = 0.00001, PFP 100|1000|500 partitions\relax }}{35}{figure.caption.49}\protected@file@percent }
-\newlabel{fig:T15I5D1000N10_pfp_00001}{{6.3}{35}{T15I5D1000N10, minSup = 0.00001, PFP 100|1000|500 partitions\relax }{figure.caption.49}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.4}{\ignorespaces kosarak, minSup = 0.001, IPFIM Improved 100|1000|500 partitions\relax }}{35}{figure.caption.50}\protected@file@percent }
-\newlabel{fig:kosarak_ipfim_imp_001}{{6.4}{35}{kosarak, minSup = 0.001, IPFIM Improved 100|1000|500 partitions\relax }{figure.caption.50}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.5}{\ignorespaces kosarak, minSup = 0.001, partitions = 500\relax }}{36}{figure.caption.51}\protected@file@percent }
-\newlabel{fig:kosarak_500part_001}{{6.5}{36}{kosarak, minSup = 0.001, partitions = 500\relax }{figure.caption.51}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.6}{\ignorespaces T15I5D10000N100, minSup = 0.0001, PFP 100\textbar 1000\textbar 500 partitions\relax }}{36}{figure.caption.52}\protected@file@percent }
-\newlabel{fig:T15I5D10000N100_pfp_0001}{{6.6}{36}{T15I5D10000N100, minSup = 0.0001, PFP 100\textbar 1000\textbar 500 partitions\relax }{figure.caption.52}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.7}{\ignorespaces T15I5D10000N100, minSup = 0.0001, IPFIM Improved 100\textbar 1000\textbar 500 partitions\relax }}{37}{figure.caption.53}\protected@file@percent }
-\newlabel{fig:T15I5D10000N100_ipfim_imp_0001}{{6.7}{37}{T15I5D10000N100, minSup = 0.0001, IPFIM Improved 100\textbar 1000\textbar 500 partitions\relax }{figure.caption.53}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.8}{\ignorespaces T15I5D10000N100, minSup = 0.0001, IPFIM 100\textbar 1000\textbar 500 partitions\relax }}{37}{figure.caption.54}\protected@file@percent }
-\newlabel{fig:T15I5D10000N100_ipfim_0001}{{6.8}{37}{T15I5D10000N100, minSup = 0.0001, IPFIM 100\textbar 1000\textbar 500 partitions\relax }{figure.caption.54}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.9}{\ignorespaces T15I5D10000N100, minSup = 0.0001, 1000 partitions\relax }}{38}{figure.caption.55}\protected@file@percent }
-\newlabel{fig:T15I5D10000N100_1000part_0001}{{6.9}{38}{T15I5D10000N100, minSup = 0.0001, 1000 partitions\relax }{figure.caption.55}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.10}{\ignorespaces T15I5D10000N100, minSup = 0.0001, 1000 partitions, Set cover vs IPFIM\relax }}{38}{figure.caption.56}\protected@file@percent }
-\newlabel{fig:T15I5D10000N100_1000part_SETCOVER_0001}{{6.10}{38}{T15I5D10000N100, minSup = 0.0001, 1000 partitions, Set cover vs IPFIM\relax }{figure.caption.56}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.11}{\ignorespaces T15I5D10000N100, minSup = 0.0001, PFP, Min Tree size for partitions\relax }}{39}{figure.caption.57}\protected@file@percent }
-\newlabel{fig:T15I5D10000N100_MinTree_PFP_0001}{{6.11}{39}{T15I5D10000N100, minSup = 0.0001, PFP, Min Tree size for partitions\relax }{figure.caption.57}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.12}{\ignorespaces T15I5D10000N100, minSup = 0.0001, PFP, Average Tree size for partitions\relax }}{39}{figure.caption.58}\protected@file@percent }
-\newlabel{fig:T15I5D10000N100_AvgTree_PFP_0001}{{6.12}{39}{T15I5D10000N100, minSup = 0.0001, PFP, Average Tree size for partitions\relax }{figure.caption.58}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.13}{\ignorespaces T15I5D10000N100, minSup = 0.0001, PFP, Maximum Tree size for partitions\relax }}{40}{figure.caption.59}\protected@file@percent }
-\newlabel{fig:T15I5D10000N100_MaxTree_PFP_0001}{{6.13}{40}{T15I5D10000N100, minSup = 0.0001, PFP, Maximum Tree size for partitions\relax }{figure.caption.59}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.14}{\ignorespaces T15I5D10000N100, minSup = 0.0001, Average Tree size for 1000 partitions\relax }}{40}{figure.caption.60}\protected@file@percent }
-\newlabel{fig:T15I5D10000N100_AvgTree_Partitins1000_0001}{{6.14}{40}{T15I5D10000N100, minSup = 0.0001, Average Tree size for 1000 partitions\relax }{figure.caption.60}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.15}{\ignorespaces kosarak, minSup = 0.001, SONG 100\textbar 1000\textbar 500 partitions\relax }}{41}{figure.caption.61}\protected@file@percent }
-\newlabel{fig:kosarak_song_001}{{6.15}{41}{kosarak, minSup = 0.001, SONG 100\textbar 1000\textbar 500 partitions\relax }{figure.caption.61}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Kosarak Dataset}{41}{subsubsection*.63}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.1.3}improved-IPFIM vs PFP}{41}{subsection.6.1.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.1.4}improved-IPFIM vs Song et al.}{41}{subsection.6.1.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.1.5}set-cover-IPFIM vs Song et al.}{41}{subsection.6.1.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{\numberline {7}Results Discussion}{42}{chapter.7}\protected@file@percent }
+\newlabel{chap:results}{{6}{31}{Experiments Results}{chapter.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.1}Experiments and Results}{31}{section.6.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.1.1}Performance Evaluation}{31}{subsection.6.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Standalone}{31}{subsubsection*.44}\protected@file@percent }
+\newlabel{sec:resultsstand}{{6.1.1}{31}{Standalone}{subsubsection*.44}{}}
+\@writefile{toc}{\contentsline {paragraph}{PFP}{31}{paragraph*.45}\protected@file@percent }
+\newlabel{fig:kosarak_pfp_001}{{6.1a}{32}{kosarak, minSup = 0.001\relax }{figure.caption.46}{}}
+\newlabel{sub@fig:kosarak_pfp_001}{{a}{32}{kosarak, minSup = 0.001\relax }{figure.caption.46}{}}
+\newlabel{fig:T15I5D10000N100_pfp_0001}{{6.1b}{32}{T15I5D10000N100, minSup=0.0001\relax }{figure.caption.46}{}}
+\newlabel{sub@fig:T15I5D10000N100_pfp_0001}{{b}{32}{T15I5D10000N100, minSup=0.0001\relax }{figure.caption.46}{}}
+\newlabel{fig:T15I5D1000N10_pfp_00001}{{6.1c}{32}{T15I5D1000N10, \relax }{figure.caption.46}{}}
+\newlabel{sub@fig:T15I5D1000N10_pfp_00001}{{c}{32}{T15I5D1000N10, \relax }{figure.caption.46}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.1}{\ignorespaces PFP, 100\textbar 1000\textbar 500 partitions\relax }}{32}{figure.caption.46}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Song}{33}{paragraph*.47}\protected@file@percent }
+\newlabel{fig:kosarak_song_001}{{6.2a}{34}{kosarak, minSup = 0.001\relax }{figure.caption.48}{}}
+\newlabel{sub@fig:kosarak_song_001}{{a}{34}{kosarak, minSup = 0.001\relax }{figure.caption.48}{}}
+\newlabel{fig:T15I5D10000N100_song_0001}{{6.2b}{34}{T15I5D10000N100 Song, minSup = 0.0001\relax }{figure.caption.48}{}}
+\newlabel{sub@fig:T15I5D10000N100_song_0001}{{b}{34}{T15I5D10000N100 Song, minSup = 0.0001\relax }{figure.caption.48}{}}
+\newlabel{fig:T15I5D1000N10_song_00001}{{6.2c}{34}{T15I5D1000N10 Song, minSup = 1e-05\relax }{figure.caption.48}{}}
+\newlabel{sub@fig:T15I5D1000N10_song_00001}{{c}{34}{T15I5D1000N10 Song, minSup = 1e-05\relax }{figure.caption.48}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.2}{\ignorespaces SONG 100\textbar 1000\textbar 500 partitions\relax }}{34}{figure.caption.48}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{IPFIM}{35}{paragraph*.49}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6.3}{\ignorespaces T15I5D10000N100, minSup = 0.0001, IPFIM 100\textbar 1000\textbar 500 partitions\relax }}{35}{figure.caption.50}\protected@file@percent }
+\newlabel{fig:T15I5D10000N100_ipfim_0001}{{6.3}{35}{T15I5D10000N100, minSup = 0.0001, IPFIM 100\textbar 1000\textbar 500 partitions\relax }{figure.caption.50}{}}
+\@writefile{toc}{\contentsline {paragraph}{IPFIM Improved}{35}{paragraph*.51}\protected@file@percent }
+\newlabel{fig:kosarak_ipfim_imp_001}{{6.4a}{36}{kosarak, minSup = 0.001, minMinSup = 0.1\relax }{figure.caption.52}{}}
+\newlabel{sub@fig:kosarak_ipfim_imp_001}{{a}{36}{kosarak, minSup = 0.001, minMinSup = 0.1\relax }{figure.caption.52}{}}
+\newlabel{fig:T15I5D10000N100_ipfim_imp_0001}{{6.4b}{36}{T15I5D10000N100, minSup = 0.0001, minMinSup = 0.1\relax }{figure.caption.52}{}}
+\newlabel{sub@fig:T15I5D10000N100_ipfim_imp_0001}{{b}{36}{T15I5D10000N100, minSup = 0.0001, minMinSup = 0.1\relax }{figure.caption.52}{}}
+\newlabel{fig:T15I5D1000N10_ipfim_imp_00001}{{6.4c}{36}{T15I5D1000N10,minSup = 1e-05, minMinSup = 0.1\relax }{figure.caption.52}{}}
+\newlabel{sub@fig:T15I5D1000N10_ipfim_imp_00001}{{c}{36}{T15I5D1000N10,minSup = 1e-05, minMinSup = 0.1\relax }{figure.caption.52}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.4}{\ignorespaces IPFIM Improved 100\textbar 1000\textbar 500 partitions\relax }}{36}{figure.caption.52}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.1.2}Comparing performance}{37}{subsection.6.1.2}\protected@file@percent }
+\newlabel{fig:T15I5D1000N10_100_0005}{{6.5a}{38}{T15I5D1000N10 100 partitions\relax }{figure.caption.53}{}}
+\newlabel{sub@fig:T15I5D1000N10_100_0005}{{a}{38}{T15I5D1000N10 100 partitions\relax }{figure.caption.53}{}}
+\newlabel{fig:kosarak_500part_001}{{6.5b}{38}{kosarak, minSup = 0.001, partitions = 500\relax }{figure.caption.53}{}}
+\newlabel{sub@fig:kosarak_500part_001}{{b}{38}{kosarak, minSup = 0.001, partitions = 500\relax }{figure.caption.53}{}}
+\newlabel{fig:T15I5D10000N100_1000part_0001}{{6.5c}{38}{T15I5D10000N100, minSup = 0.0001, 1000 partitions\relax }{figure.caption.53}{}}
+\newlabel{sub@fig:T15I5D10000N100_1000part_0001}{{c}{38}{T15I5D10000N100, minSup = 0.0001, 1000 partitions\relax }{figure.caption.53}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.5}{\ignorespaces Comparison of the different algorithms\relax }}{38}{figure.caption.53}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6.6}{\ignorespaces T15I5D10000N100, minSup = 0.0001, 1000 partitions, Set cover vs IPFIM\relax }}{39}{figure.caption.54}\protected@file@percent }
+\newlabel{fig:T15I5D10000N100_1000part_SETCOVER_0001}{{6.6}{39}{T15I5D10000N100, minSup = 0.0001, 1000 partitions, Set cover vs IPFIM\relax }{figure.caption.54}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.1.3}Tree size evaluation - Standalone}{39}{subsection.6.1.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{PFP}{39}{paragraph*.55}\protected@file@percent }
+\newlabel{fig:T15I5D10000N100_AvgTree_PFP_0001}{{6.7a}{40}{T15I5D10000N100 PFP Average tree size\relax }{figure.caption.56}{}}
+\newlabel{sub@fig:T15I5D10000N100_AvgTree_PFP_0001}{{a}{40}{T15I5D10000N100 PFP Average tree size\relax }{figure.caption.56}{}}
+\newlabel{fig:T15I5D10000N100_MaxTree_PFP_0001}{{6.7b}{40}{T15I5D10000N100 PFP Max tree size\relax }{figure.caption.56}{}}
+\newlabel{sub@fig:T15I5D10000N100_MaxTree_PFP_0001}{{b}{40}{T15I5D10000N100 PFP Max tree size\relax }{figure.caption.56}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.7}{\ignorespaces T15I5D10000N100 PFP Average and Max tree size for 100\textbar 1000\textbar 500 partitions\relax }}{40}{figure.caption.56}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Song}{40}{paragraph*.57}\protected@file@percent }
+\newlabel{fig:T15I5D10000N100_MaxTree_Song_0001}{{6.8a}{41}{T15I5D10000N100 Song Max tree size\relax }{figure.caption.58}{}}
+\newlabel{sub@fig:T15I5D10000N100_MaxTree_Song_0001}{{a}{41}{T15I5D10000N100 Song Max tree size\relax }{figure.caption.58}{}}
+\newlabel{fig:T15I5D10000N100_AvgTree_Song_0001}{{6.8b}{41}{T15I5D10000N100 Song Average tree size\relax }{figure.caption.58}{}}
+\newlabel{sub@fig:T15I5D10000N100_AvgTree_Song_0001}{{b}{41}{T15I5D10000N100 Song Average tree size\relax }{figure.caption.58}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.8}{\ignorespaces T15I5D10000N100 Song Average and Max tree size for 100\textbar 1000\textbar 500 partitions\relax }}{41}{figure.caption.58}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{IPFIM}{41}{paragraph*.59}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{IPFIM-Improved}{41}{paragraph*.61}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Set-Cover IPFIM}{41}{paragraph*.63}\protected@file@percent }
+\newlabel{fig:T15I5D10000N100_MaxTree_IPFIM_0001}{{6.9a}{42}{T15I5D10000N100 IPFIM Max tree size\relax }{figure.caption.60}{}}
+\newlabel{sub@fig:T15I5D10000N100_MaxTree_IPFIM_0001}{{a}{42}{T15I5D10000N100 IPFIM Max tree size\relax }{figure.caption.60}{}}
+\newlabel{fig:T15I5D10000N100_AvgTree_IPFIM_0001}{{6.9b}{42}{T15I5D10000N100 IPFIM Average tree size\relax }{figure.caption.60}{}}
+\newlabel{sub@fig:T15I5D10000N100_AvgTree_IPFIM_0001}{{b}{42}{T15I5D10000N100 IPFIM Average tree size\relax }{figure.caption.60}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.9}{\ignorespaces T15I5D10000N100 IPFIM Average and Max tree size for 100\textbar 1000\textbar 500 partitions\relax }}{42}{figure.caption.60}\protected@file@percent }
+\newlabel{fig:T15I5D10000N100_MaxTree_IPFIMImproved_0001}{{6.10a}{43}{T15I5D10000N100 IPFIM-Improved Max tree size\relax }{figure.caption.62}{}}
+\newlabel{sub@fig:T15I5D10000N100_MaxTree_IPFIMImproved_0001}{{a}{43}{T15I5D10000N100 IPFIM-Improved Max tree size\relax }{figure.caption.62}{}}
+\newlabel{fig:T15I5D10000N100_AvgTree_IPFIMImproved_0001}{{6.10b}{43}{T15I5D10000N100 IPFIM-Improved Average tree size\relax }{figure.caption.62}{}}
+\newlabel{sub@fig:T15I5D10000N100_AvgTree_IPFIMImproved_0001}{{b}{43}{T15I5D10000N100 IPFIM-Improved Average tree size\relax }{figure.caption.62}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.10}{\ignorespaces T15I5D10000N100 IPFIM-Improved Average and Max tree size for 100\textbar 1000\textbar 500 partitions, minSup = 0.0001, minMinSup = 0.1\relax }}{43}{figure.caption.62}\protected@file@percent }
+\newlabel{fig:T15I5D10000N100_MaxTree_SetCover_0001}{{6.11a}{44}{T15I5D10000N100 Set Cover IPFIM Max tree size\relax }{figure.caption.64}{}}
+\newlabel{sub@fig:T15I5D10000N100_MaxTree_SetCover_0001}{{a}{44}{T15I5D10000N100 Set Cover IPFIM Max tree size\relax }{figure.caption.64}{}}
+\newlabel{fig:T15I5D10000N100_AvgTree_SetCover_0001}{{6.11b}{44}{T15I5D10000N100 Set Cover IPFIM Average tree size\relax }{figure.caption.64}{}}
+\newlabel{sub@fig:T15I5D10000N100_AvgTree_SetCover_0001}{{b}{44}{T15I5D10000N100 Set Cover IPFIM Average tree size\relax }{figure.caption.64}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.11}{\ignorespaces T15I5D10000N100 Set Cover IPFIM Average and Max tree size for 100\textbar 1000\textbar 500 partitions\relax }}{44}{figure.caption.64}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.1.4}Tree size evaluation - Comparison}{44}{subsection.6.1.4}\protected@file@percent }
+\newlabel{fig:T15I5D10000N100_AvgTree_Partitins1000_0001}{{6.12a}{45}{T15I5D10000N100 tree size comparison\relax }{figure.caption.65}{}}
+\newlabel{sub@fig:T15I5D10000N100_AvgTree_Partitins1000_0001}{{a}{45}{T15I5D10000N100 tree size comparison\relax }{figure.caption.65}{}}
+\newlabel{fig:kosarak_AvgTree_Partitins1000_001}{{6.12b}{45}{Kosarak tree size comparison\relax }{figure.caption.65}{}}
+\newlabel{sub@fig:kosarak_AvgTree_Partitins1000_001}{{b}{45}{Kosarak tree size comparison\relax }{figure.caption.65}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.12}{\ignorespaces Tree size comparison for 1000 partitions\relax }}{45}{figure.caption.65}\protected@file@percent }
+\citation{song2017}
+\@writefile{toc}{\contentsline {chapter}{\numberline {7}Discussion}{46}{chapter.7}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{chap:results-discusion}{{7}{42}{Results Discussion}{chapter.7}{}}
+\newlabel{chap:results-discusion}{{7}{46}{Discussion}{chapter.7}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {7.1}Discussion}{46}{section.7.1}\protected@file@percent }
+\newlabel{sec:discussion}{{7.1}{46}{Discussion}{section.7.1}{}}
+\newlabel{item:disc1}{{1}{46}{Discussion}{Item.53}{}}
+\newlabel{item:disc2}{{2}{46}{Discussion}{Item.54}{}}
+\@writefile{toc}{\contentsline {subsubsection}{IPFIM}{46}{subsubsection*.66}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{IPFIM-Improved}{47}{subsubsection*.67}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{Set-Cover}{47}{subsubsection*.68}\protected@file@percent }
 \bibdata{sample}
-\@writefile{toc}{\contentsline {chapter}{\numberline {8}Conclusion}{43}{chapter.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {8}Conclusion}{48}{chapter.8}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{chap:conclusion}{{8}{43}{Conclusion}{chapter.8}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {8.1}Conclusions}{43}{section.8.1}\protected@file@percent }
+\newlabel{chap:conclusion}{{8}{48}{Conclusion}{chapter.8}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {8.1}Conclusions}{48}{section.8.1}\protected@file@percent }
 \bibcite{agrawal1994quest}{{1}{}{{}}{{}}}
 \bibcite{agrawal1994fast}{{2}{}{{}}{{}}}
 \bibcite{mahoot}{{3}{}{{}}{{}}}
@@ -259,19 +303,19 @@
 \bibcite{spark}{{8}{}{{}}{{}}}
 \bibcite{APILETTI201767}{{9}{}{{}}{{}}}
 \bibcite{dataminingbook}{{10}{}{{}}{{}}}
-\bibcite{hong2008incrementally}{{11}{}{{}}{{}}}
-\bibcite{hunyadi2011performance}{{12}{}{{}}{{}}}
-\bibcite{kohefficient}{{13}{}{{}}{{}}}
-\bibcite{koh2004efficient}{{14}{}{{}}{{}}}
-\bibcite{leung2005cantree}{{15}{}{{}}{{}}}
-\bibcite{li2008pfp}{{16}{}{{}}{{}}}
-\bibcite{li2006fast}{{17}{}{{}}{{}}}
-\bibcite{SparkRDMA}{{18}{}{{}}{{}}}
-\bibcite{song2017}{{19}{}{{}}{{}}}
-\bibcite{tanbeer2009efficient}{{20}{}{{}}{{}}}
-\bibcite{tsay2009fiut}{{21}{}{{}}{{}}}
+\bibcite{SparkPerformance}{{11}{}{{}}{{}}}
+\bibcite{hong2008incrementally}{{12}{}{{}}{{}}}
+\bibcite{hunyadi2011performance}{{13}{}{{}}{{}}}
+\bibcite{kohefficient}{{14}{}{{}}{{}}}
+\bibcite{koh2004efficient}{{15}{}{{}}{{}}}
+\bibcite{leung2005cantree}{{16}{}{{}}{{}}}
+\bibcite{li2008pfp}{{17}{}{{}}{{}}}
+\bibcite{li2006fast}{{18}{}{{}}{{}}}
+\bibcite{SparkRDMA}{{19}{}{{}}{{}}}
+\bibcite{song2017}{{20}{}{{}}{{}}}
+\bibcite{tanbeer2009efficient}{{21}{}{{}}{{}}}
 \bibcite{bigfim}{{22}{}{{}}{{}}}
 \bibcite{setcoveralgo}{{23}{}{{}}{{}}}
 \bibstyle{plainurl}
 \providecommand\NAT@force@numbers{}\NAT@force@numbers
-\gdef \@abspage@last{54}
+\gdef \@abspage@last{58}

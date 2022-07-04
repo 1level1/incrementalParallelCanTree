@@ -1,28 +1,24 @@
-The frequent itemset mining (FIM) problem has been around pretty much since the definition of the term 'data' in the previous century. Whenever there is a collection of data, one of the basic analysis we would like to perform, is finding relations within the data. One of those basic 'relations', is to find all the sets of data that appear together in an important frequency (usually greater than a predefined threshold).  The process of finding such items is called Mining, and thus the term - Frequent Itemset Mining (FIM). Frequent itemset can later reveal association rules and relations between variables. This research area in data science is applied to domains such as recommender systems (e.g. what are the set of items usually ordered together), bioinformatics (e.g. what are the genes coexpressed in a given condition), decision making, clustering, website navigation and many more.
+The frequent itemsets mining (FIM) problem has been around pretty much since the definition of the term 'data' in the previous century. Whenever there is a collection of data, one of the basic analysis we would like to perform, is finding relations within the data. One of those basic 'relations', is to find all the sets of data that appear together in an important frequency (usually greater than a predefined threshold).  The process of finding such items is called Mining, and thus the term - Frequent Itemsets Mining (FIM). Frequent itemsets can later reveal association rules and relations between variables. This research area in data science is applied to domains such as recommender systems (e.g. what are the set of items usually ordered together), bioinformatics (e.g. what are the genes coexpressed in a given condition), decision making, clustering, website navigation and many more.
 
-Many algorithms were developed during time to find frequent item sets in a database, and they are mostly focused on Apriori ~\cite{agrawal1994fast} and FP-Growth~\cite{kohefficient} techniques.  The later is further discussed in section TODO.
+Many algorithms were developed during time to find frequent itemsets in a database, and they are mostly focused on Apriori ~\cite{agrawal1994fast} and FP-Growth~\cite{kohefficient} techniques.  
+
+As the access to online resources grew, and thus the size of the databases, the need for incremental updates (changing only states dependent on the input) and parallel algorithms grew as well.
+%The need for incremental and parallel algorithms grow as the access to online resources grew, and thus the size of the databases and incremental updates. 
 
 This work focuses on using tree based structure for parallel and incremental mining. 
-
-As the access to online resources grew, so does the size of the databases,. Today’s databases’ sizes go far beyond capabilities of a single machine. The need to provide better performance has grown and platforms for parallel computation, and the frameworks who support them, also became main stream.
-
- 
-We will elaborate more on these frameworks, specifically on Spark vs Hadoop in section \autoref{sec:sparkvhadoop}.
+We will present 2 new algorithms for mining frequent itemsets using trees, IPFIM, IPFIM-Improved and Set-Cover IPFIM. We will compare the existing incremental and parallel tree based algorithms and evaluate them using Spark (we also discuss the differences with using Hadoop and Map-Reduce in section \autoref{sec:sparkvhadoop}).
+%As the access to online resources grew, so does the size of the databases,. Today’s databases’ sizes go far beyond capabilities of a single machine. The need to provide better performance has grown and platforms for parallel computation, and the frameworks who support them, also became main stream.
 
 %is an examples of such a framework and is commonly used for Big-Data processing. We will discuss more on Spark and other frameworks 
-
-Besides the size of the databases, a growing online access also increased the need for incremental updates. 
 \iffalse
+Besides the size of the databases, a growing online access also increased the need for incremental updates. 
 In case of a slight database update, like add-on of new transactions to the DB, some algorithms require a rerun of the whole database.
 With the need of better performance To provide better performance, parallel execution frameworks, such as Hadoop and Spark, become more accessible and common,  and as such, so does the adoption of classical algorithms to parallel execution.  
-\fi
 Such events happen with high velocity in current databases and making full recalculation may be far from optimal. 
 
 To achieve this, the proposed algorithm is using a combination of two techniques. As a high-level overview, the PFP~\cite{li2008pfp} algorithm is the base algorithm for parallel mining and CanTree~\cite{leung2005cantree} as the base structure for incremental updates.  As the framework for computation, Spark was chosen~\cite{spark},  and will be detailed more in section [TODO]. 
+\fi
 
 \iffalse
 It is important to mention that a similar approach was already developed by~\cite{song2017} at 2017, but was added as a reference after implementation and results, and we will discuss and compare to this paper in details in section [TODO]. 
 \fi
-In this paper we will also present a new approach for incremental group updates by using a greedy set-cover algorithm, where the motivation is to optimize groups for parallel calculations. However, as we will show from our experiments, the overhead of regrouping using hashmaps, is far larger than using random group deviation. 
-
-The paper is divided as following: Section 2 and 3 will review related work and background, and will provide examples for the used algorithms. Section 4 and 5 will present the IPFIM algorithm, and an improvement, based on partial frequency sort and min min threshold  [TODO]. Section 6 will discuss comparison to ~\cite{song2017}.  Section 7 will present an approach for trying to optimize grouping by using greedy set-cover algorithm for optimized group mining. Section 8 will presents and discuss experimental results and section 9 will present conclusion and summarize discussion.
